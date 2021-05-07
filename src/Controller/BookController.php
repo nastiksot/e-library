@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Contracts\UserInterface;
 use App\Form\Type\BookType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +17,12 @@ class BookController extends AbstractController
     /**
      * @Route(path="/list", name="book.list")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $books = $this->bookRepository->getAll();
+        $q      = $request->get('q');
+        $p      = $request->query->getInt('p', 1);
+        $rows   = $this->bookRepository->getAll($q);
+        $books = $paginator->paginate($rows, $p, self::ITEMS_IN_PAGE);
 
         return $this->render('default/crud/book/index.html.twig',
             [
@@ -58,7 +61,9 @@ class BookController extends AbstractController
             return $this->redirectToRoute('book.list');
         }
 
-        $form = $this->createBookForm(BookType::class, $book, ['id' => $id]);
+        $authors         = $this->bookRepository->getAuthorsByBookId($id);
+        $book['authors'] = array_keys($authors);
+        $form            = $this->createBookForm(BookType::class, $book, ['id' => $id]);
         if ($request->isMethod(Request::METHOD_POST) &&
             !($errors = $this->formHandler->handleForm($form, $request))
         ) {

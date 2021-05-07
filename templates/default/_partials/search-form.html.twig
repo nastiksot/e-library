@@ -1,0 +1,10 @@
+{% set searchAction = action is defined ? action : null %}
+
+<form action="{{ searchAction }}" method="get" class="form-inline">
+    <input class="form-control mr-sm-2"
+           type="search" placeholder="Search" aria-label="Search"
+           name="q"
+           value="{{ app.request.get('q') }}"
+    >
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>

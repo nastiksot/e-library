@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Contracts\UserInterface;
 use App\Form\Type\User\AuthorUserType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,13 +18,16 @@ class AuthorController extends AbstractController
     /**
      * @Route(path="/list", name="author.list")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $users = $this->userRepository->getAllAuthors();
+        $q       = $request->get('q');
+        $p       = $request->query->getInt('p', 1);
+        $rows    = $this->userRepository->getAllAuthors($q);
+        $authors = $paginator->paginate($rows, $p, self::ITEMS_IN_PAGE);
 
         return $this->render('default/crud/author/index.html.twig',
             [
-                'users' => $users,
+                'authors' => $authors,
             ]
         );
     }

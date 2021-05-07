@@ -16,6 +16,22 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
+        $user = $this->getUser();
+
+        if ($user) {
+
+            if ($user->isAdmin()) {
+                return $this->redirectToRoute('admin.list');
+            }
+
+            if ($user->isAuthor()) {
+                return $this->redirectToRoute('profile.author');
+            }
+
+            return $this->redirectToRoute('profile.reader');
+        }
+
+
         return $this->render('default/homepage.html.twig');
     }
 

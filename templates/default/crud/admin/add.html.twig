@@ -6,7 +6,7 @@
         {'url': path('admin.list'), 'title': 'Admins'},
         {'url': path('admin.add'), 'title': 'Add', 'active': true},
     ] %}
-    {% include 'default/_partials/breadcrumbs.html.twig' %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

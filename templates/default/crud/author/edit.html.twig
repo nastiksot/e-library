@@ -6,7 +6,7 @@
         {'url': path('author.list'), 'title': 'Authors'},
         {'url': path('author.edit', {'id': id}), 'title': 'Edit', 'active': true},
     ] %}
-    {% include 'default/_partials/breadcrumbs.html.twig' %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

@@ -3,15 +3,16 @@
 
 {% block breadcrumbs %}
     {% set breadcrumbs = [
-        {'url': path('book.list'), 'title': 'Books', 'active': true},
+        {'url': path('profile'), 'title': 'Profile'},
+        {'url': path('profile.author'), 'title': 'I am writer'},
     ] %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('book.add') }}" class="btn btn-success mb-2">Add</a>
+{#    <a href="{{ path('reader.add') }}" class="btn btn-success mb-2">Add</a>#}
     <div class="float-right mb-2 mr-2">
-        {% include 'default/_partials/search-form.html.twig' with {'action': path('book.list') }  %}
+        {% include 'default/_partials/search-form.html.twig' with {'action': path('profile.author') }  %}
     </div>
 
     <table class="table">
@@ -21,7 +22,6 @@
             <th scope="col">Book</th>
             <th scope="col">Author</th>
             <th scope="col">Reader</th>
-            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -41,10 +41,6 @@
                         {{ book.reader.last_name }} <br />
                     {% endif %}
                 </td>
-                <td>
-                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-success">Edit</a>
-                    <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
-                </td>
             </tr>
         {% endfor %}
 
@@ -53,5 +49,5 @@
     <div class="pagination">
         {{ knp_pagination_render(books) }}
     </div>
-{% endblock %}
 
+{% endblock %}

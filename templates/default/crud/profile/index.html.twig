@@ -5,7 +5,7 @@
     {% set breadcrumbs = [
         {'url': path('profile'), 'title': 'Profile'},
     ] %}
-    {% include 'default/_partials/breadcrumbs.html.twig' %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

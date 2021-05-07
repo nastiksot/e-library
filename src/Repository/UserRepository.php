@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\Contracts\UserInterface;
 use App\Entity\User;
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -25,27 +24,38 @@ class UserRepository extends AbstractRepository implements UserLoaderInterface
         $this->encoderFactory = $encoderFactory;
     }
 
-    public function getAllAdmins(): array
+    public function getAllAdmins(string $q = null): array
     {
-        return $this->getUsersByRole(UserInterface::ROLE_ADMIN);
-    }
-    public function getAllAuthors(): array
-    {
-        return $this->getUsersByRole(UserInterface::ROLE_AUTHOR);
+        return $this->getUsersByRole(UserInterface::ROLE_ADMIN, $q);
     }
 
-    public function getAllReaders(): array
+    public function getAllAuthors(string $q = null): array
     {
-        return $this->getUsersByRole(UserInterface::ROLE_READER);
+        return $this->getUsersByRole(UserInterface::ROLE_AUTHOR, $q);
     }
 
-    protected function getUsersByRole(string $role): array
+    public function getAllReaders(string $q = null): array
     {
-        $sql  = "SELECT * FROM `users` WHERE `roles` LIKE '%" . $role . "%'";
+        return $this->getUsersByRole(UserInterface::ROLE_READER, $q);
+    }
+
+    protected function getUsersByRole(string $role, string $q = null): array
+    {
+        $params = ['role' => '%' . $role . '%'];
+        $sql    = "SELECT users.id AS _id, users.* FROM `users` WHERE `roles` LIKE :role";
+        if ($q) {
+            $sql             .= " AND (
+                users.username      LIKE :query OR
+                users.email         LIKE :query OR
+                users.first_name    LIKE :query OR
+                users.last_name     LIKE :query
+            )";
+            $params['query'] = '%' . $q . '%';
+        }
         $conn = $this->getConnection();
         $stmt = $conn->prepare($sql);
 
-        return $stmt->executeQuery()->fetchAllAssociative();
+        return $stmt->executeQuery($params)->fetchAllAssociativeIndexed();
     }
 
     public function deleteOneById(int $id): void

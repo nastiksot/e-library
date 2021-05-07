@@ -6,7 +6,7 @@
         {'url': path('reader.list'), 'title': 'Readers'},
         {'url': path('reader.edit', {'id': id}), 'title': 'Edit', 'active': true},
     ] %}
-    {% include 'default/_partials/breadcrumbs.html.twig' %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

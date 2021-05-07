@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Contracts\UserInterface;
 use App\Form\Type\User\AdminUserType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,13 +18,16 @@ class AdminController extends AbstractController
     /**
      * @Route(path="/list", name="admin.list")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $users = $this->userRepository->getAllAdmins();
+        $q      = $request->get('q');
+        $p      = $request->query->getInt('p', 1);
+        $rows   = $this->userRepository->getAllAdmins($q);
+        $admins = $paginator->paginate($rows, $p, self::ITEMS_IN_PAGE);
 
         return $this->render('default/crud/admin/index.html.twig',
             [
-                'users' => $users,
+                'admins' => $admins,
             ]
         );
     }

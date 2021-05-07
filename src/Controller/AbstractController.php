@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\FormHandler;
 use App\Repository\BookRepository;
 use App\Repository\UserRepository;
@@ -12,8 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstract
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
+/**
+ * @method User|null getUser()
+ **/
 abstract class AbstractController extends BaseAbstractController
 {
+
+    public const ITEMS_IN_PAGE = 1;
 
     protected FormHandler             $formHandler;
     protected EncoderFactoryInterface $encoderFactory;

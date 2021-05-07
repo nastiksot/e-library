@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Contracts\UserInterface;
 use App\Form\Type\User\ReaderUserType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +33,7 @@ class ProfileController extends AbstractController
 
             return $this->redirectToRoute('profile');
         }
+
         return $this->render('default/crud/profile/index.html.twig',
             [
                 'id'   => $id,
@@ -40,4 +41,39 @@ class ProfileController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route(path="/author", name="profile.author")
+     */
+    public function author(Request $request, PaginatorInterface $paginator): Response
+    {
+        $q     = $request->get('q');
+        $p     = $request->query->getInt('p', 1);
+        $rows  = $this->bookRepository->getAll($q, ['authorIds' => $this->getUser()->getId()]);
+        $books = $paginator->paginate($rows, $p, self::ITEMS_IN_PAGE);
+
+        return $this->render('default/crud/profile/author.html.twig',
+            [
+                'books' => $books,
+            ]
+        );
+    }
+
+    /**
+     * @Route(path="/reader", name="profile.reader")
+     */
+    public function reader(Request $request, PaginatorInterface $paginator): Response
+    {
+        $q     = $request->get('q');
+        $p     = $request->query->getInt('p', 1);
+        $rows  = $this->bookRepository->getAll($q, ['readerIds' => $this->getUser()->getId()]);
+        $books = $paginator->paginate($rows, $p, self::ITEMS_IN_PAGE);
+
+        return $this->render('default/crud/profile/reader.html.twig',
+            [
+                'books' => $books,
+            ]
+        );
+    }
+
 }

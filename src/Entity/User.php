@@ -97,14 +97,19 @@ class User extends AbstractEntity implements UserInterface
         return $this->isSuperAdmin() || $this->hasRole(self::ROLE_ADMIN);
     }
 
-    public function isReader(): bool
+    public function isUser(): bool
     {
-        return $this->hasRole(self::ROLE_USER) || $this->hasRole(self::ROLE_READER);
+        return (bool)$this->getId();
     }
 
     public function isAuthor(): bool
     {
-        return $this->hasRole(self::ROLE_USER) || $this->hasRole(self::ROLE_AUTHOR);
+        return $this->isAdmin() || $this->hasRole(self::ROLE_AUTHOR);
+    }
+
+    public function isReader(): bool
+    {
+        return $this->isUser() || $this->hasRole(self::ROLE_READER);
     }
 
     public function getUsername(): string

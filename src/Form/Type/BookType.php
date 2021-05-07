@@ -35,12 +35,19 @@ class BookType extends AbstractEntityType
                 ChoiceType::class,
                 [
                     'multiple' => true,
-                    'choices' => [
-                        'option-1' => 'value-1',
-                        'option-2' => 'value-2',
-                        'option-3' => 'value-3',
-                    ]
+                    'choices'  => $this->getAuthorsChoices(),
                 ]
             );
+    }
+
+    public function getAuthorsChoices(): array
+    {
+        $choices = [];
+        $authors = $this->userRepository->getAllAuthors();
+        foreach ($authors as $author) {
+            $choices[$author['first_name'] . ' ' . $author['last_name']] = (int)$author['id'];
+        }
+
+        return $choices;
     }
 }
