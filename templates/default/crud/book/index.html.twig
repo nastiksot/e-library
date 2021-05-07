@@ -1,0 +1,43 @@
+{% extends 'layout.main.html.twig' %}
+
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+        {'url': path('book.list'), 'title': 'Books', 'active': true},
+    ] %}
+    {% include 'default/_partials/breadcrumbs.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <a href="{{ path('book.add') }}" class="btn btn-primary">Add</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Book</th>
+            <th scope="col">Author</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for book in books %}
+            <tr>
+                <th scope="row">{{ book.id }}</th>
+                <td>{{ book.title }}</td>
+                <td>
+{#                    {{ user.email }}#}
+                </td>
+                <td>
+                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}
+

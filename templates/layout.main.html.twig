@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/main') }}
+{% endblock %}
+
+
+{% block body %}
+    <div id="app">
+
+        {% block sidenav %}
+            {% include 'default/_partials/sidenav.html.twig' %}
+        {% endblock %}
+
+        {% block breadcrumbs %}
+            {% include 'default/_partials/breadcrumbs.html.twig' %}
+        {% endblock %}
+
+        {% block content %}
+            <main class="">
+            </main>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('js/main') }}
+{% endblock %}

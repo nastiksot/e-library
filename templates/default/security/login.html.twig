@@ -1,0 +1,24 @@
+{% extends 'layout.main.html.twig' %}
+
+{% block content %}
+    <div class="widget">
+        <div class="widget-header">
+            <div class="logo"></div>
+        </div>
+        <div class="widget-body">
+            <div class="title">
+                {{ 'TITLE'|trans({}, 'security') }}
+            </div>
+            {% if error is defined and error is not null %}
+                <div class="alert">
+                    {{ error.message|trans(error.messageData, 'security') | raw }}
+                </div>
+            {% endif %}
+            <form action="{{ path('login') }}" method="post">
+                <input type="text" id="username" name="_username" placeholder="Username" value="{{ last_username is defined ? last_username : '' }}" autofocus > <br />
+                <input type="password" id="password" name="_password" placeholder="Password"> <br />
+                    <button type="submit" class="btn btn-primary">{{ 'LOGIN'|trans({}, 'security') }}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

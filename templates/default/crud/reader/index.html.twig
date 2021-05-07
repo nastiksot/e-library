@@ -1,0 +1,41 @@
+{% extends 'layout.main.html.twig' %}
+
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+        {'url': path('reader.list'), 'title': 'Readers', 'active': true},
+    ] %}
+    {% include 'default/_partials/breadcrumbs.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <a href="{{ path('reader.add') }}" class="btn btn-primary">Add</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <a href="{{ path('reader.edit', {'id': user.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('reader.delete', {'id': user.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}
+

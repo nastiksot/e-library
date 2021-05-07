@@ -1,0 +1,51 @@
+{# <div class="dropdown-menu"> #}
+{# <a class="dropdown-item" href="#">Regular link</a> #}
+{# <a class="dropdown-item active" href="#">Active link</a> #}
+{# <a class="dropdown-item" href="#">Another link</a> #}
+{# </div> #}
+
+{% if app.user.id is defined %}
+
+    <div class="sidenav">
+        {% if app.user.admin %}
+            {% set routes = ['admin.list', 'admin.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('admin.list') }}" class="{{ active }}">Admins</a>
+
+            {% set routes = ['reader.list', 'reader.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('reader.list') }}" class="{{ active }}">Readers</a>
+
+            {% set routes = ['author.list', 'author.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('author.list') }}" class="{{ active }}">Authors</a>
+
+            {% set routes = ['book.list', 'book.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('book.list') }}" class="{{ active }}">Books</a>
+
+        {% endif %}
+
+
+        {% if app.user.author %}
+            {# {% set routes = ['user.list', 'user.edit'] %} #}
+            {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+            <a href="{{ path('author.list') }}" class="">I am writer</a>
+            {# <a href="{{ path('author.list') }}" class="">Profile</a> #}
+        {% endif %}
+
+        {% if app.user.reader %}
+            {# {% set routes = ['user.list', 'user.edit'] %} #}
+            {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+            <a href="{{ path('reader.list') }}" class="">I am reading</a>
+            {# <a href="{{ path('reader.list') }}" class="">Profile</a> #}
+        {% endif %}
+
+        {% set routes = ['profile'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('profile') }}" class="{{ active }}">Profile</a>
+
+        <a href="{{ path('logout') }}">Logout</a>
+
+    </div>
+{% endif %}
