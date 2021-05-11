@@ -13,6 +13,8 @@ interface UserInterface extends EntityInterface, BaseUserInterface, \Serializabl
     public const ROLE_USER        = 'ROLE_USER';
     public const ROLE_AUTHOR      = 'ROLE_AUTHOR';
     public const ROLE_READER      = 'ROLE_READER';
+    public const ROLE_librarian   = 'ROLE_librarian';
+
 
     public function isActive(): bool;
 
