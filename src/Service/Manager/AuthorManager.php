@@ -39,7 +39,9 @@ class AuthorManager extends AbstractManager
             'last_name'  => $data['last_name'] ?? null,
         ]);
 
-        return (int)$conn->lastInsertId();
+        $id = (int)$conn->lastInsertId();
+
+        return $id;
     }
 
     public function update(int $id, array $data): int

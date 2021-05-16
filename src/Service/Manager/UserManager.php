@@ -74,7 +74,9 @@ class UserManager extends AbstractManager
             'active'     => 1,
         ]);
 
-        return (int)$conn->lastInsertId();
+        $id = (int)$conn->lastInsertId();
+
+        return $id;
     }
 
     public function update(int $id, array $data): int

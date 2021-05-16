@@ -8,6 +8,8 @@ use App\Entity\Contracts\UserInterface;
 use App\Entity\Traits\ActiveEntityTrait;
 use App\Entity\Traits\Contact\FirstNameEntityTrait;
 use App\Entity\Traits\Contact\LastNameEntityTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use function array_filter;
 use function implode;
@@ -28,6 +30,11 @@ class User extends AbstractEntity implements UserInterface
     use FirstNameEntityTrait,
         LastNameEntityTrait,
         ActiveEntityTrait;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="user")
+     */
+    protected Collection $reading;
 
     /**
      * @ORM\Column(name="username", type="string", length=60, nullable=false)
@@ -80,6 +87,7 @@ class User extends AbstractEntity implements UserInterface
         } catch (\Exception $e) {
             $this->salt = '';
         }
+        $this->reading = new ArrayCollection();
     }
 
     public function isAdmin(): bool
@@ -210,6 +218,36 @@ class User extends AbstractEntity implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reading[]
+     */
+    public function getReading(): Collection
+    {
+        return $this->reading;
+    }
+
+    public function addReading(Reading $reading): self
+    {
+        if (!$this->reading->contains($reading)) {
+            $this->reading[] = $reading;
+            $reading->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReading(Reading $reading): self
+    {
+        if ($this->reading->removeElement($reading)) {
+            // set the owning side to null (unless already changed)
+            if ($reading->getUser() === $this) {
+                $reading->setUser(null);
+            }
+        }
 
         return $this;
     }

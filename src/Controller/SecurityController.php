@@ -83,7 +83,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render(
-            'default/register/index.html.twig',
+            'default/security/register.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -111,7 +111,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('profile');
         }
 
-        return $this->render('default/crud/profile/index.html.twig',
+        return $this->render('default/security/profile.html.twig',
             [
                 'id'   => $id,
                 'form' => $form->createView(),

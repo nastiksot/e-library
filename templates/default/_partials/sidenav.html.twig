@@ -1,34 +1,27 @@
 <nav class="sidenav nav flex-column">
 
-
-    {# {% if not app.user.user %} #}
-    {# {% set routes = ['login'] %} #}
-    {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
-    {# <a href="{{ path('login') }}" class="nav-link {{ active }}">Login</a> #}
-    {# {% endif %} #}
-
     {% if app.user.id is defined %}
 
         {% if app.user.admin %}
-            {% set routes = ['crud.admin.list', 'crud.admin.add', 'crud.admin.edit'] %}
+            {% set routes = ['admin.list', 'admin.add', 'admin.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('crud.admin.list') }}" class="nav-link {{ active }}">Admins</a>
+            <a href="{{ path('admin.list') }}" class="nav-link {{ active }}">Admins</a>
 
-            {% set routes = ['crud.librarian.list', 'crud.librarian.add', 'crud.librarian.edit'] %}
+            {% set routes = ['librarian.list', 'librarian.add', 'librarian.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('crud.librarian.list') }}" class="nav-link {{ active }}">Librarians</a>
+            <a href="{{ path('librarian.list') }}" class="nav-link {{ active }}">Librarians</a>
 
-            {% set routes = ['crud.reader.list', 'crud.reader.add', 'crud.reader.edit'] %}
+            {% set routes = ['reader.list', 'reader.add', 'reader.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('crud.reader.list') }}" class="nav-link {{ active }}">Readers</a>
+            <a href="{{ path('reader.list') }}" class="nav-link {{ active }}">Readers</a>
 
-            {% set routes = ['crud.author.list', 'crud.author.add', 'crud.author.edit'] %}
+            {% set routes = ['author.list', 'author.add', 'author.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('crud.author.list') }}" class="nav-link {{ active }}">Authors</a>
+            <a href="{{ path('author.list') }}" class="nav-link {{ active }}">Authors</a>
 
-            {% set routes = ['crud.book.list', 'crud.book.add', 'crud.book.edit'] %}
+            {% set routes = ['book.list', 'book.add', 'book.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('crud.book.list') }}" class="nav-link {{ active }}">Books</a>
+            <a href="{{ path('book.list') }}" class="nav-link {{ active }}">Books</a>
 
         {% endif %}
 
@@ -49,9 +42,19 @@
         {# {% endif %} #}
 
 
-        {% set routes = ['reading'] %}
-        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-        <a href="{{ path('reading') }}" class="nav-link {{ active }}">I am reading</a>
+        {% if app.user.librarian %}
+            {% set routes = ['reading.list', 'reading.add', 'reading.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('reading.list') }}" class="nav-link {{ active }}">Reading</a>
+        {% endif %}
+
+{#        {% set routes = ['books'] %}#}
+{#        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}#}
+{#        <a href="{{ path('books') }}" class="nav-link {{ active }}">Books</a>#}
+
+{#        {% set routes = ['reading'] %}#}
+{#        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}#}
+{#        <a href="{{ path('reading') }}" class="nav-link {{ active }}">I am reading</a>#}
 
         {% set routes = ['profile'] %}
         {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}

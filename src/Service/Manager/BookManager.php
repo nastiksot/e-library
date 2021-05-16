@@ -35,10 +35,10 @@ class BookManager extends AbstractManager
     {
         $sql = "
         INSERT INTO `books` (
-            `title`, `description`
+            `title`, `description`, `quantity`
         )
         VALUES  (
-            :title, :description
+            :title, :description, :quantity
         )";
 
         $conn = $this->getConnection();
@@ -46,19 +46,21 @@ class BookManager extends AbstractManager
         $stmt->executeQuery([
             'title'       => $data['title'] ?? null,
             'description' => $data['description'] ?? null,
+            'quantity'    => (int)$data['quantity'] ?: 0,
         ]);
 
         $id = (int)$conn->lastInsertId();
         $this->updateAuthors($id, $data['authors'] ?? []);
 
-        return (int)$conn->lastInsertId();
+        return $id;
     }
 
     public function update(int $id, array $data): int
     {
         $sql  = "UPDATE `books` SET
                 `title` = :title,
-                `description` = :description
+                `description` = :description,
+                `quantity`  = :quantity
                 WHERE id = :id";
         $conn = $this->getConnection();
         $stmt = $conn->prepare($sql);
@@ -66,6 +68,7 @@ class BookManager extends AbstractManager
             'id'          => $id,
             'title'       => $data['title'] ?? null,
             'description' => $data['description'] ?? null,
+            'quantity'    => (int)$data['quantity'] ?: 0,
         ]);
 
         $this->updateAuthors($id, $data['authors'] ?? []);

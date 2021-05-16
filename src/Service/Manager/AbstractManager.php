@@ -57,6 +57,29 @@ abstract class AbstractManager
         return $stmt->executeQuery($params)->fetchAllAssociativeIndexed();
     }
 
+    public function choices($fields, array $filter = []): array
+    {
+        $all     = $this->all($filter);
+        $choices = [];
+        foreach ($all as $item) {
+            if (is_array($fields)) {
+                $options = [];
+                foreach ($fields as $field) {
+                    $options[] = $item[$field] ?? null;
+                }
+
+                $option           = $options ? implode(' ', $options) : $item['id'];
+                $choices[$option] = $item['id'];
+                continue;
+            }
+
+            $option           = $item[$fields] ?? $item['id'];
+            $choices[$option] = $item['id'];
+        }
+
+        return $choices;
+    }
+
     public function paginate(array $filter = []): PaginationInterface
     {
         $p = array_key_exists('p', $filter) ? (int)$filter['p'] : 1;

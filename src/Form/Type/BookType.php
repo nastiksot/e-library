@@ -5,9 +5,11 @@ namespace App\Form\Type;
 
 use App\Service\Manager\AuthorManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BookType extends AbstractEntityType
@@ -39,12 +41,20 @@ class BookType extends AbstractEntityType
                 ChoiceType::class,
                 [
                     'multiple' => true,
-                    'choices'  => $this->getAuthorsChoices(),
+                    'choices'  => $this->resolveAuthorsChoices(),
                 ]
-            );
+            )
+            ->add(
+                'quantity',
+                NumberType::class,
+                [
+                    'constraints' => new GreaterThanOrEqual(['value' => 0])
+                ]
+            )
+        ;
     }
 
-    public function getAuthorsChoices(): array
+    protected function resolveAuthorsChoices(): array
     {
         $choices = [];
         $authors = $this->authorManager->all();
