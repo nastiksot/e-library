@@ -11,7 +11,7 @@ class ReadingManager extends AbstractManager
     public function query(array $filter = []): array
     {
         $sql    = "
-        SELECT reading.id AS _id, reading.*
+        SELECT reading.id AS _id, reading.*, IF(reading.end_at < NOW(), 1, 0) AS is_expire
         FROM `reading`
         LEFT JOIN `users` ON users.id = reading.user_id
         LEFT JOIN `authors_books` AS ab ON ab.book_id = reading.book_id
@@ -34,6 +34,11 @@ class ReadingManager extends AbstractManager
         if (!empty($filter['reading_type'])) {
             $sql                    .= " AND (reading.reading_type = :reading_type) ";
             $params['reading_type'] = $filter['reading_type'];
+        }
+
+        if (!empty($filter['user_id'])) {
+            $sql               .= " AND (reading.user_id = :user_id) ";
+            $params['user_id'] = $filter['user_id'];
         }
 
         $sql .= " GROUP BY reading.id";

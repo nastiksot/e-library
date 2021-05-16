@@ -38,7 +38,6 @@ class ReadingController extends AbstractController
         $this->userManager    = $userManager;
     }
 
-
     /**
      * @Route(path="", name="reading.list")
      */
@@ -59,7 +58,28 @@ class ReadingController extends AbstractController
             ]
         );
     }
-    
+
+    /**
+     * @Route(path="/my", name="reading.list.my")
+     */
+    public function my(Request $request): Response
+    {
+        $filter            = $request->query->all();
+        $readings          = $this->readingManager->paginate($filter);
+        $readingTypes      = array_flip(ReadingType::READING_TYPE_CHOICES);
+
+        return $this->render('default/reading/my.html.twig',
+            [
+                'readings'       => $readings,
+                'readingTypes'   => $readingTypes,
+                'authorManager'  => $this->authorManager,
+                'bookManager'    => $this->bookManager,
+                'readingManager' => $this->readingManager,
+                'userManager'    => $this->userManager,
+            ]
+        );
+    }
+
     /**
      * @Route(path="/add", name="reading.add")
      */

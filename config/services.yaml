@@ -4,6 +4,8 @@ parameters:
     public_dir: '%kernel.project_dir%/public'
     data_dir: '%kernel.project_dir%/var/data'
     storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
+    penalty: '%env(PENALTY)%'
+    expireColor: '%env(EXPIRE_COLOR)%'
 
 
 services:

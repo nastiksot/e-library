@@ -56,6 +56,13 @@
 {#        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}#}
 {#        <a href="{{ path('reading') }}" class="nav-link {{ active }}">I am reading</a>#}
 
+
+
+
+        {% set routes = ['reading.list.my'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('reading.list.my') }}" class="nav-link {{ active }}">I am reading</a>
+
         {% set routes = ['profile'] %}
         {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
         <a href="{{ path('profile') }}" class="nav-link {{ active }}">Profile</a>

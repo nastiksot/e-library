@@ -11,6 +11,8 @@ twig:
         '%kernel.project_dir%/public': public
     globals:
         locale: '%locale%'
+        penalty: '%penalty%'
+        expireColor: '%expireColor%'
     form_themes:
         - 'form_themes/default.html.twig'
 #        - '@SonataForm/Form/datepicker.html.twig'

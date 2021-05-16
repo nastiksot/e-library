@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('reading.add') }}" class="btn btn-success mb-2">Add</a>
+
     <div class="float-right mb-2 mr-2">
         {% include 'default/reading/search-form.html.twig' %}
     </div>
@@ -24,10 +24,9 @@
             <th scope="col">Reading type</th>
             <th scope="col">Book</th>
             <th scope="col">Author</th>
-            <th scope="col">Reader</th>
+            {# <th scope="col">Reader</th> #}
             <th scope="col">Start At</th>
             <th scope="col">End At</th>
-            <th scope="col" width="200px;">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -50,19 +49,16 @@
                         {{ author.first_name }} {{ author.last_name }} <br/>
                     {% endfor %}
                 </td>
-                <td>
-                    {% set reader = userManager.get(reading.user_id) %}
-                    {{ reader ? reader.first_name : null }}
-                    {{ reader ? reader.last_name : null }}
-                </td>
+                {# <td> #}
+                {# {% set reader = userManager.get(reading.user_id) %} #}
+                {# {{ reader ? reader.first_name : null }} #}
+                {# {{ reader ? reader.last_name : null }} #}
+                {# </td> #}
                 <td>{{ reading.start_at }}</td>
+
                 <td style="{{ reading.is_expire ? 'background-color: ' ~ expireColor : null }}">
                     {{ reading.end_at }} <br />
                     {{ reading.is_expire ? 'penalty: ' ~ penalty : null  }}
-                </td>
-                <td>
-                    <a href="{{ path('reading.edit', {'id': reading.id}) }}" class="btn btn-success">Edit</a>
-                    <a href="{{ path('reading.delete', {'id': reading.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         {% endfor %}
