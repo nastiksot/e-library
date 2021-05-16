@@ -25,7 +25,7 @@ class AuthorController extends AbstractController
     }
 
     /**
-     * @Route(path="/list", name="author.list")
+     * @Route(path="/list", name="crud.author.list")
      */
     public function index(Request $request): Response
     {
@@ -43,7 +43,7 @@ class AuthorController extends AbstractController
     }
 
     /**
-     * @Route(path="/add", name="author.add")
+     * @Route(path="/add", name="crud.author.add")
      */
     public function add(Request $request): Response
     {
@@ -54,7 +54,7 @@ class AuthorController extends AbstractController
             $data = $form->getData();
             $this->authorManager->create($data);
 
-            return $this->redirectToRoute('author.list');
+            return $this->redirectToRoute('crud.author.list');
         }
 
         return $this->render(
@@ -66,7 +66,7 @@ class AuthorController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/edit", name="author.edit")
+     * @Route(path="/{id}/edit", name="crud.author.edit")
      */
     public function edit(Request $request, int $id): Response
     {
@@ -78,7 +78,7 @@ class AuthorController extends AbstractController
             $data = $form->getData();
             $this->authorManager->update($id, $data);
 
-            return $this->redirectToRoute('author.list');
+            return $this->redirectToRoute('crud.author.list');
         }
 
         return $this->render(
@@ -91,13 +91,13 @@ class AuthorController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/delete", name="author.delete")
+     * @Route(path="/{id}/delete", name="crud.author.delete")
      */
     public function delete(int $id): RedirectResponse
     {
         $this->authorManager->delete($id);
 
-        return $this->redirectToReferer('author.list');
+        return $this->redirectToReferer('crud.author.list');
     }
 
 }

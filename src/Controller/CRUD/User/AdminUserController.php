@@ -26,15 +26,12 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/list", name="admin.list")
+     * @Route(path="/list", name="crud.admin.list")
      */
     public function index(Request $request): Response
     {
-        $users = $this->userManager->paginate([
-            'q'    => $request->get('q'),
-            'p'    => $request->query->getInt('p', 1),
-            'role' => UserInterface::ROLE_ADMIN,
-        ]);
+        $filter = array_merge($request->query->all(), ['role' => UserInterface::ROLE_ADMIN]);
+        $users  = $this->userManager->paginate($filter);
 
         return $this->render(
             'default/crud/user/admin/index.html.twig',
@@ -45,7 +42,7 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/add", name="admin.add")
+     * @Route(path="/add", name="crud.admin.add")
      */
     public function add(Request $request): Response
     {
@@ -57,7 +54,7 @@ class AdminUserController extends AbstractController
             $data['role'] = UserInterface::ROLE_ADMIN;
             $this->userManager->create($data);
 
-            return $this->redirectToRoute('admin.list');
+            return $this->redirectToRoute('crud.admin.list');
         }
 
         return $this->render(
@@ -69,11 +66,12 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/edit", name="admin.edit")
+     * @Route(path="/{id}/edit", name="crud.admin.edit")
      */
     public function edit(Request $request, int $id): Response
     {
         $data = $this->userManager->get($id);
+        unset($data['password']);
         $form = $this->userManager->form(AdminUserType::class, $data ?? [], ['id' => $id]);
         if ($request->isMethod(Request::METHOD_POST) &&
             !($errors = $this->userManager->handleForm($form, $request))
@@ -81,7 +79,7 @@ class AdminUserController extends AbstractController
             $data = $form->getData();
             $this->userManager->update($id, $data);
 
-            return $this->redirectToRoute('admin.list');
+            return $this->redirectToRoute('crud.admin.list');
         }
 
         return $this->render(
@@ -94,13 +92,13 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/delete", name="admin.delete")
+     * @Route(path="/{id}/delete", name="crud.admin.delete")
      */
     public function delete(int $id): RedirectResponse
     {
         $this->userManager->delete($id);
 
-        return $this->redirectToReferer('admin.list');
+        return $this->redirectToReferer('crud.admin.list');
     }
 
 }

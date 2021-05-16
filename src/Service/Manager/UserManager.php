@@ -36,6 +36,13 @@ class UserManager extends AbstractManager
             $params['query'] = '%' . $filter['q'] . '%';
         }
 
+        if (array_key_exists('active', $filter) &&
+            $filter['active'] !== null
+        ) {
+            $sql              .= " AND users.active = :active ";
+            $params['active'] = (int)$filter['active'];
+        }
+
         return [$sql, $params];
     }
 
@@ -89,7 +96,7 @@ class UserManager extends AbstractManager
         ]);
 
         // update password
-        if ($data['password']) {
+        if (array_key_exists('password', $data) && $data['password']) {
             $salt    = $data['salt'];
             $encoder = $this->encoderFactory->getEncoder(User::class);
             $sql     = "UPDATE `users` SET `password` = :password WHERE id = :id";
@@ -98,6 +105,17 @@ class UserManager extends AbstractManager
             $stmt->executeQuery([
                 'id'       => $id,
                 'password' => $encoder->encodePassword($data['password'], $salt),
+            ]);
+        }
+
+        // update active
+        if (array_key_exists('active', $data)) {
+            $sql  = "UPDATE `users` SET `active` = :active WHERE id = :id";
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare($sql);
+            $stmt->executeQuery([
+                'id'     => $id,
+                'active' => (int)$data['active'],
             ]);
         }
 

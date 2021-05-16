@@ -42,7 +42,7 @@ abstract class AbstractManager
 
     public function query(array $filter = []): array
     {
-        $sql    = "";
+        $sql    = '';
         $params = [];
 
         return [$sql, $params];

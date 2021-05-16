@@ -3,15 +3,15 @@
 
 {% block breadcrumbs %}
     {% set breadcrumbs = [
-        {'url': path('author.list'), 'title': 'Authors', 'active': true},
+        {'url': path('crud.author.list'), 'title': 'Authors', 'active': true},
     ] %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('author.add') }}" class="btn btn-success mb-2">Add</a>
+    <a href="{{ path('crud.author.add') }}" class="btn btn-success mb-2">Add</a>
     <div class="float-right mb-2 mr-2">
-        {% include 'default/_partials/search-form.html.twig' with {'action': path('author.list') }  %}
+        {% include 'default/_partials/search-form.html.twig' with {'action': path('crud.author.list') }  %}
     </div>
 
     <table class="table">
@@ -31,8 +31,8 @@
                 <td>{{ author.first_name }}</td>
                 <td>{{ author.last_name }}</td>
                 <td>
-                    <a href="{{ path('author.edit', {'id': author.id}) }}" class="btn btn-success">Edit</a>
-                    <a href="{{ path('author.delete', {'id': author.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('crud.author.edit', {'id': author.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('crud.author.delete', {'id': author.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         {% endfor %}

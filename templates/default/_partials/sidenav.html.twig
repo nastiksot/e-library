@@ -10,25 +10,25 @@
     {% if app.user.id is defined %}
 
         {% if app.user.admin %}
-            {% set routes = ['admin.list', 'admin.add', 'admin.edit'] %}
+            {% set routes = ['crud.admin.list', 'crud.admin.add', 'crud.admin.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('admin.list') }}" class="nav-link {{ active }}">Admins</a>
+            <a href="{{ path('crud.admin.list') }}" class="nav-link {{ active }}">Admins</a>
 
-            {% set routes = ['librarian.list', 'librarian.add', 'librarian.edit'] %}
+            {% set routes = ['crud.librarian.list', 'crud.librarian.add', 'crud.librarian.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('librarian.list') }}" class="nav-link {{ active }}">Librarians</a>
+            <a href="{{ path('crud.librarian.list') }}" class="nav-link {{ active }}">Librarians</a>
 
-            {% set routes = ['reader.list', 'reader.add', 'reader.edit'] %}
+            {% set routes = ['crud.reader.list', 'crud.reader.add', 'crud.reader.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('reader.list') }}" class="nav-link {{ active }}">Readers</a>
+            <a href="{{ path('crud.reader.list') }}" class="nav-link {{ active }}">Readers</a>
 
-            {% set routes = ['author.list', 'author.add', 'author.edit'] %}
+            {% set routes = ['crud.author.list', 'crud.author.add', 'crud.author.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('author.list') }}" class="nav-link {{ active }}">Authors</a>
+            <a href="{{ path('crud.author.list') }}" class="nav-link {{ active }}">Authors</a>
 
-            {% set routes = ['book.list', 'book.add', 'book.edit'] %}
+            {% set routes = ['crud.book.list', 'crud.book.add', 'crud.book.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('book.list') }}" class="nav-link {{ active }}">Books</a>
+            <a href="{{ path('crud.book.list') }}" class="nav-link {{ active }}">Books</a>
 
         {% endif %}
 
@@ -62,6 +62,10 @@
 
     {% else %}
         {# not loggedin user #}
+
+        {% set routes = ['books'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('books') }}" class="nav-link {{ active }}">Books</a>
 
         {% set routes = ['register'] %}
         {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}

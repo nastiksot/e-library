@@ -3,15 +3,15 @@
 
 {% block breadcrumbs %}
     {% set breadcrumbs = [
-        {'url': path('reader.list'), 'title': 'Readers'},
-        {'url': path('reader.edit', {'id': id}), 'title': 'Edit', 'active': true},
+        {'url': path('crud.reader.list'), 'title': 'Readers'},
+        {'url': path('crud.reader.edit', {'id': id}), 'title': 'Edit', 'active': true},
     ] %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
 
-    <form action="{{ path('reader.edit', {'id': id}) }}" method="post" novalidate="novalidate">
+    <form action="{{ path('crud.reader.edit', {'id': id}) }}" method="post" novalidate="novalidate">
         {{ form_rest(form) }}
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

@@ -21,7 +21,7 @@ class DefaultController extends AbstractController
         if ($user) {
             switch (true) {
                 case $user->isAdmin():
-                    return $this->redirectToRoute('admin.list');
+                    return $this->redirectToRoute('crud.admin.list');
 
                 case $user->isReader():
                     return $this->redirectToRoute('reading');

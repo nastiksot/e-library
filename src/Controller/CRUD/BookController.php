@@ -24,7 +24,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route(path="/list", name="book.list")
+     * @Route(path="/list", name="crud.book.list")
      */
     public function index(Request $request): Response
     {
@@ -42,7 +42,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route(path="/add", name="book.add")
+     * @Route(path="/add", name="crud.book.add")
      */
     public function add(Request $request): Response
     {
@@ -53,7 +53,7 @@ class BookController extends AbstractController
             $data = $form->getData();
             $this->bookManager->create($data);
 
-            return $this->redirectToRoute('book.list');
+            return $this->redirectToRoute('crud.book.list');
         }
 
         return $this->render(
@@ -65,7 +65,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/edit", name="book.edit")
+     * @Route(path="/{id}/edit", name="crud.book.edit")
      */
     public function edit(Request $request, int $id): Response
     {
@@ -78,7 +78,7 @@ class BookController extends AbstractController
             $data = $form->getData();
             $this->bookManager->update($id, $data);
 
-            return $this->redirectToRoute('book.list');
+            return $this->redirectToRoute('crud.book.list');
         }
 
         return $this->render(
@@ -91,13 +91,13 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/delete", name="book.delete")
+     * @Route(path="/{id}/delete", name="crud.book.delete")
      */
     public function delete(int $id): Response
     {
         $this->bookManager->delete($id);
 
-        return $this->redirectToRoute('book.list');
+        return $this->redirectToRoute('crud.book.list');
     }
 
 }

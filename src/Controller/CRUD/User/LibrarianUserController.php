@@ -26,15 +26,12 @@ class LibrarianUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/list", name="librarian.list")
+     * @Route(path="/list", name="crud.librarian.list")
      */
     public function index(Request $request): Response
     {
-        $users = $this->userManager->paginate([
-            'q'    => $request->get('q'),
-            'p'    => $request->query->getInt('p', 1),
-            'role' => UserInterface::ROLE_LIBRARIAN,
-        ]);
+        $filter = array_merge($request->query->all(), ['role' => UserInterface::ROLE_LIBRARIAN]);
+        $users  = $this->userManager->paginate($filter);
 
         return $this->render(
             'default/crud/user/librarian/index.html.twig',
@@ -45,7 +42,7 @@ class LibrarianUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/add", name="librarian.add")
+     * @Route(path="/add", name="crud.librarian.add")
      */
     public function add(Request $request): Response
     {
@@ -57,7 +54,7 @@ class LibrarianUserController extends AbstractController
             $data['role'] = UserInterface::ROLE_LIBRARIAN;
             $this->userManager->create($data);
 
-            return $this->redirectToRoute('librarian.list');
+            return $this->redirectToRoute('crud.librarian.list');
         }
 
         return $this->render(
@@ -69,11 +66,12 @@ class LibrarianUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/edit", name="librarian.edit")
+     * @Route(path="/{id}/edit", name="crud.librarian.edit")
      */
     public function edit(Request $request, int $id): Response
     {
         $data = $this->userManager->get($id);
+        unset($data['password']);
         $form = $this->userManager->form(LibrarianUserType::class, $data ?? [], ['id' => $id]);
         if ($request->isMethod(Request::METHOD_POST) &&
             !($errors = $this->userManager->handleForm($form, $request))
@@ -81,7 +79,7 @@ class LibrarianUserController extends AbstractController
             $data = $form->getData();
             $this->userManager->update($id, $data);
 
-            return $this->redirectToRoute('librarian.list');
+            return $this->redirectToRoute('crud.librarian.list');
         }
 
         return $this->render(
@@ -94,13 +92,13 @@ class LibrarianUserController extends AbstractController
     }
 
     /**
-     * @Route(path="/{id}/delete", name="librarian.delete")
+     * @Route(path="/{id}/delete", name="crud.librarian.delete")
      */
     public function delete(int $id): RedirectResponse
     {
         $this->userManager->delete($id);
 
-        return $this->redirectToReferer('librarian.list');
+        return $this->redirectToReferer('crud.librarian.list');
     }
 
 }

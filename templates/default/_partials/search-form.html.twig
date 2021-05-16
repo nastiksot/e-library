@@ -1,4 +1,5 @@
 {% set searchAction = action is defined ? action : null %}
+{% set showActive = showActive is defined ? showActive : false %}
 
 <form action="{{ searchAction }}" method="get" class="form-inline">
     <input class="form-control mr-sm-2"
@@ -6,5 +7,14 @@
            name="q"
            value="{{ app.request.get('q') }}"
     >
+
+    {% if showActive %}
+        <select class="form-control mr-sm-2" name="active" >
+            <option value="">Is Active: All</option>
+            <option value="1" {{ app.request.get('active') == '1' ? 'selected' : null }}>Active</option>
+            <option value="0" {{ app.request.get('active') == '0' ? 'selected' : null }}>InActive</option>
+        </select>
+    {% endif %}
+
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
