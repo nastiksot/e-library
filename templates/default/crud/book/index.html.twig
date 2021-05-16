@@ -1,4 +1,5 @@
 {% extends 'layout.main.html.twig' %}
+{# @var \App\Service\Manager\BookManager bookManager #}
 
 
 {% block breadcrumbs %}
@@ -11,16 +12,16 @@
 {% block content %}
     <a href="{{ path('book.add') }}" class="btn btn-success mb-2">Add</a>
     <div class="float-right mb-2 mr-2">
-        {% include 'default/_partials/search-form.html.twig' with {'action': path('book.list') }  %}
+        {% include 'default/_partials/search-form.html.twig' with {'action': path('book.list') } %}
     </div>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Book</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
             <th scope="col">Author</th>
-            <th scope="col">Reader</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -30,16 +31,12 @@
             <tr>
                 <th scope="row">{{ book.id }}</th>
                 <td>{{ book.title }}</td>
+                <td>{{ book.description }}</td>
                 <td>
-                    {% for author in book.authors %}
-                        {{ author.first_name }} {{ author.last_name }} <br />
+                    {% set authors = bookManager.authors(book.id) %}
+                    {% for author in authors %}
+                        {{ author.first_name }} {{ author.last_name }} <br/>
                     {% endfor %}
-                </td>
-                <td>
-                    {% if book.reader %}
-                        {{ book.reader.first_name }} <br />
-                        {{ book.reader.last_name }} <br />
-                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-success">Edit</a>

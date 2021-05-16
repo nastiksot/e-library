@@ -27,16 +27,16 @@
         </thead>
         <tbody>
 
-        {% for admin in admins %}
+        {% for user in users %}
             <tr>
-                <th scope="row">{{ admin.id }}</th>
-                <td>{{ admin.first_name }}</td>
-                <td>{{ admin.last_name }}</td>
-                <td>{{ admin.username }}</td>
-                <td>{{ admin.email }}</td>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
                 <td>
-                    <a href="{{ path('admin.edit', {'id': admin.id}) }}" class="btn btn-success">Edit</a>
-                    <a href="{{ path('admin.delete', {'id': admin.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('admin.edit', {'id': user.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('admin.delete', {'id': user.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         {% endfor %}
@@ -44,7 +44,7 @@
         </tbody>
     </table>
     <div class="pagination">
-        {{ knp_pagination_render(admins) }}
+        {{ knp_pagination_render(users) }}
     </div>
 {% endblock %}
 

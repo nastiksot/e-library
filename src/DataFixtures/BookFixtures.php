@@ -14,66 +14,55 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            AuthorFixtures::class,
         ];
     }
 
     public function load(ObjectManager $manager)
     {
-        $this->loadBooks($manager);
-    }
+        $author1 = $this->getReference(AuthorFixtures::AUTHOR_1);
+        $author2 = $this->getReference(AuthorFixtures::AUTHOR_2);
+        $author3 = $this->getReference(AuthorFixtures::AUTHOR_3);
+        $author4 = $this->getReference(AuthorFixtures::AUTHOR_4);
+        $author5 = $this->getReference(AuthorFixtures::AUTHOR_5);
 
-    private function loadBooks(ObjectManager $manager): void
-    {
-        $author1 = $this->getReference(UserFixtures::AUTHOR_1);
-        $author2 = $this->getReference(UserFixtures::AUTHOR_2);
-        $author3 = $this->getReference(UserFixtures::AUTHOR_3);
-
-        $reader1 = $this->getReference(UserFixtures::READER_1);
-        $reader2 = $this->getReference(UserFixtures::READER_2);
-        $reader3 = $this->getReference(UserFixtures::READER_3);
-
-        $book1 = (new Book())->setTitle('Book 1');
-        $book1->setReader($reader1);
+        $book1  = $this->createEntity('Book-1');
         $book1->addAuthor($author1);
-        $book1->addAuthor($author2);
 
-        $book2 = (new Book())->setTitle('Book 2');
-        $book2->setReader($reader1);
+        $book2  = $this->createEntity('Book-2');
         $book2->addAuthor($author2);
         $book2->addAuthor($author3);
 
-        $book3 = (new Book())->setTitle('Book 3');
-        $book3->setReader($reader1);
-        $book3->addAuthor($author3);
+        $book3  = $this->createEntity('Book-3');
         $book3->addAuthor($author1);
+        $book3->addAuthor($author4);
+        $book3->addAuthor($author5);
 
-        $book4 = (new Book())->setTitle('Book 4');
-        $book4->setReader($reader2);
-        $book4->addAuthor($author1);
+        $book4  = $this->createEntity('Book-4');
         $book4->addAuthor($author2);
+        $book4->addAuthor($author4);
 
-        $book5 = (new Book())->setTitle('Book 5');
-        $book5->setReader($reader3);
-        $book5->addAuthor($author2);
-        $book5->addAuthor($author3);
+        $book5  = $this->createEntity('Book-5');
+        $book5->addAuthor($author4);
+        $book5->addAuthor($author5);
 
-        $book6 = (new Book())->setTitle('Book 6');
+        $book6  = $this->createEntity('Book-6');
+        $book6->addAuthor($author2);
         $book6->addAuthor($author3);
-        $book6->addAuthor($author1);
 
-        $book7 = (new Book())->setTitle('Book 7');
+        $book7  = $this->createEntity('Book-7');
         $book7->addAuthor($author1);
-        $book7->addAuthor($author2);
 
-        $book8 = (new Book())->setTitle('Book 8');
-        $book8->addAuthor($author1);
+        $book8  = $this->createEntity('Book-8');
+        $book8->addAuthor($author2);
 
-        $book9 = (new Book())->setTitle('Book 9');
-        $book9->addAuthor($author2);
+        $book9  = $this->createEntity('Book-9');
+        $book9->addAuthor($author3);
 
-        $book10 = (new Book())->setTitle('Book 10');
-        $book10->addAuthor($author3);
+        $book10 = $this->createEntity('Book-10');
+        $book10->addAuthor($author4);
 
+        // save
         $manager->persist($book1);
         $manager->persist($book2);
         $manager->persist($book3);
@@ -85,6 +74,13 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($book9);
         $manager->persist($book10);
         $manager->flush();
+    }
+
+    private function createEntity(string $title): Book
+    {
+        return (new Book())
+            ->setTitle($title)
+            ->setDescription($title . ' description');
     }
 
 }

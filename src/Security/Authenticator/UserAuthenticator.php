@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Security\Authenticator;
 
 use App\Entity\User;
-use App\Repository\User\AdminUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

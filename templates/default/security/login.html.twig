@@ -1,5 +1,14 @@
 {% extends 'layout.main.html.twig' %}
 
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+        {'url': path('login'), 'title': 'Login', 'active': true},
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+
 {% block content %}
     <div class="widget">
         <div class="widget-header">

@@ -8,9 +8,9 @@ use App\Entity\Contracts\UserInterface;
 use App\Entity\Traits\ActiveEntityTrait;
 use App\Entity\Traits\Contact\FirstNameEntityTrait;
 use App\Entity\Traits\Contact\LastNameEntityTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use function array_filter;
+use function implode;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -28,17 +28,6 @@ class User extends AbstractEntity implements UserInterface
     use FirstNameEntityTrait,
         LastNameEntityTrait,
         ActiveEntityTrait;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Book", inversedBy="authors")
-     * @ORM\JoinTable(name="books_authors")
-     */
-    protected Collection $booksAuthors;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Book", mappedBy="reader")
-     */
-    protected Collection $booksReaders;
 
     /**
      * @ORM\Column(name="username", type="string", length=60, nullable=false)
@@ -73,7 +62,15 @@ class User extends AbstractEntity implements UserInterface
 
     public function __toString(): string
     {
-        return $this->getUsername() ?? 'New User';
+        $labels = [];
+        if (!$this->getId()) {
+            $labels[] = 'New User';
+        } else {
+            $labels[] = $this->getUsername();
+            $labels[] = !$this->isActive() ? '(disabled)' : null;
+        }
+
+        return implode(' ', array_filter($labels));
     }
 
     public function __construct()
@@ -83,28 +80,21 @@ class User extends AbstractEntity implements UserInterface
         } catch (\Exception $e) {
             $this->salt = '';
         }
-        $this->booksAuthors = new ArrayCollection();
-        $this->booksReaders = new ArrayCollection();
-    }
-
-    public function isSuperAdmin(): bool
-    {
-        return $this->hasRole(self::ROLE_SUPER_ADMIN);
     }
 
     public function isAdmin(): bool
     {
-        return $this->isSuperAdmin() || $this->hasRole(self::ROLE_ADMIN);
+        return $this->hasRole(self::ROLE_ADMIN);
+    }
+
+    public function isLibrarian(): bool
+    {
+        return $this->isAdmin() || $this->hasRole(self::ROLE_LIBRARIAN);
     }
 
     public function isUser(): bool
     {
         return (bool)$this->getId();
-    }
-
-    public function isAuthor(): bool
-    {
-        return $this->isAdmin() || $this->hasRole(self::ROLE_AUTHOR);
     }
 
     public function isReader(): bool
@@ -220,60 +210,6 @@ class User extends AbstractEntity implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Book[]
-     */
-    public function getBooksAuthors(): Collection
-    {
-        return $this->booksAuthors;
-    }
-
-    public function addBooksAuthor(Book $booksAuthor): self
-    {
-        if (!$this->booksAuthors->contains($booksAuthor)) {
-            $this->booksAuthors[] = $booksAuthor;
-        }
-
-        return $this;
-    }
-
-    public function removeBooksAuthor(Book $booksAuthor): self
-    {
-        $this->booksAuthors->removeElement($booksAuthor);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Book[]
-     */
-    public function getBooksReaders(): Collection
-    {
-        return $this->booksReaders;
-    }
-
-    public function addBooksReader(Book $booksReader): self
-    {
-        if (!$this->booksReaders->contains($booksReader)) {
-            $this->booksReaders[] = $booksReader;
-            $booksReader->setReader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooksReader(Book $booksReader): self
-    {
-        if ($this->booksReaders->removeElement($booksReader)) {
-            // set the owning side to null (unless already changed)
-            if ($booksReader->getReader() === $this) {
-                $booksReader->setReader(null);
-            }
-        }
 
         return $this;
     }

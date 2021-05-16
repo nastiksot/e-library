@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Repository\UserRepository;
+use App\Service\Manager\AuthorManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -12,12 +13,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class BookType extends AbstractEntityType
 {
 
-    protected UserRepository $userRepository;
+    protected AuthorManager $authorManager;
 
-    public function __construct(
-        UserRepository $userRepository
-    ) {
-        $this->userRepository = $userRepository;
+    public function __construct(AuthorManager $authorManager)
+    {
+        $this->authorManager = $authorManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -29,6 +29,10 @@ class BookType extends AbstractEntityType
                 [
                     'constraints' => new NotBlank()
                 ]
+            )
+            ->add(
+                'description',
+                TextareaType::class
             )
             ->add(
                 'authors',
@@ -43,7 +47,7 @@ class BookType extends AbstractEntityType
     public function getAuthorsChoices(): array
     {
         $choices = [];
-        $authors = $this->userRepository->getAllAuthors();
+        $authors = $this->authorManager->all();
         foreach ($authors as $author) {
             $choices[$author['first_name'] . ' ' . $author['last_name']] = (int)$author['id'];
         }

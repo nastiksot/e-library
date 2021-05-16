@@ -4,34 +4,27 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Traits\ActiveEntityTrait;
+use App\Entity\Traits\DescriptionEntityTrait;
 use App\Entity\Traits\TitleEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
+ * @ORM\Entity()
  * @ORM\Table(
- *     name="books",
- *     indexes={
- *     }
+ *     name="books"
  * )
  */
 class Book extends AbstractEntity
 {
-    use TitleEntityTrait;
+    use TitleEntityTrait,
+        DescriptionEntityTrait;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="booksAuthors")
+     * @ORM\ManyToMany(targetEntity="Author", mappedBy="books")
      */
     protected Collection $authors;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="booksReaders")
-     * @ORM\JoinColumn(name="reader_id", referencedColumnName="id")
-     */
-    protected ?User $reader = null;
 
     public function __construct()
     {
@@ -39,40 +32,28 @@ class Book extends AbstractEntity
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Author[]
      */
     public function getAuthors(): Collection
     {
         return $this->authors;
     }
 
-    public function addAuthor(User $author): self
+    public function addAuthor(Author $author): self
     {
         if (!$this->authors->contains($author)) {
             $this->authors[] = $author;
-            $author->addBooksAuthor($this);
+            $author->addBook($this);
         }
 
         return $this;
     }
 
-    public function removeAuthor(User $author): self
+    public function removeAuthor(Author $author): self
     {
         if ($this->authors->removeElement($author)) {
-            $author->removeBooksAuthor($this);
+            $author->removeBook($this);
         }
-
-        return $this;
-    }
-
-    public function getReader(): ?User
-    {
-        return $this->reader;
-    }
-
-    public function setReader(?User $reader): self
-    {
-        $this->reader = $reader;
 
         return $this;
     }

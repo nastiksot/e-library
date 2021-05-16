@@ -1,45 +1,74 @@
+<nav class="sidenav nav flex-column">
 
-{% if app.user.id is defined %}
 
+    {# {% if not app.user.user %} #}
+    {# {% set routes = ['login'] %} #}
+    {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+    {# <a href="{{ path('login') }}" class="nav-link {{ active }}">Login</a> #}
+    {# {% endif %} #}
 
-    <nav class="sidenav nav flex-column">
+    {% if app.user.id is defined %}
 
         {% if app.user.admin %}
-            {% set routes = ['admin.list', 'admin.edit'] %}
+            {% set routes = ['admin.list', 'admin.add', 'admin.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
             <a href="{{ path('admin.list') }}" class="nav-link {{ active }}">Admins</a>
 
-            {% set routes = ['reader.list', 'reader.edit'] %}
+            {% set routes = ['librarian.list', 'librarian.add', 'librarian.edit'] %}
+            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+            <a href="{{ path('librarian.list') }}" class="nav-link {{ active }}">Librarians</a>
+
+            {% set routes = ['reader.list', 'reader.add', 'reader.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
             <a href="{{ path('reader.list') }}" class="nav-link {{ active }}">Readers</a>
 
-            {% set routes = ['author.list', 'author.edit'] %}
+            {% set routes = ['author.list', 'author.add', 'author.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
             <a href="{{ path('author.list') }}" class="nav-link {{ active }}">Authors</a>
 
-            {% set routes = ['book.list', 'book.edit'] %}
+            {% set routes = ['book.list', 'book.add', 'book.edit'] %}
             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
             <a href="{{ path('book.list') }}" class="nav-link {{ active }}">Books</a>
 
         {% endif %}
 
+        {# {% set routes = ['profile'] %} #}
+        {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+        {# <a href="{{ path('profile') }}" class="nav-link {{ active }}">Profile</a> #}
+
+        {# {% if app.user.author %} #}
+        {# {% set routes = ['profile.author'] %} #}
+        {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+        {# <a href="{{ path('profile.author') }}" class="nav-link {{ active }}">I am writer</a> #}
+        {# {% endif %} #}
+
+        {# {% if app.user.reader %} #}
+        {# {% set routes = ['profile.reader'] %} #}
+        {# {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %} #}
+        {# <a href="{{ path('profile.reader') }}" class="nav-link {{ active }}">I am reading</a> #}
+        {# {% endif %} #}
+
+
+        {% set routes = ['reading'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('reading') }}" class="nav-link {{ active }}">I am reading</a>
+
         {% set routes = ['profile'] %}
         {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
         <a href="{{ path('profile') }}" class="nav-link {{ active }}">Profile</a>
 
-        {% if app.user.author %}
-            {% set routes = ['profile.author'] %}
-            {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('profile.author') }}" class="nav-link {{ active }}">I am writer</a>
-        {% endif %}
-
-        {% if app.user.reader %}
-             {% set routes = ['profile.reader'] %}
-             {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
-            <a href="{{ path('profile.reader') }}" class="nav-link {{ active }}">I am reading</a>
-        {% endif %}
-
         <a href="{{ path('logout') }}" class="nav-link">Logout</a>
-    </nav>
 
-{% endif %}
+
+    {% else %}
+        {# not loggedin user #}
+
+        {% set routes = ['register'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('register') }}" class="nav-link {{ active }}">Register</a>
+
+        {% set routes = ['login'] %}
+        {% set active = app.request.attributes.get('_route') in routes ? 'active' : null %}
+        <a href="{{ path('login') }}" class="nav-link {{ active }}">Login</a>
+    {% endif %}
+</nav>

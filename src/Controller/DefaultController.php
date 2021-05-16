@@ -19,18 +19,17 @@ class DefaultController extends AbstractController
         $user = $this->getUser();
 
         if ($user) {
+            switch (true) {
+                case $user->isAdmin():
+                    return $this->redirectToRoute('admin.list');
 
-            if ($user->isAdmin()) {
-                return $this->redirectToRoute('admin.list');
+                case $user->isReader():
+                    return $this->redirectToRoute('reading');
+
             }
 
-            if ($user->isAuthor()) {
-                return $this->redirectToRoute('profile.author');
-            }
-
-            return $this->redirectToRoute('profile.reader');
+            return $this->redirectToRoute('profile');
         }
-
 
         return $this->render('default/homepage.html.twig');
     }
