@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-{#    <a href="{{ path('book.add') }}" class="btn btn-success mb-2">Add</a>#}
+{#    <a href="{{ path('book.add') }}" class="btn btn-info mb-2">Add</a>#}
     <div class="float-right mb-2 mr-2">
         {% include 'default/_partials/search-form.html.twig' with {'action': path('books') } %}
     </div>
@@ -42,12 +42,12 @@
                 </td>
                 {% if app.user.id is defined %}
                     <td>
-                        <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-success">Order</a>
+                        <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Order</a>
                     </td>
                 {% endif %}
 
 {#                <td>#}
-{#                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-success">Edit</a>#}
+{#                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>#}
 {#                    <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>#}
 {#                </td>#}
             </tr>

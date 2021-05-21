@@ -64,9 +64,10 @@ class ReadingController extends AbstractController
      */
     public function my(Request $request): Response
     {
-        $filter            = $request->query->all();
-        $readings          = $this->readingManager->paginate($filter);
-        $readingTypes      = array_flip(ReadingType::READING_TYPE_CHOICES);
+        $userId       = $this->getUser() ? $this->getUser()->getId() : 0;
+        $filter       = array_merge($request->query->all(), ['user_id' => $userId]);
+        $readings     = $this->readingManager->paginate($filter);
+        $readingTypes = array_flip(ReadingType::READING_TYPE_CHOICES);
 
         return $this->render('default/reading/my.html.twig',
             [

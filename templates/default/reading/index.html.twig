@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('reading.add') }}" class="btn btn-success mb-2">Add</a>
+    <a href="{{ path('reading.add') }}" class="btn btn-info mb-2">Add</a>
     <div class="float-right mb-2 mr-2">
         {% include 'default/reading/search-form.html.twig' %}
     </div>
@@ -61,7 +61,7 @@
                     {{ reading.is_expire ? 'penalty: ' ~ penalty : null  }}
                 </td>
                 <td>
-                    <a href="{{ path('reading.edit', {'id': reading.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('reading.edit', {'id': reading.id}) }}" class="btn btn-info">Edit</a>
                     <a href="{{ path('reading.delete', {'id': reading.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>

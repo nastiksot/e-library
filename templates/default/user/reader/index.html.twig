@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('reader.add') }}" class="btn btn-success mb-2">Add</a>
-    <div class="float-right mb-2 mr-2">
+    <a href="{{ path('reader.add') }}" class="btn btn-primary mb-2 float-right">Add</a>
+    <div class="float-left mb-2 mr-2">
         {% include 'default/_partials/search-form.html.twig' with {'action': path('reader.list'), 'showActive': true }  %}
     </div>
 
@@ -37,7 +37,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.active ? 'Active' : 'InActive' }}</td>
                 <td>
-                    <a href="{{ path('reader.edit', {'id': user.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('reader.edit', {'id': user.id}) }}" class="btn btn-info">Edit</a>
                     <a href="{{ path('reader.delete', {'id': user.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('author.add') }}" class="btn btn-success mb-2">Add</a>
+    <a href="{{ path('author.add') }}" class="btn btn-info mb-2">Add</a>
     <div class="float-right mb-2 mr-2">
         {% include 'default/_partials/search-form.html.twig' with {'action': path('author.list') }  %}
     </div>
@@ -31,7 +31,7 @@
                 <td>{{ author.first_name }}</td>
                 <td>{{ author.last_name }}</td>
                 <td>
-                    <a href="{{ path('author.edit', {'id': author.id}) }}" class="btn btn-success">Edit</a>
+                    <a href="{{ path('author.edit', {'id': author.id}) }}" class="btn btn-info">Edit</a>
                     <a href="{{ path('author.delete', {'id': author.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
