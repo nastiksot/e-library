@@ -30,7 +30,7 @@
                 <th scope="col">Reads</th>
             {% endif %}
 
-            {% if app.user and app.user.librarian %}
+            {% if app.user %}
                 <th scope="col">Actions</th>
             {% endif %}
         </tr>
@@ -62,10 +62,10 @@
                             <a href="{{ path('book.order', {'id': book.id}) }}" class="btn btn-success">Order</a>
                         {% endif %}
 
-{#                        {% if app.user and app.user.librarian %}#}
-{#                            <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>#}
-{#                            <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>#}
-{#                        {% endif %}#}
+                        {% if app.user and app.user.librarian %}
+                            <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>
+                            <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
+                        {% endif %}
                     </td>
                 {% endif %}
             </tr>
