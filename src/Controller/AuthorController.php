@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AbstractController;
 use App\Form\Type\AuthorType;
 use App\Service\Manager\AuthorManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;

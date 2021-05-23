@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Form\Type\OrderStatus;
 use App\Form\Type\OrderType;
 use App\Service\Manager\OrderManager;
 use DateTime;
@@ -75,9 +74,7 @@ class OrderController extends AbstractController
         // convert dates
         $data['start_at'] = $data['start_at'] ? DateTime::createFromFormat('Y-m-d', $data['start_at']) : null;
         $data['end_at']   = $data['end_at'] ? DateTime::createFromFormat('Y-m-d', $data['end_at']) : null;
-//dd($data);
 
-        //$data['authors'] = !empty($data['authors']) ? array_keys($data['authors']) : [];
         $form = $this->orderManager->form(OrderType::class, $data ?? [], ['id' => $id]);
         if ($request->isMethod(Request::METHOD_POST) &&
             !($errors = $this->orderManager->handleForm($form, $request))
@@ -136,32 +133,5 @@ class OrderController extends AbstractController
 
         return $this->redirectToRoute('order.list');
     }
-
-    /**
-     * @Route(path="/{id}/status", name="order.status")
-     */
-    public function status(Request $request, int $id): Response
-    {
-        $data = $this->orderManager->get($id);
-        //$data['authors'] = !empty($data['authors']) ? array_keys($data['authors']) : [];
-        $form = $this->orderManager->form(OrderStatus::class, $data ?? [], ['id' => $id]);
-        if ($request->isMethod(Request::METHOD_POST) &&
-            !($errors = $this->orderManager->handleForm($form, $request))
-        ) {
-            $data = $form->getData();
-            $this->orderManager->status($id, $data);
-
-            return $this->redirectToRoute('order.list');
-        }
-
-        return $this->render(
-            'default/order/status.html.twig',
-            [
-                'id'   => $id,
-                'form' => $form->createView(),
-            ]
-        );
-    }
-
 
 }

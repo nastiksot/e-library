@@ -131,6 +131,15 @@ class ReadingManager extends AbstractManager
         $stmt->executeQuery(['id' => $id]);
     }
 
+    public function countBooks($bookId): int
+    {
+        $sql  = "SELECT COUNT(id) FROM `reading` WHERE book_id = :book_id";
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+
+        return (int)$stmt->executeQuery(['book_id' => $bookId])->fetchOne();
+    }
+
     public function prolong(int $id, array $data): int
     {
         /** @var DateTimeInterface $prolongAt */

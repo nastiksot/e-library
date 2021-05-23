@@ -48,23 +48,23 @@
                         <a href="{{ path('order.edit', {'id': order.id}) }}" class="btn btn-info">Edit</a>
                     {% endif %}
 
-{#                    {% if order.status == constant('App\\Entity\\Order::STATUS_CANCELED') or order.status == constant('App\\Entity\\Order::STATUS_DONE') %}#}
-{#                        <a href="{{ path('order.open', {'id': order.id}) }}" class="btn btn-primary">Open</a>#}
-{#                    {% endif %}#}
-{#                    <a href="{{ path('order.edit', {'id': order.id}) }}" class="btn btn-info">Edit</a>#}
-{#                    {% if order.status == constant('App\\Entity\\Order::STATUS_OPEN') %}#}
-{#                        {% if order.status != constant('App\\Entity\\Order::STATUS_OPEN') %}#}
-{#                            <a href="{{ path('order.open', {'id': order.id}) }}" class="btn btn-primary">Open</a>#}
-{#                        {% endif %}#}
-{#                        {% if order.status != constant('App\\Entity\\Order::STATUS_CANCELED') %}#}
-{#                            <a href="{{ path('order.cancel', {'id': order.id}) }}" class="btn btn-secondary">Cancel</a>#}
-{#                        {% endif %}#}
-{#                        {% if order.status != constant('App\\Entity\\Order::STATUS_DONE') %}#}
-{#                            <a href="{{ path('order.done', {'id': order.id}) }}" class="btn btn-success">Done</a>#}
-{#                        {% endif %}#}
-                        {# <a href="{{ path('order.status', {'id': order.id}) }}" class="btn btn-outline-info">Status</a> #}
-{#                        <a href="{{ path('order.edit', {'id': order.id}) }}" class="btn btn-info">Edit</a>#}
-{#                    {% endif %}#}
+                    {# {% if order.status == constant('App\\Entity\\Order::STATUS_CANCELED') or order.status == constant('App\\Entity\\Order::STATUS_DONE') %} #}
+                    {# <a href="{{ path('order.open', {'id': order.id}) }}" class="btn btn-primary">Open</a> #}
+                    {# {% endif %} #}
+                    {# <a href="{{ path('order.edit', {'id': order.id}) }}" class="btn btn-info">Edit</a> #}
+                    {# {% if order.status == constant('App\\Entity\\Order::STATUS_OPEN') %} #}
+                    {# {% if order.status != constant('App\\Entity\\Order::STATUS_OPEN') %} #}
+                    {# <a href="{{ path('order.open', {'id': order.id}) }}" class="btn btn-primary">Open</a> #}
+                    {# {% endif %} #}
+                    {# {% if order.status != constant('App\\Entity\\Order::STATUS_CANCELED') %} #}
+                    {# <a href="{{ path('order.cancel', {'id': order.id}) }}" class="btn btn-secondary">Cancel</a> #}
+                    {# {% endif %} #}
+                    {# {% if order.status != constant('App\\Entity\\Order::STATUS_DONE') %} #}
+                    {# <a href="{{ path('order.done', {'id': order.id}) }}" class="btn btn-success">Done</a> #}
+                    {# {% endif %} #}
+                    {# <a href="{{ path('order.status', {'id': order.id}) }}" class="btn btn-outline-info">Status</a> #}
+                    {# <a href="{{ path('order.edit', {'id': order.id}) }}" class="btn btn-info">Edit</a> #}
+                    {# {% endif %} #}
                     <a href="{{ path('order.delete', {'id': order.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
                 {# <td>{{ book.title }}</td> #}

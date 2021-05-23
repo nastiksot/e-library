@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,6 +11,24 @@ use Doctrine\Persistence\ObjectManager;
 class BookFixtures extends Fixture implements DependentFixtureInterface
 {
 
+    protected array $books = [
+        ['quantity' => 1, 'title' => 'Title-1', 'description' => 'Description-1', 'authors' => [1]],
+        ['quantity' => 2, 'title' => 'Title-2', 'description' => 'Description-2', 'authors' => [1,2]],
+        ['quantity' => 3, 'title' => 'Title-3', 'description' => 'Description-3', 'authors' => [2]],
+        ['quantity' => 4, 'title' => 'Title-4', 'description' => 'Description-4', 'authors' => [3,4]],
+        ['quantity' => 5, 'title' => 'Title-5', 'description' => 'Description-5', 'authors' => [5]],
+        ['quantity' => 6, 'title' => 'Title-6', 'description' => 'Description-6', 'authors' => [1]],
+        ['quantity' => 7, 'title' => 'Title-7', 'description' => 'Description-7', 'authors' => [1,2]],
+        ['quantity' => 8, 'title' => 'Title-8', 'description' => 'Description-8', 'authors' => [1,3]],
+        ['quantity' => 9, 'title' => 'Title-9', 'description' => 'Description-9', 'authors' => [1,4]],
+        ['quantity' => 10, 'title' => 'Title-10', 'description' => 'Description-10', 'authors' => [1,4]],
+        ['quantity' => 11, 'title' => 'Title-11', 'description' => 'Description-11', 'authors' => [2,2]],
+        ['quantity' => 12, 'title' => 'Title-12', 'description' => 'Description-12', 'authors' => [2,2]],
+        ['quantity' => 13, 'title' => 'Title-13', 'description' => 'Description-13', 'authors' => [2,3]],
+        ['quantity' => 14, 'title' => 'Title-14', 'description' => 'Description-14', 'authors' => [2,4]],
+        ['quantity' => 15, 'title' => 'Title-15', 'description' => 'Description-15', 'authors' => [5]],
+    ];
+
     public function getDependencies()
     {
         return [
@@ -18,70 +37,35 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
+    private function createEntity(array $data): Book
+    {
+        $entity = (new Book())
+            ->setTitle($data['title'])
+            ->setDescription($data['description'])
+            ->setQuantity($data['quantity']);
+
+        foreach ($data['authors'] as $key) {
+            $reference = 'author-' . $key;
+            $author = $this->hasReference($reference) ? $this->getReference($reference) : null;
+            $entity->addAuthor($author);
+        }
+
+        return $entity;
+    }
+
     public function load(ObjectManager $manager)
     {
-        $author1 = $this->getReference(AuthorFixtures::AUTHOR_1);
-        $author2 = $this->getReference(AuthorFixtures::AUTHOR_2);
-        $author3 = $this->getReference(AuthorFixtures::AUTHOR_3);
-        $author4 = $this->getReference(AuthorFixtures::AUTHOR_4);
-        $author5 = $this->getReference(AuthorFixtures::AUTHOR_5);
-
-        $book1 = $this->createEntity('Book-1', 10);
-        $book1->addAuthor($author1);
-
-        $book2 = $this->createEntity('Book-2', 20);
-        $book2->addAuthor($author2);
-        $book2->addAuthor($author3);
-
-        $book3 = $this->createEntity('Book-3', 30);
-        $book3->addAuthor($author1);
-        $book3->addAuthor($author4);
-        $book3->addAuthor($author5);
-
-        $book4 = $this->createEntity('Book-4', 40);
-        $book4->addAuthor($author2);
-        $book4->addAuthor($author4);
-
-        $book5 = $this->createEntity('Book-5', 50);
-        $book5->addAuthor($author4);
-        $book5->addAuthor($author5);
-
-        $book6 = $this->createEntity('Book-6', 60);
-        $book6->addAuthor($author2);
-        $book6->addAuthor($author3);
-
-        $book7 = $this->createEntity('Book-7', 70);
-        $book7->addAuthor($author1);
-
-        $book8 = $this->createEntity('Book-8', 80);
-        $book8->addAuthor($author2);
-
-        $book9 = $this->createEntity('Book-9', 90);
-        $book9->addAuthor($author3);
-
-        $book10 = $this->createEntity('Book-10', 100);
-        $book10->addAuthor($author4);
+        $i = 0;
+        foreach ($this->books as $data) {
+            ++$i;
+            $entity = $this->createEntity($data);
+            $manager->persist($entity);
+            $this->addReference('book-' . $i, $entity);
+        }
 
         // save
-        $manager->persist($book1);
-        $manager->persist($book2);
-        $manager->persist($book3);
-        $manager->persist($book4);
-        $manager->persist($book5);
-        $manager->persist($book6);
-        $manager->persist($book7);
-        $manager->persist($book8);
-        $manager->persist($book9);
-        $manager->persist($book10);
         $manager->flush();
     }
 
-    private function createEntity(string $title, int $quantity): Book
-    {
-        return (new Book())
-            ->setTitle($title)
-            ->setDescription($title . ' description')
-            ->setQuantity($quantity);
-    }
 
 }

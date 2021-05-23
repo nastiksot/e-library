@@ -1,5 +1,6 @@
 {% extends 'layout.main.html.twig' %}
 {# @var \App\Service\Manager\BookManager bookManager #}
+{# @var \App\Service\Manager\ReadingManager reradingManager #}
 
 
 {% block breadcrumbs %}
@@ -24,8 +25,9 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Author</th>
-            {% if app.user and app.user.librarian %}
+            {% if app.user.librarian %}
                 <th scope="col">Quantity</th>
+                <th scope="col">Reads</th>
             {% endif %}
 
             {% if app.user and app.user.librarian %}
@@ -36,6 +38,9 @@
         <tbody>
 
         {% for book in books %}
+            {% set countReadBooks = readerManager.countBooks(book.id) %}
+            {% set showOrderButton = countReadBooks < book.quantity %}
+
             <tr>
                 <th scope="row">{{ book.id }}</th>
                 <td>{{ book.title }}</td>
@@ -46,13 +51,16 @@
                         {{ author.first_name }} {{ author.last_name }} <br/>
                     {% endfor %}
                 </td>
-                {% if app.user and app.user.librarian %}
+                {% if app.user.librarian %}
                     <td>{{ book.quantity }}</td>
+                    <td>{{ countReadBooks }}</td>
                 {% endif %}
 
                 {% if app.user %}
                     <td>
-                        <a href="{{ path('book.order', {'id': book.id}) }}" class="btn btn-success">Order</a>
+                        {% if showOrderButton %}
+                            <a href="{{ path('book.order', {'id': book.id}) }}" class="btn btn-success">Order</a>
+                        {% endif %}
 
                         {% if app.user and app.user.librarian %}
                             <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>

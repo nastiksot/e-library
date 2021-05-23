@@ -60,7 +60,7 @@ class OrderBookType extends AbstractEntityType
                 'quantity',
                 NumberType::class,
                 [
-                    'data'        => 1,
+                    'empty_data'        => 1,
                     'scale'       => 0,
                     'constraints' => [
                         new NotBlank(),

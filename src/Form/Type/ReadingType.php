@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\Contracts\UserInterface;
 use App\Entity\Reading;
 use App\Service\Manager\BookManager;
 use App\Service\Manager\UserManager;
@@ -51,7 +50,7 @@ class ReadingType extends AbstractEntityType
                 'quantity',
                 NumberType::class,
                 [
-                    'data'        => 1,
+                    'empty_data'  => 1,
                     'scale'       => 0,
                     'constraints' => [
                         new NotBlank(),

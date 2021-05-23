@@ -5,6 +5,7 @@ namespace App\Service\Manager;
 
 use App\Entity\Order;
 use DateTime;
+use DateTimeInterface;
 
 class OrderManager extends AbstractManager
 {
@@ -53,77 +54,66 @@ class OrderManager extends AbstractManager
 
     public function create(array $data): int
     {
-        return 0;
-//        $sql = "
-//        INSERT INTO `books` (
-//            `title`, `description`, `quantity`
-//        )
-//        VALUES  (
-//            :title, :description, :quantity
-//        )";
-//
-//        $conn = $this->getConnection();
-//        $stmt = $conn->prepare($sql);
-//        $stmt->executeQuery([
-//            'title'       => $data['title'] ?? null,
-//            'description' => $data['description'] ?? null,
-//            'quantity'    => (int)$data['quantity'] ?: 0,
-//        ]);
-//
-//        $id = (int)$conn->lastInsertId();
-//        $this->updateAuthors($id, $data['authors'] ?? []);
-//
-//        return $id;
+        /** @var DateTimeInterface $startAt */
+        $startAt = $data['start_at'] ?? null;
+        /** @var DateTimeInterface $endAt */
+        $endAt = $data['end_at'] ?? null;
+
+        $sql = "
+        INSERT INTO `orders` (
+            `book_id`, `user_id`, `quantity`, `reading_type`, `start_at`, `end_at`, `status`
+        )
+        VALUES  (
+            :book_id, :user_id, :quantity, :reading_type, :start_at, :end_at, :status
+        )";
+
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery([
+            'book_id'      => $data['book_id'] ?? null,
+            'user_id'      => $data['user_id'] ?? null,
+            'quantity'     => $data['quantity'] ?? null,
+            'reading_type' => $data['reading_type'] ?? null,
+            'start_at'     => $startAt ? $startAt->format('Y-m-d') : null,
+            'end_at'       => $endAt ? $endAt->format('Y-m-d') : null,
+            'status'       => Order::STATUS_OPEN,
+
+        ]);
+
+        $id = (int)$conn->lastInsertId();
+
+        return $id;
     }
 
     public function update(int $id, array $data): int
     {
-        return 0;
-//        $sql  = "UPDATE `books` SET
-//                `title` = :title,
-//                `description` = :description,
-//                `quantity`  = :quantity
-//                WHERE id = :id";
-//        $conn = $this->getConnection();
-//        $stmt = $conn->prepare($sql);
-//        $stmt->executeQuery([
-//            'id'          => $id,
-//            'title'       => $data['title'] ?? null,
-//            'description' => $data['description'] ?? null,
-//            'quantity'    => (int)$data['quantity'] ?: 0,
-//        ]);
-//
-//        $this->updateAuthors($id, $data['authors'] ?? []);
-//
-//        return $id;
+        /** @var DateTimeInterface $startAt */
+        $startAt = $data['start_at'] ?? null;
+        /** @var DateTimeInterface $endAt */
+        $endAt = $data['end_at'] ?? null;
+
+        $sql  = "UPDATE `orders` SET
+            `book_id` = :book_id,
+            `user_id` = :user_id,
+            `quantity` = :quantity,
+            `reading_type` = :reading_type,
+            `start_at` = :start_at,
+            `end_at` = :end_at
+            WHERE id = :id";
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery([
+            'id'           => $id,
+            'book_id'      => $data['book_id'],
+            'user_id'      => $data['user_id'],
+            'quantity'     => $data['quantity'],
+            'reading_type' => $data['reading_type'],
+            'start_at'     => $startAt ? $startAt->format('Y-m-d') : null,
+            'end_at'       => $endAt ? $endAt->format('Y-m-d') : null
+        ]);
+
+        return $id;
     }
-
-//    protected function updateAuthors(int $bookId, array $authorIds): void
-//    {
-//        $conn = $this->getConnection();
-//
-//        // delete authors before add new
-//        $sql  = "DELETE FROM `authors_books` WHERE book_id = :book_id";
-//        $stmt = $conn->prepare($sql);
-//        $stmt->executeQuery(['book_id' => $bookId]);
-//
-//        // add new authors
-//        foreach ($authorIds as $authorId) {
-//            $sql  = "INSERT INTO `authors_books` (`author_id`, `book_id`) VALUES  (:author_id, :book_id)";
-//            $stmt = $conn->prepare($sql);
-//            $stmt->executeQuery(['author_id' => $authorId, 'book_id' => $bookId]);
-//        }
-//    }
-//
-//    public function getAuthors(int $bookId): array
-//    {
-//        $conn = $this->getConnection();
-//        $sql  = "SELECT authors.id AS _id, authors.* FROM `authors` WHERE id IN(SELECT author_id FROM authors_books WHERE book_id = :book_id)";
-//        $stmt = $conn->prepare($sql);
-//
-//        return $stmt->executeQuery(['book_id' => $bookId])->fetchAllAssociativeIndexed();
-//    }
-
 
     public function get(int $id): ?array
     {
@@ -132,12 +122,6 @@ class OrderManager extends AbstractManager
         $stmt = $conn->prepare($sql);
 
         return $stmt->executeQuery(['id' => $id])->fetchAssociative();
-//        $result = $stmt->executeQuery(['id' => $id])->fetchAssociative();
-//        if ($result) {
-//            $result['authors'] = $this->getAuthors($id);
-//        }
-//
-//        return $result ?: null;
     }
 
     public function delete(int $id): void
@@ -172,14 +156,16 @@ class OrderManager extends AbstractManager
     public function done(int $id): int
     {
         $this->status($id, ['status' => Order::STATUS_DONE]);
-        $order = $this->get($id);
-        $data = [
+        $order   = $this->get($id);
+        $startAt = $order['start_at'] ? DateTime::createFromFormat('Y-m-d', $order['start_at']) : null;
+        $endAt   = $order['end_at'] ? DateTime::createFromFormat('Y-m-d', $order['end_at']) : null;
+        $data    = [
             'book_id'      => $order['book_id'],
             'quantity'     => $order['quantity'],
             'user_id'      => $order['user_id'],
             'reading_type' => $order['reading_type'],
-            'start_at'     => $order['start_at'] ? DateTime::createFromFormat('Y-m-d', $order['start_at']) : null,
-            'end_at'       => $order['end_at'] ? DateTime::createFromFormat('Y-m-d', $order['end_at']) : null,
+            'start_at'     => $startAt,
+            'end_at'       => $endAt,
         ];
         $this->readingManager->create($data);
 
@@ -189,30 +175,8 @@ class OrderManager extends AbstractManager
     public function open(int $id): int
     {
         $this->status($id, ['status' => Order::STATUS_OPEN]);
+
         return $id;
     }
 
-//    public function order(int $id, array $data): int
-//    {
-//        $sql = "
-//        INSERT INTO `orders` (
-//            `book_id`, `quantity`, `status`, `created_at`
-//        )
-//        VALUES  (
-//            :book_id, :quantity, :status, :created_at
-//        )";
-//
-//        $conn = $this->getConnection();
-//        $stmt = $conn->prepare($sql);
-//        $stmt->executeQuery([
-//            'book_id'    => $id ?? null,
-//            'quantity'   => $data['quantity'] ?? null,
-//            'status'     => Order::STATUS_OPEN,
-//            'created_at' => date('Y-m-d H:i:s'),
-//        ]);
-//
-//        $orderId = (int)$conn->lastInsertId();
-//
-//        return $orderId;
-//    }
 }

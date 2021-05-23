@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Form\Type\BookOrderType;
 use App\Form\Type\BookType;
 use App\Form\Type\OrderBookType;
 use App\Service\Manager\BookManager;
+use App\Service\Manager\ReadingManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
 
-    protected BookManager $bookManager;
+    protected BookManager    $bookManager;
+    protected ReadingManager $readerManager;
 
-    public function __construct(BookManager $bookManager)
-    {
-        $this->bookManager = $bookManager;
+    public function __construct(
+        BookManager $bookManager,
+        ReadingManager $readingManager
+    ) {
+        $this->bookManager   = $bookManager;
+        $this->readerManager = $readingManager;
     }
 
     /**
@@ -34,8 +38,9 @@ class BookController extends AbstractController
 
         return $this->render('default/book/index.html.twig',
             [
-                'books'       => $books,
-                'bookManager' => $this->bookManager,
+                'books'         => $books,
+                'bookManager'   => $this->bookManager,
+                'readerManager' => $this->readerManager,
             ]
         );
     }

@@ -15,7 +15,7 @@ use function array_key_exists;
 abstract class AbstractManager
 {
 
-    public const ITEMS_IN_PAGE = 1;
+    public const ITEMS_IN_PAGE = 10;
 
     protected EntityManagerInterface $em;
     protected PaginatorInterface     $paginator;

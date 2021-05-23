@@ -100,16 +100,10 @@ class SidebarExtension extends AbstractExtension
                 'extra'   => ['order.add', 'order.edit'],
                 'subMenu' => [],
             ];
-//            $menuMap['reading'] = [
-//                'route'   => 'reading.list',
-//                'title'   => 'Reading',
-//                'extra'   => ['reading.add', 'reading.edit'],
-//                'subMenu' => [],
-//            ];
             $menuMap['reading'] = [
                 'route'   => null,
                 'title'   => 'Reading',
-                'extra'   => [], //['reading.add', 'reading.edit'],
+                'extra'   => [],
                 'subMenu' => [
                     [
                         'route' => 'reading.list',
