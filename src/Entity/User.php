@@ -37,6 +37,11 @@ class User extends AbstractEntity implements UserInterface
     protected Collection $reading;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
+     */
+    protected Collection $orders;
+
+    /**
      * @ORM\Column(name="username", type="string", length=60, nullable=false)
      */
     protected ?string $username = null;
@@ -88,6 +93,7 @@ class User extends AbstractEntity implements UserInterface
             $this->salt = '';
         }
         $this->reading = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function isAdmin(): bool
@@ -246,6 +252,36 @@ class User extends AbstractEntity implements UserInterface
             // set the owning side to null (unless already changed)
             if ($reading->getUser() === $this) {
                 $reading->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 

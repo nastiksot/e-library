@@ -50,10 +50,14 @@
                     <td>{{ book.quantity }}</td>
                 {% endif %}
 
-                {% if app.user and app.user.librarian %}
+                {% if app.user %}
                     <td>
-                        <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>
-                        <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ path('book.order', {'id': book.id}) }}" class="btn btn-success">Order</a>
+
+                        {% if app.user and app.user.librarian %}
+                            <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>
+                            <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
+                        {% endif %}
                     </td>
                 {% endif %}
             </tr>

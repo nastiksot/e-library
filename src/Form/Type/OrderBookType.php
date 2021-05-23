@@ -3,18 +3,19 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\Contracts\UserInterface;
 use App\Entity\Reading;
 use App\Service\Manager\BookManager;
 use App\Service\Manager\UserManager;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ReadingType extends AbstractEntityType
+class OrderBookType extends AbstractEntityType
 {
 
     protected BookManager $bookManager;
@@ -28,23 +29,31 @@ class ReadingType extends AbstractEntityType
         $this->userManager = $userManager;
     }
 
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+        $resolver->setRequired(['book_id', 'user_id']);
+        $resolver->setAllowedTypes('book_id', ['int']);
+        $resolver->setAllowedTypes('user_id', ['int']);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $bookChoices = ['' => ''] + $this->bookManager->choices('title');
-        $userFilter  = [];//['role' => UserInterface::ROLE_READER];
-        $userChoices = ['' => ''] + $this->userManager->choices(['first_name', 'last_name'], $userFilter);
-
         $readingTypeChoices = ['' => ''] + array_flip(Reading::READING_TYPES);
 
         $builder
             ->add(
                 'book_id',
-                ChoiceType::class,
+                HiddenType::class,
                 [
-                    'label'       => 'Book',
-                    'choices'     => $bookChoices,
-                    'constraints' => [new NotBlank()],
+                    'data' => $options['book_id'],
+                ]
+            )
+            ->add(
+                'user_id',
+                HiddenType::class,
+                [
+                    'data' => $options['user_id'],
                 ]
             )
             ->add(
@@ -57,15 +66,6 @@ class ReadingType extends AbstractEntityType
                         new NotBlank(),
                         new GreaterThanOrEqual(['value' => 1])
                     ]
-                ]
-            )
-            ->add(
-                'user_id',
-                ChoiceType::class,
-                [
-                    'label'       => 'Reader',
-                    'choices'     => $userChoices,
-                    'constraints' => [new NotBlank()],
                 ]
             )
             ->add(

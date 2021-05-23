@@ -23,8 +23,11 @@ class DefaultController extends AbstractController
                 case $user->isAdmin():
                     return $this->redirectToRoute('admin.list');
 
+                case $user->isLibrarian():
+                    return $this->redirectToRoute('order.list');
+
                 case $user->isReader():
-                    return $this->redirectToRoute('books');
+                    return $this->redirectToRoute('book.list');
 
             }
 

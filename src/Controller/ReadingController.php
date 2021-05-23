@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Form\Type\BookType;
+use App\Entity\Reading;
+use App\Form\Type\ReadingProlongType;
 use App\Form\Type\ReadingType;
 use App\Service\Manager\AuthorManager;
 use App\Service\Manager\BookManager;
@@ -39,13 +40,13 @@ class ReadingController extends AbstractController
     }
 
     /**
-     * @Route(path="", name="reading.list")
+     * @Route(path="/list", name="reading.list")
      */
     public function index(Request $request): Response
     {
         $filter       = $request->query->all();
         $readings     = $this->readingManager->paginate($filter);
-        $readingTypes = array_flip(ReadingType::READING_TYPE_CHOICES);
+        $readingTypes = Reading::READING_TYPES;
 
         return $this->render('default/reading/index.html.twig',
             [
@@ -60,16 +61,15 @@ class ReadingController extends AbstractController
     }
 
     /**
-     * @Route(path="/my", name="reading.list.my")
+     * @Route(path="/prolong", name="reading.prolong")
      */
-    public function my(Request $request): Response
+    public function prolong(Request $request): Response
     {
-        $userId       = $this->getUser() ? $this->getUser()->getId() : 0;
-        $filter       = array_merge($request->query->all(), ['user_id' => $userId]);
+        $filter = array_merge($request->query->all(), ['isProlong' => true]);
         $readings     = $this->readingManager->paginate($filter);
-        $readingTypes = array_flip(ReadingType::READING_TYPE_CHOICES);
+        $readingTypes = Reading::READING_TYPES;
 
-        return $this->render('default/reading/my.html.twig',
+        return $this->render('default/reading/prolong.html.twig',
             [
                 'readings'       => $readings,
                 'readingTypes'   => $readingTypes,
@@ -145,5 +145,87 @@ class ReadingController extends AbstractController
         return $this->redirectToRoute('reading.list');
     }
 
+    /**
+     * @Route(path="/{id}/prolong-cancel", name="reading.prolong.cancel")
+     */
+    public function prolongCancel(Request $request, int $id): Response
+    {
+        $this->readingManager->prolongCancel($id);
+
+        return $this->redirectToRoute('reading.prolong');
+    }
+
+    /**
+     * @Route(path="/{id}/prolong-accept", name="reading.prolong.accept")
+     */
+    public function prolongAccept(Request $request, int $id): Response
+    {
+        $this->readingManager->prolongAccept($id);
+
+        return $this->redirectToRoute('reading.prolong');
+    }
+
+
+    /**
+     * @Route(path="/my", name="reading.list.my")
+     */
+    public function my(Request $request): Response
+    {
+        $userId       = $this->getUser() ? $this->getUser()->getId() : 0;
+        $filter       = array_merge($request->query->all(), ['user_id' => $userId]);
+        $readings     = $this->readingManager->paginate($filter);
+        $readingTypes = Reading::READING_TYPES;
+
+        return $this->render('default/reading/my.index.html.twig',
+            [
+                'readings'       => $readings,
+                'readingTypes'   => $readingTypes,
+                'authorManager'  => $this->authorManager,
+                'bookManager'    => $this->bookManager,
+                'readingManager' => $this->readingManager,
+                'userManager'    => $this->userManager,
+            ]
+        );
+    }
+
+    /**
+     * @Route(path="/my/{id}/prolong-add", name="reading.my.prolong.add")
+     */
+    public function myProlongAdd(Request $request, int $id): Response
+    {
+        $data = $this->readingManager->get($id);
+
+        // convert dates
+        $data['prolong_at'] = $data['prolong_at'] ? DateTime::createFromFormat('Y-m-d', $data['prolong_at']) : null;
+
+        // create form
+        $form = $this->readingManager->form(ReadingProlongType::class, $data ?? [], ['id' => $id]);
+        if ($request->isMethod(Request::METHOD_POST) &&
+            !($errors = $this->readingManager->handleForm($form, $request))
+        ) {
+            $data = $form->getData();
+            $this->readingManager->prolong($id, $data);
+
+            return $this->redirectToRoute('reading.list.my');
+        }
+
+        return $this->render(
+            'default/reading/my.prolong.add.html.twig',
+            [
+                'id'   => $id,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route(path="/my/{id}/prolong-cancel", name="reading.my.prolong.cancel")
+     */
+    public function myProlongCancel(Request $request, int $id): Response
+    {
+        $this->readingManager->prolongCancel($id);
+
+        return $this->redirectToRoute('reading.list.my');
+    }
 
 }

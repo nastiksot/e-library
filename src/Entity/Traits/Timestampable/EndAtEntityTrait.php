@@ -11,7 +11,7 @@ trait EndAtEntityTrait
 {
 
     /**
-     * @ORM\Column(name="end_at", type="datetime", nullable=true)
+     * @ORM\Column(name="end_at", type="date", nullable=true)
      */
     protected ?DateTimeInterface $endAt = null;
 

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AbstractController;
+use App\Form\Type\BookOrderType;
 use App\Form\Type\BookType;
+use App\Form\Type\OrderBookType;
 use App\Service\Manager\BookManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +29,8 @@ class BookController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $books = $this->bookManager->paginate([
-            'q' => $request->get('q'),
-            'p' => $request->query->getInt('p', 1),
-        ]);
+        $filter = $request->query->all();
+        $books  = $this->bookManager->paginate($filter);
 
         return $this->render('default/book/index.html.twig',
             [
@@ -100,4 +99,30 @@ class BookController extends AbstractController
         return $this->redirectToRoute('book.list');
     }
 
+    /**
+     * @Route(path="/{id}/order", name="book.order")
+     */
+    public function order(Request $request, int $id): Response
+    {
+        $userId = $this->getUser() ? $this->getUser()->getId() : null;
+        $book   = $this->bookManager->get($id);
+        $form   = $this->bookManager->form(OrderBookType::class, [], ['book_id' => $id, 'user_id' => $userId]);
+        if ($request->isMethod(Request::METHOD_POST) &&
+            !($errors = $this->bookManager->handleForm($form, $request))
+        ) {
+            $data = $form->getData();
+            $this->bookManager->order($data);
+
+            return $this->redirectToRoute('book.list');
+        }
+
+        return $this->render(
+            'default/book/order.html.twig',
+            [
+                'id'   => $id,
+                'book' => $book,
+                'form' => $form->createView(),
+            ]
+        );
+    }
 }

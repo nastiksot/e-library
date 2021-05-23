@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class BookType extends AbstractEntityType
+class BookOrderType extends AbstractEntityType
 {
 
     protected AuthorManager $authorManager;
@@ -25,25 +25,25 @@ class BookType extends AbstractEntityType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'title',
-                TextType::class,
-                [
-                    'constraints' => new NotBlank()
-                ]
-            )
-            ->add(
-                'description',
-                TextareaType::class
-            )
-            ->add(
-                'authors',
-                ChoiceType::class,
-                [
-                    'multiple' => true,
-                    'choices'  => $this->resolveAuthorsChoices(),
-                ]
-            )
+//            ->add(
+//                'title',
+//                TextType::class,
+//                [
+//                    'constraints' => new NotBlank()
+//                ]
+//            )
+//            ->add(
+//                'description',
+//                TextareaType::class
+//            )
+//            ->add(
+//                'authors',
+//                ChoiceType::class,
+//                [
+//                    'multiple' => true,
+//                    'choices'  => $this->resolveAuthorsChoices(),
+//                ]
+//            )
             ->add(
                 'quantity',
                 NumberType::class,
@@ -51,20 +51,21 @@ class BookType extends AbstractEntityType
                     'data'        => 1,
                     'scale'       => 0,
                     'constraints' => [
-                        new GreaterThanOrEqual(['value' => 0])
+                        new NotBlank(),
+                        new GreaterThanOrEqual(['value' => 1])
                     ]
                 ]
             );
     }
 
-    protected function resolveAuthorsChoices(): array
-    {
-        $choices = [];
-        $authors = $this->authorManager->all();
-        foreach ($authors as $author) {
-            $choices[$author['first_name'] . ' ' . $author['last_name']] = (int)$author['id'];
-        }
-
-        return $choices;
-    }
+//    protected function resolveAuthorsChoices(): array
+//    {
+//        $choices = [];
+//        $authors = $this->authorManager->all();
+//        foreach ($authors as $author) {
+//            $choices[$author['first_name'] . ' ' . $author['last_name']] = (int)$author['id'];
+//        }
+//
+//        return $choices;
+//    }
 }

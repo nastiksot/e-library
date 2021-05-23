@@ -11,7 +11,7 @@ trait StartAtEntityTrait
 {
 
     /**
-     * @ORM\Column(name="start_at", type="datetime", nullable=true)
+     * @ORM\Column(name="start_at", type="date", nullable=true)
      */
     protected ?DateTimeInterface $startAt = null;
 

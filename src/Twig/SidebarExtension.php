@@ -46,6 +46,16 @@ class SidebarExtension extends AbstractExtension
         return null;
     }
 
+    private function isRouteActive(?string $route, array $comparedRoutes = []): bool
+    {
+        foreach ($comparedRoutes as $comparedRoute) {
+            if ($comparedRoute === $route) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function showSidebar(Environment $environment): string
     {
         $user    = $this->getUser();
@@ -56,6 +66,7 @@ class SidebarExtension extends AbstractExtension
             $menuMap['library-settings'] = [
                 'route'   => null,
                 'title'   => 'Library Settings',
+                'extra'   => [],
                 'subMenu' => [
                     [
                         'route' => 'admin.list',
@@ -77,21 +88,40 @@ class SidebarExtension extends AbstractExtension
                         'title' => 'Authors',
                         'extra' => ['author.add', 'author.edit']
                     ],
-                    [
-                        'route' => 'book.list',
-                        'title' => 'Authors',
-                        'extra' => ['book.add', 'book.edit']
-                    ],
                 ],
             ];
         }
 
         // menu entry reading
         if ($user && $user->isLibrarian()) {
-            $menuMap['reading'] = [
-                'route'   => 'reading.list',
-                'title'   => 'Reading',
+            $menuMap['order'] = [
+                'route'   => 'order.list',
+                'title'   => 'Orders',
+                'extra'   => ['order.add', 'order.edit'],
                 'subMenu' => [],
+            ];
+//            $menuMap['reading'] = [
+//                'route'   => 'reading.list',
+//                'title'   => 'Reading',
+//                'extra'   => ['reading.add', 'reading.edit'],
+//                'subMenu' => [],
+//            ];
+            $menuMap['reading'] = [
+                'route'   => null,
+                'title'   => 'Reading',
+                'extra'   => [], //['reading.add', 'reading.edit'],
+                'subMenu' => [
+                    [
+                        'route' => 'reading.list',
+                        'title' => 'All Readings',
+                        'extra' => ['reading.add', 'reading.edit']
+                    ],
+                    [
+                        'route' => 'reading.prolong',
+                        'title' => 'Prolong',
+                        'extra' => []
+                    ],
+                ],
             ];
         }
 
@@ -99,6 +129,7 @@ class SidebarExtension extends AbstractExtension
         $menuMap['book.list'] = [
             'route'   => 'book.list',
             'title'   => 'Books',
+            'extra'   => ['book.add', 'book.edit'],
             'subMenu' => [],
         ];
 
@@ -109,7 +140,7 @@ class SidebarExtension extends AbstractExtension
                 'title'   => 'Register',
                 'subMenu' => [],
             ];
-            $menuMap['login'] = [
+            $menuMap['login']    = [
                 'route'   => 'login',
                 'title'   => 'Login',
                 'subMenu' => [],
@@ -123,7 +154,7 @@ class SidebarExtension extends AbstractExtension
                 'title'   => 'I am Reading',
                 'subMenu' => [],
             ];
-            $menuMap['account'] = [
+            $menuMap['account']         = [
                 'route'   => null,
                 'title'   => 'Account',
                 'subMenu' => [
@@ -149,7 +180,8 @@ class SidebarExtension extends AbstractExtension
             $menuRoute = $menu['route'] ?? null;
             $url       = $menuRoute ? $this->router->generate($menuRoute) : '#';
             $title     = $menu['title'] ?? null;
-            $active    = $route && $menuRoute && $route === $menuRoute;
+            $active    = ($route && $menuRoute && $route === $menuRoute) ||
+                $this->isRouteActive($route, $menu['extra'] ?? []);
             $subMenus  = [];
             $open      = false;
             foreach ($menu['subMenu'] as $subMenu) {
@@ -162,9 +194,9 @@ class SidebarExtension extends AbstractExtension
                         $subActive = true;
                     }
                 }
-                $subMenus[] = new MenuItem($subUrl, $subMenu['title'],  $subActive, $open);
+                $subMenus[] = new MenuItem($subUrl, $subMenu['title'], $subActive, $open);
                 if ($subActive) {
-                    $open = true;
+                    $open   = true;
                     $active = $subActive;
                 }
             }

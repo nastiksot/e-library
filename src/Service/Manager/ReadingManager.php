@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service\Manager;
 
+use DateTime;
 use DateTimeInterface;
 
 class ReadingManager extends AbstractManager
@@ -15,7 +16,7 @@ class ReadingManager extends AbstractManager
         FROM `reading`
         LEFT JOIN `users` ON users.id = reading.user_id
         LEFT JOIN `authors_books` AS ab ON ab.book_id = reading.book_id
-        LEFT JOIN authors AS author ON author.id = ab.author_id
+        LEFT JOIN `authors` AS author ON author.id = ab.author_id
         WHERE 1 ";
         $params = [];
 
@@ -41,6 +42,10 @@ class ReadingManager extends AbstractManager
             $params['user_id'] = $filter['user_id'];
         }
 
+        if (!empty($filter['isProlong'])) {
+            $sql .= " AND (reading.prolong_at IS NOT NULL) ";
+        }
+
         $sql .= " GROUP BY reading.id";
 
         return [$sql, $params];
@@ -56,10 +61,10 @@ class ReadingManager extends AbstractManager
 
         $sql = "
         INSERT INTO `reading` (
-            `book_id`, `user_id`, `reading_type`, `start_at`, `end_at`
+            `book_id`, `user_id`, `quantity`, `reading_type`, `start_at`, `end_at`
         )
         VALUES  (
-            :book_id, :user_id, :reading_type, :start_at, :end_at
+            :book_id, :user_id, :quantity, :reading_type, :start_at, :end_at
         )";
 
         $conn = $this->getConnection();
@@ -67,6 +72,7 @@ class ReadingManager extends AbstractManager
         $stmt->executeQuery([
             'book_id'      => $data['book_id'] ?? null,
             'user_id'      => $data['user_id'] ?? null,
+            'quantity'     => $data['quantity'] ?? null,
             'reading_type' => $data['reading_type'] ?? null,
             'start_at'     => $startAt ? $startAt->format('Y-m-d') : null,
             'end_at'       => $endAt ? $endAt->format('Y-m-d') : null,
@@ -88,6 +94,7 @@ class ReadingManager extends AbstractManager
         $sql  = "UPDATE `reading` SET
                 `book_id` = :book_id,
                 `user_id` = :user_id,
+                `quantity` = :quantity,
                 `reading_type` = :reading_type,
                 `start_at` = :start_at,
                 `end_at` = :end_at
@@ -98,6 +105,7 @@ class ReadingManager extends AbstractManager
             'id'           => $id,
             'book_id'      => $data['book_id'] ?? null,
             'user_id'      => $data['user_id'] ?? null,
+            'quantity'     => $data['quantity'] ?? null,
             'reading_type' => $data['reading_type'] ?? null,
             'start_at'     => $startAt ? $startAt->format('Y-m-d') : null,
             'end_at'       => $endAt ? $endAt->format('Y-m-d') : null,
@@ -123,4 +131,49 @@ class ReadingManager extends AbstractManager
         $stmt->executeQuery(['id' => $id]);
     }
 
+    public function prolong(int $id, array $data): int
+    {
+        /** @var DateTimeInterface $prolongAt */
+        $prolongAt = $data['prolong_at'] ?? null;
+
+        $sql  = "UPDATE `reading` SET
+                `prolong_at` = :prolong_at
+                WHERE id = :id";
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery([
+            'id'         => $id,
+            'prolong_at' => $prolongAt ? $prolongAt->format('Y-m-d') : null,
+        ]);
+
+        return $id;
+    }
+
+    public function prolongCancel(int $id): int
+    {
+        $this->prolong($id, ['prolong_at' => null]);
+
+        return $id;
+    }
+
+    public function prolongAccept(int $id): int
+    {
+        $data = $this->get($id);
+
+        /** @var DateTimeInterface $prolongAt */
+        $prolongAt  = $data['prolong_at'] ? DateTime::createFromFormat('Y-m-d', $data['prolong_at']) : null;
+
+        $sql  = "UPDATE `reading` SET
+                `prolong_at` = null,
+                `end_at` = :prolong_at
+                WHERE id = :id";
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery([
+            'id'         => $id,
+            'prolong_at' => $prolongAt ? $prolongAt->format('Y-m-d') : null,
+        ]);
+
+        return $id;
+    }
 }

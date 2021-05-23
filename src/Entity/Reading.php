@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use App\Entity\Traits\QuantityEntityTrait;
+use App\Entity\Traits\Timestampable\EndAtEntityTrait;
+use App\Entity\Traits\Timestampable\ProlongAtEntityTrait;
+use App\Entity\Traits\Timestampable\StartAtEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,8 +19,18 @@ use Doctrine\ORM\Mapping as ORM;
 class Reading extends AbstractEntity
 {
 
+    use QuantityEntityTrait,
+        StartAtEntityTrait,
+        EndAtEntityTrait,
+        ProlongAtEntityTrait;
+
     public const READING_TYPE_SUBSCRIPTION = 1;
     public const READING_TYPE_READING_ROOM = 2;
+
+    public const READING_TYPES = [
+        self::READING_TYPE_SUBSCRIPTION => 'Subscription',
+        self::READING_TYPE_READING_ROOM => 'Reading Hall',
+    ];
 
     /**
      * @ORM\Column(type="integer", options={"unsigned": true})
@@ -35,16 +48,6 @@ class Reading extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected ?User $user;
-
-    /**
-     * @ORM\Column(name="start_at", type="date", nullable=true)
-     */
-    protected ?DateTimeInterface $startAt = null;
-
-    /**
-     * @ORM\Column(name="end_at", type="date", nullable=true)
-     */
-    protected ?DateTimeInterface $endAt = null;
 
     public function getBook(): ?Book
     {
@@ -70,26 +73,14 @@ class Reading extends AbstractEntity
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeInterface
+    public function getReadingType(): ?int
     {
-        return $this->startAt;
+        return $this->readingType;
     }
 
-    public function setStartAt(?\DateTimeInterface $startAt): self
+    public function setReadingType(int $readingType): self
     {
-        $this->startAt = $startAt;
-
-        return $this;
-    }
-
-    public function getEndAt(): ?\DateTimeInterface
-    {
-        return $this->endAt;
-    }
-
-    public function setEndAt(?\DateTimeInterface $endAt): self
-    {
-        $this->endAt = $endAt;
+        $this->readingType = $readingType;
 
         return $this;
     }

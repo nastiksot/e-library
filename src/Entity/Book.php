@@ -24,7 +24,7 @@ class Book extends AbstractEntity
         QuantityEntityTrait;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Author", mappedBy="books")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Author", mappedBy="books")
      */
     protected Collection $authors;
 
@@ -33,10 +33,16 @@ class Book extends AbstractEntity
      */
     protected Collection $reading;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="book")
+     */
+    protected Collection $orders;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
         $this->reading = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -90,6 +96,36 @@ class Book extends AbstractEntity
             // set the owning side to null (unless already changed)
             if ($reading->getBook() === $this) {
                 $reading->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getBook() === $this) {
+                $order->setBook(null);
             }
         }
 

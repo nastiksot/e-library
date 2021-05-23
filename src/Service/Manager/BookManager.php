@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Service\Manager;
 
+use App\Entity\Order;
+use DateTimeInterface;
+
 class BookManager extends AbstractManager
 {
 
@@ -12,7 +15,7 @@ class BookManager extends AbstractManager
         SELECT books.id AS _id, books.*
         FROM `books`
         LEFT JOIN `authors_books` AS ab ON ab.book_id = books.id
-        LEFT JOIN authors AS author ON author.id = ab.author_id
+        LEFT JOIN `authors` AS author ON author.id = ab.author_id
         WHERE 1 ";
         $params = [];
 
@@ -125,4 +128,37 @@ class BookManager extends AbstractManager
         $stmt->executeQuery(['id' => $id]);
     }
 
+    public function order(array $data): int
+    {
+        /** @var DateTimeInterface $startAt */
+        $startAt = $data['start_at'] ?? null;
+
+        /** @var DateTimeInterface $endAt */
+        $endAt = $data['end_at'] ?? null;
+
+        $sql = "
+        INSERT INTO `orders` (
+            `book_id`, `user_id`, `reading_type`, `quantity`, `start_at`, `end_at`, `status`, `created_at`
+        )
+        VALUES  (
+            :book_id, :user_id, :reading_type, :quantity, :start_at, :end_at, :status, :created_at
+        )";
+
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery([
+            'book_id'      => $data['book_id'] ?? null,
+            'user_id'      => $data['user_id'] ?? null,
+            'reading_type' => $data['reading_type'] ?? null,
+            'quantity'     => $data['quantity'] ?? null,
+            'start_at'     => $startAt ? $startAt->format('Y-m-d') : null,
+            'end_at'       => $endAt ? $endAt->format('Y-m-d') : null,
+            'status'       => Order::STATUS_OPEN,
+            'created_at'   => date('Y-m-d H:i:s'),
+        ]);
+
+        $orderId = (int)$conn->lastInsertId();
+
+        return $orderId;
+    }
 }

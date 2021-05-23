@@ -29,10 +29,8 @@ class AuthorController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $authors = $this->authorManager->paginate([
-            'q' => $request->get('q'),
-            'p' => $request->query->getInt('p', 1),
-        ]);
+        $filter  = $request->query->all();
+        $authors = $this->authorManager->paginate($filter);
 
         return $this->render(
             'default/author/index.html.twig',

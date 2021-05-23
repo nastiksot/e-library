@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ReadingType extends AbstractEntityType
+class OrderType extends AbstractEntityType
 {
 
     protected BookManager $bookManager;
@@ -30,11 +30,9 @@ class ReadingType extends AbstractEntityType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $bookChoices = ['' => ''] + $this->bookManager->choices('title');
-        $userFilter  = [];//['role' => UserInterface::ROLE_READER];
-        $userChoices = ['' => ''] + $this->userManager->choices(['first_name', 'last_name'], $userFilter);
-
+        $bookChoices        = ['' => ''] + $this->bookManager->choices('title');
+        $userFilter         = []; //['role' => UserInterface::ROLE_READER];
+        $userChoices        = ['' => ''] + $this->userManager->choices(['first_name', 'last_name'], $userFilter);
         $readingTypeChoices = ['' => ''] + array_flip(Reading::READING_TYPES);
 
         $builder
