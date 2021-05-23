@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     {% set breadcrumbs = [
-        {'url': path('reading.list'), 'title': 'Reading', 'active': true},
+        {'url': path('reading.list.my'), 'title': 'Reading', 'active': true},
     ] %}
     {{ parent() }}
 {% endblock %}
@@ -14,7 +14,7 @@
 {% block content %}
 
     <div class="float-right mb-2 mr-2">
-        {% include 'default/reading/search-form.html.twig' %}
+        {% include 'default/reading/search-form.html.twig' with {'action': path('reading.list.my') } %}
     </div>
 
     <table class="table">
@@ -24,7 +24,6 @@
             <th scope="col">Reading type</th>
             <th scope="col">Book</th>
             <th scope="col">Author</th>
-            {# <th scope="col">Reader</th> #}
             <th scope="col">Start At</th>
             <th scope="col">End At</th>
         </tr>
@@ -49,11 +48,6 @@
                         {{ author.first_name }} {{ author.last_name }} <br/>
                     {% endfor %}
                 </td>
-                {# <td> #}
-                {# {% set reader = userManager.get(reading.user_id) %} #}
-                {# {{ reader ? reader.first_name : null }} #}
-                {# {{ reader ? reader.last_name : null }} #}
-                {# </td> #}
                 <td>{{ reading.start_at }}</td>
 
                 <td style="{{ reading.is_expire ? 'background-color: ' ~ expireColor : null }}">

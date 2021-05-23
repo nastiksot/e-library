@@ -14,7 +14,7 @@
 {% block content %}
     <a href="{{ path('reading.add') }}" class="btn btn-info mb-2">Add</a>
     <div class="float-right mb-2 mr-2">
-        {% include 'default/reading/search-form.html.twig' %}
+        {% include 'default/reading/search-form.html.twig' with {'action': path('reading.list') } %}
     </div>
 
     <table class="table">

@@ -10,7 +10,9 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('book.add') }}" class="btn btn-info mb-2">Add</a>
+    {% if app.user and app.user.librarian %}
+        <a href="{{ path('book.add') }}" class="btn btn-info mb-2">Add</a>
+    {% endif %}
     <div class="float-right mb-2 mr-2">
         {% include 'default/_partials/search-form.html.twig' with {'action': path('book.list') } %}
     </div>
@@ -22,8 +24,13 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Author</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Actions</th>
+            {% if app.user and app.user.librarian %}
+                <th scope="col">Quantity</th>
+            {% endif %}
+
+            {% if app.user and app.user.librarian %}
+                <th scope="col">Actions</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -39,11 +46,16 @@
                         {{ author.first_name }} {{ author.last_name }} <br/>
                     {% endfor %}
                 </td>
-                <td>{{ book.quantity }}</td>
-                <td>
-                    <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>
-                    <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
-                </td>
+                {% if app.user and app.user.librarian %}
+                    <td>{{ book.quantity }}</td>
+                {% endif %}
+
+                {% if app.user and app.user.librarian %}
+                    <td>
+                        <a href="{{ path('book.edit', {'id': book.id}) }}" class="btn btn-info">Edit</a>
+                        <a href="{{ path('book.delete', {'id': book.id}) }}" class="btn btn-danger">Delete</a>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
 

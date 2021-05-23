@@ -96,8 +96,8 @@ class SidebarExtension extends AbstractExtension
         }
 
         // menu entry books
-        $menuMap['books'] = [
-            'route'   => 'books',
+        $menuMap['book.list'] = [
+            'route'   => 'book.list',
             'title'   => 'Books',
             'subMenu' => [],
         ];
