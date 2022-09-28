@@ -52,8 +52,9 @@ services:
             - ./.docker/mysql/data:/var/lib/mysql
         networks:
             - nastiksot_e_library_app
-        ports:
-            - "4008:3306"
+#        ports:
+#            - "3306:3306"
+##            - "4008:3306"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -84,5 +85,5 @@ networks:
         name: reverse-proxy
     shared-smtp:
         name: shared-smtp
-    nastiksot-e-library_app:
+    nastiksot_e_library_app:
         driver: bridge
