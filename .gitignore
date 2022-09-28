@@ -1,12 +1,12 @@
 /.idea
 /.docker/mysql/data/*
-#/config/secrets/prod/prod.decrypt.private.php
+/config/secrets/prod/prod.decrypt.private.php
 /node_modules/
 /public/assets/
 /public/bundles/
 /public/tiles/*
 /public/upload/*
-#/tiles/*
+/tiles/*
 /var/cache/*
 /var/data/images/*/*
 /var/data/files/*/*
