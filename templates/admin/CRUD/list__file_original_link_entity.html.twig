@@ -1,0 +1,17 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% if attribute(field_description.options, 'propertyName') is defined %}
+        {% set propertyName = field_description.options.propertyName %}
+
+        {% if attribute(object, propertyName) is defined %}
+            {% set fileName = attribute(object, propertyName) %}
+
+            {% if fileName is not null %}
+                {% set fileType = getFileType(object) %}
+                {% set fileUrl  = url('web.media.original', {'type' : fileType, 'name' : fileName |default('default.jpg') }) %}
+                <a href="{{ fileUrl }}" target="_blank">{{ fileName }}</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -52,9 +52,8 @@ services:
             - ./.docker/mysql/data:/var/lib/mysql
         networks:
             - nastiksot_e_library_app
-#        ports:
-#            - "3306:3306"
-##            - "4008:3306"
+        ports:
+            - "4008:3306"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

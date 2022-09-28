@@ -1,0 +1,117 @@
+security:
+    role_hierarchy:
+        ROLE_USER:
+            - IS_AUTHENTICATED_FULLY
+            - IS_AUTHENTICATED_REMEMBERED
+
+#        ROLE_DEALER_EMPLOYEE:
+#            - ROLE_USER
+#
+#        ROLE_DEALER_ADMIN:
+#            - ROLE_DEALER_EMPLOYEE
+
+        ROLE_EDITOR:
+            - ROLE_USER
+#            - IS_AUTHENTICATED_FULLY
+#            - IS_AUTHENTICATED_REMEMBERED
+
+        ROLE_ADMIN:
+            - ROLE_EDITOR
+#            - ROLE_ADMIN_SETTINGS_GENERAL_ALL
+
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: true
+
+    providers:
+        admin_user_provider:
+            id: App\Security\AdminUserProvider
+
+        regular_user_provider:
+            id: App\Security\RegularUserProvider
+
+
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: auto
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: admin_user_provider
+
+            form_login:
+                login_path: admin.login
+                check_path: admin.login_check
+                default_target_path: sonata_admin_dashboard
+
+            logout:
+                path: admin.logout
+                target: admin.login
+
+            entry_point: form_login
+
+        main:
+            pattern: ^/
+            lazy: true
+            provider: regular_user_provider
+
+            json_login:
+                check_path: api.login_check
+
+            form_login:
+                login_path: web.login
+                check_path: web.login_check
+                default_target_path: web.account
+
+            logout:
+                path: default.logout
+                target: web.login
+
+            entry_point: form_login
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # allow unauthenticated users to access the login form
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/register, roles: PUBLIC_ACCESS }
+
+        # but require authentication for all other admin routes
+#        - { path: '^/admin', roles: [PUBLIC_ACCESS] }
+#        - { path: '^/admin', roles: [ROLE_EDITOR] }
+
+#        - { path: '^/([a-z]{2}-[a-z]{2})/account/dealer/requests', roles: [ROLE_DEALER_ADMIN, ROLE_DEALER_EMPLOYEE] }
+#        - { path: '^/([a-z]{2}-[a-z]{2})/account/dealer', roles: [ROLE_DEALER_ADMIN] }
+#
+#        - { path: '^/([a-z]{2}-[a-z]{2})/account', roles: [ROLE_USER] }
+#
+#        - { path: '^/api/users/me/wish-lists', roles: [ROLE_USER] }
+#        - { path: '^/api/users/me/profile', roles: [ROLE_USER] }
+
+#when@test:
+#    security:
+#        password_hashers:
+#            # By default, password hashers are resource intensive and take time. This is
+#            # important to generate secure password hashes. In tests however, secure hashes
+#            # are not important, waste resources and increase test times. The following
+#            # reduces the work factor to the lowest possible values.
+#            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+#                algorithm: auto
+#                cost: 4 # Lowest possible value for bcrypt
+#                time_cost: 3 # Lowest possible value for argon
+#                memory_cost: 10 # Lowest possible value for argon

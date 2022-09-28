@@ -1,0 +1,9 @@
+danaki_doctrine_enum_type:
+    types:
+        App\Contracts\Dictionary\WhereToBuy: ~
+        App\Contracts\Dictionary\DecisionAction: ~
+        App\Contracts\Dictionary\SlideProductSetPosition: ~
+        App\Contracts\Dictionary\ProductSetProductType: ~
+        App\Contracts\Dictionary\FileMimeType: ~
+        App\Contracts\Dictionary\DealerRequestStatus: ~
+        App\Contracts\Dictionary\DescriptivePanelPage: ~

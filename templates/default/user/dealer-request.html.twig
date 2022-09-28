@@ -1,0 +1,14 @@
+{% extends 'layout.user.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/user-dealer-request') }}
+    {{ encore_entry_link_tags('js/pages/user-dealer-request') }}
+{% endblock %}
+
+{% block userJavascripts %}
+    {{ encore_entry_script_tags('js/pages/user-dealer-request') }}
+{% endblock %}
+
+{% block content %}
+    <user-dealer-request-page str-is-archived-requests-page="{{ isArchivedRequestsPage }}"/>
+{% endblock %}

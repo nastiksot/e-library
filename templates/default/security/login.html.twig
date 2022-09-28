@@ -1,0 +1,51 @@
+{% extends 'layout.main.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/login') }}
+    {{ encore_entry_link_tags('js/pages/login') }}
+{% endblock %}
+
+{% block javascripts %}
+    {% set isProdEnv = app.environment is same as 'prod' %}
+    <script type="text/javascript">
+        window.tc_vars = {
+            env_brand: "SOMFY",
+            env_channel: "B2C",
+            env_template: "myaccount_login",
+            env_section: "SmartHome_selector",
+            env_platform: "Symfony_5.6",
+            env_work: "{{ isProdEnv ? 'prod' : 'preprod' }}",
+            env_currency: "EUR",
+            page_cat_name: "none",
+            page_name: "{{ (title is defined and title) ? title : 'GENERAL.DEFAULT_HTML_TITLE'|trans }}"
+        }
+    </script>
+
+    {% if isProdEnv %}
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/tc_Somfy_20.js"></script>
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/tc_Somfy_33.js"></script>
+    {% else %}
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/uat/tc_Somfy_20.js"></script>
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/uat/tc_Somfy_33.js"></script>
+    {% endif %}
+
+    {{ encore_entry_script_tags('js/pages/login') }}
+{% endblock %}
+
+{% block content %}
+    {% set errorMessage = (error is defined and error is not null)
+        ? error.message|trans(error.messageData, 'security', app.request.locale) | raw
+        : null %}
+
+    <login-page last-username="{{ last_username }}"
+                error="{{ errorMessage }}">
+    </login-page>
+{% endblock %}
+
+{% block tcBodyBottom %}
+    {% if app.environment is same as 'prod' %}
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/tc_Somfy_22.js"></script>
+    {% else %}
+        <script type="text/javascript" src="//cdn.tagcommander.com/3887/uat/tc_Somfy_22.js"></script>
+    {% endif %}
+{% endblock %}

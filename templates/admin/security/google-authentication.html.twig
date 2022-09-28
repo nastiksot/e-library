@@ -1,0 +1,53 @@
+{% extends "admin/security/login.html.twig" %}
+
+{% block body %}
+    <div class="widget authentication-widget">
+        <div class="widget-header">
+            <div class="logo"></div>
+        </div>
+        <div class="widget-body">
+
+            {% if validate %}
+                <div class="title">
+                    {{ 'SECURITY.TWO_STEP.VALIDATE'|trans({}, adminTranslationDomain, adminLocale) }}
+                </div>
+            {% else %}
+                <div class="title">
+                    {{ 'SECURITY.TWO_STEP.TITLE'|trans({}, adminTranslationDomain, adminLocale) }}
+                </div>
+
+                <p>{{ 'SECURITY.TWO_STEP.INSTALL'|trans({}, adminTranslationDomain, adminLocale) }}</p>
+                <p class="app-buttons">
+                    <a target="_blank"
+                       href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">
+                        <img width="150px" src="{{ asset('assets/images/stores/google-play.png') }}" alt="Google Play"/>
+                    </a>
+
+                    <a target="_blank" href="https://itunes.apple.com/app/google-authenticator/id388497605">
+                        <img width="150px" src="{{ asset('assets/images/stores/app-store.png') }}" alt="App Store">
+                    </a>
+                </p>
+
+                <p>{{ 'SECURITY.TWO_STEP.SCAN_CODE'|trans({}, adminTranslationDomain, adminLocale) }}</p>
+
+                <p><img src="{{ qrCodeImg }}" alt="QR Code"/></p>
+            {% endif %}
+
+            <p><label for="confirm-code" class="input-label">{{ 'SECURITY.TWO_STEP.ENTER_CODE'|trans({}, adminTranslationDomain, adminLocale) }}</label></p>
+
+            {% if error %}
+                <div class="alert">
+                    {{ error|trans({}, adminTranslationDomain, adminLocale) }}
+                </div>
+            {% endif %}
+
+            <form method="post">
+                <input type="text" id="confirm-code" name="_code" class="confirm-code" placeholder="Confirmation Code"
+                       autofocus autocomplete='off'/>
+                <div class="text-right">
+                    <button type="submit">{{ 'SECURITY.TWO_STEP.CONFIRM'|trans({}, adminTranslationDomain, adminLocale) }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

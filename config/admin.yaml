@@ -1,0 +1,11 @@
+imports:
+    - { resource: admin/user.yaml }
+    - { resource: admin/book.yaml }
+    - { resource: admin/settings.yaml }
+#    - { resource: admin/product_catalog.yaml }
+#    - { resource: admin/page.yaml }
+#    - { resource: admin/menu.yaml }
+#    - { resource: admin/settings.yaml }
+#    - { resource: admin/mail-template.yaml }
+#    - { resource: admin/user.yaml }
+#    - { resource: admin/system.yaml }

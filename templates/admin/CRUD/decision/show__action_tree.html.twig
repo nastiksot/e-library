@@ -1,0 +1,53 @@
+{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+{# @var \App\Admin\DecisionAdmin admin #}
+{# @var \App\Entity\Decision object #}
+{# @var \App\Entity\Decision decision #}
+{# @var array entry #}
+{# @var array sub #}
+
+{% block field %}
+
+    {{ encore_entry_link_tags('css/admin-decision-tree') }}
+
+    {% set decisionsTree = field_description.options.data.decisionsTree %}
+    <div id="decision-tree" class="tf-tree tf-gap-lg">
+        <ul>
+            <li>
+                {% set decision = object %}
+                {% set successClass = decision.final and decision.positive ? 'btn-success' : null %}
+                {% set negativeClass = decision.final and not decision.positive ? 'btn-danger' : null %}
+                {% set decisionUrl = admin.generateObjectUrl('edit', decision) %}
+
+                <span class="tf-nc {{ successClass }} {{ negativeClass }}">
+                    <a href="{{ decisionUrl }}" class="btn btn-sm {{ successClass }} {{ negativeClass }}">
+                        {{ decision.translate.question }}
+                    </a>
+                </span>
+                <ul>
+                    {% for entry in decisionsTree %}
+                        {% set decision = entry.decision %}
+                        {% set sub = entry.sub %}
+                        <li>
+                            {% set successClass = decision.final and decision.positive ? 'btn-success' : null %}
+                            {% set negativeClass = decision.final and not decision.positive ? 'btn-danger' : null %}
+                            {% set decisionUrl = admin.generateChildEditUrl(admin.getChild('admin.decision.children'), decision.parentDecision, decision) %}
+
+                            <span class="tf-nc {{ successClass }} {{ negativeClass }}">
+                                <a href="{{ decisionUrl }}" class="btn btn-sm {{ successClass }} {{ negativeClass }}">
+                                    {{ decision.translate.answer }}
+                                </a>
+                            </span>
+
+                            {% if sub is not empty %}
+                                {% include 'admin/CRUD/decision/_tree_sub.html.twig' with {'sub': sub} %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+

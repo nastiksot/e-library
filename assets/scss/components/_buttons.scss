@@ -1,0 +1,48 @@
+body{
+    .v-btn:not(.v-btn--round).v-size--default{
+        height: 40px;
+    }
+
+    .v-btn{
+        font-size: 16px!important;
+        text-transform: none;
+        letter-spacing: normal;
+        font-family: $fontSomfySansRegular;
+
+        .v-icon{
+            margin-right: 10px;
+        }
+
+        &--icon{
+            .v-icon{
+                margin-right: 0;
+            }
+        }
+
+        &.blue{
+            color: #fff;
+            background: #2b4560!important;
+        }
+
+        &.orange{
+            color: #fff;
+            background: #fcac22!important;
+
+            .v-icon{
+                font-size: 18px;
+            }
+        }
+    }
+
+    .theme--light{
+        &.v-btn{
+            &.v-btn--disabled{
+                color: #fff!important;
+
+                &.v-btn--has-bg{
+                    background: #cacfd5!important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{% if menu is not empty %}
+    <ul class="footer__bottom--menu">
+        {% for item in menu %}
+            {% set link = getLink(item, 1, app.request.locale) %}
+            {% set linkAttr = getLinkAttr(item) %}
+            <li><a href="{{ link }}" {{ linkAttr | raw }}>{{ item.translate.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

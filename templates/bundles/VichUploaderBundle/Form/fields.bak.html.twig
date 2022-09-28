@@ -1,0 +1,47 @@
+{% extends '@!VichUploader/Form/fields.html.twig' %}
+
+{% block vich_image_widget %}
+    {% apply spaceless %}
+        <div class="vich-image">
+            {{ form_widget(form.file) }}
+
+            {% if form.delete is defined %}
+                {{ form_row(form.delete) }}
+            {% endif %}
+
+            {% if image_uri %}
+                {% set imageType = getImageType(object) %}
+
+                {% set imageUrlThumbnail = url('web.image', {'type' : imageType, 'size' : '400x400', 'crop' : 'resize', 'name' : basename(image_uri)}) %}
+                {% set imageUrlDownload = url('web.image', {'type' : imageType, 'size' : '9999x9999', 'crop' : 'resize', 'name' : basename(image_uri)}) %}
+
+                <a href="{{ imageUrlDownload }}" target="_blank">
+                    <img src="{{ imageUrlThumbnail }}" alt=""/>
+                </a>
+            {% elseif attr.propertyFileName is defined and attr.propertyFileMimeType is defined %}
+
+                {% if (attribute(object, attr.propertyFileName) is defined) and (attribute(object, attr.propertyFileMimeType) is defined) %}
+
+                    {% set fileName = attribute(object, attr.propertyFileName) %}
+
+                    {% if fileName %}
+                        {% set fileMimeType = attribute(object, attr.propertyFileMimeType) %}
+                        {% set fileType = getFileType(object) %}
+                        {% set fileUrl  = url('web.media.original', {'type' : fileType, 'name' : fileName }) %}
+
+                        <a href="{{ fileUrl }}" target="_blank">
+
+                            {% if (fileMimeType == 'image') %}
+                                {% set imageUrlThumbnail = url('web.file', {'type' : fileType, 'size' : '400x400', 'crop' : 'resize', 'name' : fileName}) %}
+                                <img src="{{ imageUrlThumbnail }}" alt=""/>
+                            {% else %}
+                                {{ fileName }}
+                            {% endif %}
+
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endapply %}
+{% endblock %}

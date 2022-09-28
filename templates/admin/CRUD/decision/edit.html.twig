@@ -1,0 +1,50 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# {% for jsFile in encore_entry_js_files('js/admin/decision-edit') %} #}
+    {# <script src="{{- preload(asset(jsFile)) -}}"></script> #}
+    {# {% endfor %} #}
+    <script>
+        $(document).ready(() => {
+            let $final = $('.decision-final');
+            let $positive = $('.decision-positive');
+            let $action = $('.decision-action');
+            let $products = $('.decision-products');
+
+            $final.on('change', () => {
+                if (Number($final.val()) === 0) {
+                    $positive.parents('.form-group:first').hide();
+                    $action.parents('.form-group:first').hide();
+                    $products.parents('.form-group:first').hide();
+                } else {
+
+                    if (Number($positive.val()) === 1) {
+                        $action.parents('.form-group:first').show();
+                    }
+
+                    if (String($action.val()) === 'replace_main') {
+                        $products.parents('.form-group:first').show();
+                    }
+                }
+            });
+
+            $positive.on('change', () => {
+                if (Number($positive.val()) === 0) {
+                    $action.parents('.form-group:first').hide();
+                    $products.parents('.form-group:first').hide();
+                } else {
+                    if (String($action.val()) === 'replace_main') {
+                        $products.parents('.form-group:first').show();
+                    }
+                }
+            });
+
+            setTimeout(() => {
+                $positive.trigger('change'); // is positive at first
+                $final.trigger('change'); // the main widget at last
+            }, 100);
+
+        });
+    </script>
+{% endblock %}

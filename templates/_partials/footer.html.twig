@@ -1,0 +1,24 @@
+<div class="footer">
+
+    <footer-partners>
+    </footer-partners>
+
+    <div class="footer__questions">
+        <div class="centered">
+            <h2 class="footer__questions--title">Haben Sie eine Frage?</h2>
+
+            {{ renderBottomMenu() }}
+
+            <social-media></social-media>
+        </div>
+    </div>
+
+    <div class="centered">
+        <div class="footer__bottom">
+            <div class="footer__bottom--copy">
+                {% include '_partials/footer-copyright.html.twig' %}
+            </div>
+            {{ renderFooterMenu() }}
+        </div>
+    </div>
+</div>

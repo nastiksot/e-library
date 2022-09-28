@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% set locale = localeFormat(app.request.locale) %}
+<html lang="{{ locale }}"
+      data-dealer-uid="{{ dealer_uid is defined and dealer_uid is not null ? dealer_uid.toRfc4122 : null }}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ (title is defined and title) ? title : 'GENERAL.DEFAULT_HTML_TITLE'|trans }}{% endblock %}</title>
+
+        {% if locale == 'de_DE' %}
+            <link rel="alternate" href="{{ url(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en_GB'})) }}" hreflang="en-gb">
+        {% else %}
+            <link rel="alternate" href="{{ url(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'de_DE'})) }}" hreflang="de-de">
+        {% endif %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

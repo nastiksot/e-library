@@ -1,0 +1,39 @@
+fm_elfinder:
+    instances:
+        default:
+            locale: '%adminLocale%'
+            editor: 'ckeditor'
+            fullscreen: true
+            theme: 'base' # jquery theme, default is 'smoothness'
+            relative_path: true
+            connector:
+                debug: '%kernel.debug%'
+                roots:
+                    uploads:
+                        show_hidden: false
+                        driver: 'LocalFileSystem'
+                        path: 'upload'
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'video/mp4', 'application/pdf']
+                        upload_deny: ['all']
+                        upload_max_size: '64M'
+                        #dirMode:  0777
+                        fileMode: '0666'
+                        #attributes: example of setting attributes permission
+                        #    - { pattern: '/(.*?)/', read: true, write: false, locked: true }
+        form:
+            locale: '%adminLocale%'
+            editor: 'form'
+            fullscreen: true
+            theme: 'base'
+            relative_path: true
+            connector:
+                debug: '%kernel.debug%'
+                roots:
+                    uploads:
+                        show_hidden: false
+                        driver: 'LocalFileSystem'
+                        path: 'upload'
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
+                        upload_deny: ['all']
+                        upload_max_size: '64M'
+                        fileMode: '0666'

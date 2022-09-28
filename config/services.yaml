@@ -1,0 +1,87 @@
+parameters:
+    timezone: '%env(TIMEZONE)%'
+    defaultLocale: en_GB
+    adminTranslationDomain: 'SonataAdminBundle'
+    adminLocale: en_GB
+    dataDir: '%kernel.project_dir%/var/data'
+
+imports:
+    - { resource: admin.yaml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+        bind:
+            string $projectDir: "%kernel.project_dir%"
+            string $cacheDir: "%kernel.cache_dir%"
+            string $defaultLocale: "%defaultLocale%"
+            string $adminLocale: "%adminLocale%"
+            string $adminTranslationDomain: "%adminTranslationDomain%"
+            string $dataDir: '%dataDir%'
+            bool $debug: '%kernel.debug%'
+
+    _instanceof:
+        App\EventListener\Doctrine\EntityListenerInterface:
+            tags:
+                - { name: doctrine.orm.entity_listener, lazy: true }
+
+        App\CQ\Command\CommandHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        App\CQ\Query\QueryHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+
+        App\CQ\Event\EventHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Contracts/'
+            - '../src/DTO/'
+            - '../src/Entity/'
+            - '../src/Enum/'
+            - '../src/Kernel.php'
+
+#    App\Loader\DatabaseTranslationLoader:
+#        tags:
+#            - { name: translation.loader, alias: db }
+
+#    App\Routing\LocaleAwareRouteProvider:
+#        arguments:
+#            $annotatedLoader: '@routing.loader.annotation'
+#            $paths: ['../src/Controller/Web']
+
+#    App\Routing\LocaleAwareRouteGenerator:
+#        arguments:
+#            $provider: '@App\Routing\LocaleAwareRouteProvider'
+
+    App\Controller\RouteController:
+        arguments:
+            $exposedRoutesExtractor: '@fos_js_routing.extractor'
+
+    Intervention\Image\ImageManager:
+        class: Intervention\Image\ImageManager
+        factory: [ App\Service\ImageManager\ImageManagerFactory, 'create' ]
+
+    Sonata\GoogleAuthenticator\GoogleAuthenticator:
+        class: Sonata\GoogleAuthenticator\GoogleAuthenticator

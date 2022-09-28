@@ -1,0 +1,29 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags('css/admin') }}
+{% endblock %}
+
+{% block logo %}
+    {% apply spaceless %}
+        <a class="logo" href="{{ path('sonata_admin_dashboard') }}"></a>
+    {% endapply %}
+{% endblock %}
+
+{% block sonata_top_nav_menu %}
+    {% apply spaceless %}
+        <a class="exit-btn" href="{{ path('admin.logout') }}">
+            <i class="fa fa-chain-broken" aria-hidden="true">{{ 'SECURITY.LOGOUT'|trans({}, adminTranslationDomain) }}</i>
+        </a>
+    {% endapply %}
+{% endblock %}
+
+{% block side_bar_after_nav %}
+{% endblock %}
+
+{#{% block javascripts %}#}
+{#    {{ parent() }}#}
+{#    {{ encore_entry_script_tags('js/admin') }}#}
+{#{% endblock %}#}

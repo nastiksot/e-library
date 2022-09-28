@@ -1,0 +1,16 @@
+{% extends '@SonataAdmin/CRUD/base_show.html.twig' %}
+
+{# {% block stylesheets %} #}
+{# {{ parent() }} #}
+{# {% endblock %} #}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# {% for jsFile in encore_entry_js_files('js/admin/decision-show') %} #}
+    {# <script src="{{- preload(asset(jsFile)) -}}"></script> #}
+    {# {% endfor %} #}
+    <script>
+        $(document).ready(() => {
+        });
+    </script>
+{% endblock %}

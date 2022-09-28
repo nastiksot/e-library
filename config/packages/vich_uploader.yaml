@@ -1,0 +1,70 @@
+vich_uploader:
+    db_driver: orm
+    twig:       true        # set to false to disable twig integration (requires templating)
+    form:       true        # set to false to disable form integration
+    storage:    file_system
+
+    mappings:
+        default:
+            uri_prefix:         /image/default/resize/9999x9999
+            upload_destination: '%dataDir%/images'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        page:
+            uri_prefix:         /image/page/resize/9999x9999
+            upload_destination: '%dataDir%/images/page'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        product:
+            uri_prefix:         /image/product/resize/9999x9999
+            upload_destination: '%dataDir%/images/product'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        product_set:
+            uri_prefix:         /image/product_set/resize/9999x9999
+            upload_destination: '%dataDir%/images/product_set'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        youtube:
+            uri_prefix:         /image/youtube/resize/9999x9999
+            upload_destination: '%dataDir%/images/youtube'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        slider:
+            uri_prefix:         /file/slider/resize/9999x9999
+            upload_destination: '%dataDir%/files/slider'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true
+        partner:
+            uri_prefix:         /image/partner/resize/9999x9999
+            upload_destination: '%dataDir%/images/partner'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        dealer:
+            uri_prefix:         /image/dealer/resize/9999x9999
+            upload_destination: '%dataDir%/images/dealer'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        descriptive_panel:
+            uri_prefix:         /file/descriptive_panel/resize/9999x9999
+            upload_destination: '%dataDir%/descriptive_panel/slider'
+            namer:              vich_uploader.namer_uniqid
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true

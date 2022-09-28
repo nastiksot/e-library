@@ -1,0 +1,23 @@
+{# @var \App\Admin\DecisionAdmin admin #}
+{# @var \App\Admin\DecisionAdmin child #}
+{# @var \App\Entity\Decision object #}
+
+{% if admin.hasRoute('list') and admin.rootAncestor.children %}
+    {% for child in admin.rootAncestor.children %}
+        {% if child is not null %}
+            {% if object.final %}
+                {% set btnClass = object.positive ? 'btn-success' : 'btn-danger' %}
+                {% set btnLabel = object.positive ? 'DECISION_ENTITY.STEP.POSITIVE' : 'DECISION_ENTITY.STEP.NEGATIVE' %}
+                <a href="javascript:void(0)"
+                   class="btn btn-sm {{ btnClass}} child-link">
+                    <i class="fa fa-hourglass-end"></i> {{ btnLabel|trans({}, 'SonataAdminBundle') }}
+                </a>
+            {% else %}
+                <a href="{{ admin.generateChildListUrl(child, object) }}"
+                   class="btn btn-sm btn-default child-link">
+                    <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+                </a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

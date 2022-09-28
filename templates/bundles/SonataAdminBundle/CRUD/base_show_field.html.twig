@@ -1,0 +1,12 @@
+{% extends '@!SonataAdmin/CRUD/base_show_field.html.twig' %}
+
+{% block field_value %}
+    {% if field_description.type == 'date' or field_description.type == 'datetime' and value is not empty %}
+        {% set data_value = value.format('Y-m-d H:i:s') %}
+    {% elseif field_description.type == 'boolean' and value is empty %}
+        {% set data_value = 0 %}
+    {% else %}
+        {% set data_value = value %}
+    {% endif %}
+    {% if field_description.options.safe %}{{ data_value | raw }}{% else %}{{ data_value | nl2br }}{% endif %}
+{% endblock %}

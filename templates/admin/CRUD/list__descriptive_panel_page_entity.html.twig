@@ -1,0 +1,17 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+{# @var \App\Admin\DescriptivePanelAdmin admin #}
+{# @var \App\Entity\DescriptivePanel object  #}
+
+{% block field %}
+    {% if object.pages %}
+        {% set value = '' %}
+
+        {% for page in object.pages %}
+            {% set value = value ~ page ~ ', ' %}
+        {% endfor %}
+
+        {% set value = value|trim(', ') %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

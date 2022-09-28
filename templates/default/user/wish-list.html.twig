@@ -1,0 +1,14 @@
+{% extends 'layout.user.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/user-wish-list') }}
+    {{ encore_entry_link_tags('js/pages/user-wish-list') }}
+{% endblock %}
+
+{% block userJavascripts %}
+    {{ encore_entry_script_tags('js/pages/user-wish-list') }}
+{% endblock %}
+
+{% block content %}
+    <user-wish-list-page></user-wish-list-page>
+{% endblock %}

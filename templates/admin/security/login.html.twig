@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block metaTitle %}
+    {{ 'SECURITY.TITLE'|trans({}, adminTranslationDomain, adminLocale) }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{- preload(asset('assets/css/admin.css')) -}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="widget">
+        <div class="widget-header">
+            <div class="logo"></div>
+        </div>
+        <div class="widget-body">
+            <div class="title">
+                {{ 'SECURITY.TITLE'|trans({}, adminTranslationDomain, adminLocale) }}
+            </div>
+            {% if error is defined and error is not null %}
+                <div class="alert">
+                    {{ error.message|trans(error.messageData, 'security', adminLocale) | raw }}
+                </div>
+            {% endif %}
+            <form action="{{ path('admin.login_check') }}" method="post">
+                <input type="text" id="username" name="_username" placeholder="{{ 'USER_ENTITY.LABEL.EMAIL'|trans({}, adminTranslationDomain, adminLocale) }}" value="{{ last_username is defined ? last_username : '' }}" autofocus />
+                <input type="password" id="password" name="_password" placeholder="Password" autocomplete="new-password"/>
+                <div class="text-right">
+                    <button type="submit">{{ 'SECURITY.LOGIN'|trans({}, adminTranslationDomain, adminLocale) }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

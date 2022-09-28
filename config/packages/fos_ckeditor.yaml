@@ -1,0 +1,89 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+fos_ck_editor:
+    configs:
+        basic_config:
+            language: '%adminLocale%'
+            toolbar: toolbarPage
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: "elfinder"
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+#            extraPlugins: 'youtube,iframe,image2'
+            autoParagraph: false
+        advanced_config:
+            language: '%adminLocale%'
+            toolbar: toolbarPage
+            uiColor: "#ffffff"
+            height: 700px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: "elfinder"
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+#            extraPlugins: 'youtube,iframe,image2'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: false
+        #            startupMode: 'source'
+        simplified_config:
+            language: '%adminLocale%'
+            toolbar: toolbarSimplie
+            removeButtons: 'About'
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: "elfinder"
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: false
+            enterMode: CKEDITOR.ENTER_BR
+        simplified_config_p:
+            language: '%adminLocale%'
+            toolbar: toolbarSimplie
+            removeButtons: 'About'
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: "elfinder"
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: false
+#    plugins:
+#        youtube:
+#            path: "assets/ckeditor-plugins/youtube/"
+#            filename: "plugin.js"
+#        iframe:
+#            path: "assets/ckeditor-plugins/iframe/"
+#            filename: "plugin.js"
+#        image2:
+#            path: "assets/ckeditor-plugins/image2/"
+#            filename: "plugin.js"
+    toolbars:
+        configs:
+            toolbarPage: [ "@line1", "/", "@line2" ]
+            toolbarTestimonials: [ "@line3" ]
+            toolbarSimplie: ["@simple"]
+        items:
+            line1: ['Templates', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' , '-', 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'Link', 'Unlink', 'Anchor', '-', 'Image', 'Table', 'HorizontalRule', 'SpecialChar', '-', 'PageBreak', 'CreateDiv', 'ShowBlocks', '-', 'Maximize', '-', 'Source']
+            line2: ['Format','Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote',  '-', '-', 'TextColor', 'BGColor',  '-', 'RemoveFormat']
+            line3: ['Source', '-', 'Templates', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote',  '-', '-', 'RemoveFormat']
+
+            document: [ 'Source','-','Templates' ]
+            editing: [ 'Find','Replace','-','SelectAll','-','SpellChecker']
+            forms: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ]
+            basicstyles: [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ]
+            simple: ['Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Link', 'Unlink', '-', 'Source']
+            paragraph: [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ]
+            links: [ 'Link', 'Unlink', 'Anchor' ]
+            insert: [ 'Image','Table','HorizontalRule','SpecialChar','PageBreak' ]
+            styles: [ 'Format','Font','FontSize' ]
+            colors: [ 'TextColor','BGColor' ]
+            tools: [ 'Maximize', 'ShowBlocks','-','About' ]
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

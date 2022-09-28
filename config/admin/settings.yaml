@@ -1,0 +1,54 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+#    admin.message:
+#        class: App\Admin\MessageAdmin
+#        calls:
+#            - [ setBaseRouteName,       ['admin_message'] ]
+#            - [ setBaseRoutePattern,    ['message'] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\Message', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.MESSAGE }
+#
+#    admin.country:
+#        class: App\Admin\CountryAdmin
+#        calls:
+#            - [ setBaseRouteName,       ['admin_country'] ]
+#            - [ setBaseRoutePattern,    ['country'] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\Country', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.COUNTRY }
+#
+#    admin.language:
+#        class: App\Admin\LanguageAdmin
+#        arguments: [~, App\Entity\Language, ~]
+#        calls:
+#            - [ setBaseRouteName,       ['admin_language'] ]
+#            - [ setBaseRoutePattern,    ['language'] ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.LANGUAGE }
+#
+#    admin.partner:
+#        class: App\Admin\PartnerAdmin
+#        calls:
+#            - [ setBaseRouteName,       ['admin_partner'] ]
+#            - [ setBaseRoutePattern,    ['partner'] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\Partner', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.PARTNER }
+
+    admin.settings.general:
+        class: App\Admin\Settings\EditGeneralSettingsAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_general_settings' ] ]
+            - [ setBaseRoutePattern,    ['general-settings' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Settings\GeneralSettings', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.SETTINGS.GENERAL}
+
+#    admin.descriptive_panel:
+#        class: App\Admin\DescriptivePanelAdmin
+#        calls:
+#            - [ setBaseRouteName,       ['admin_descriptive_panel'] ]
+#            - [ setBaseRoutePattern,    ['descriptive-panel'] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\DescriptivePanel', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.DESCRIPTIVE_PANEL }

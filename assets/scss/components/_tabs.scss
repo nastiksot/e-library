@@ -1,0 +1,13 @@
+.v-tabs{
+    .v-tab{
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 16px;
+        color: #1a1b1c!important;
+        font-family: $fontSomfySansLight;
+
+        &--active{
+            color: #fcac22!important;
+        }
+    }
+}

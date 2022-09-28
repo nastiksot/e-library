@@ -1,0 +1,686 @@
+MENU_GROUP:
+#    PRODUCT_CATALOG:    Product Catalog
+#    CONTENT:    CMS
+#    MENU:       Menu
+    SETTINGS:    Settings
+#    MAIL_TEMPLATE: Mail Templates
+    USER:       Users
+#    SYSTEM:     System
+
+MENU:
+#    FILTER_GROUP: Filters
+#    FILTER:       Filters
+#    PRODUCT:      Products
+#    USE_CASE:     Use Cases
+#    CHILD:        Sub Entry
+#    DECISION:     Decision Tree
+#    DECISION_CHILD: Sub Decision
+#    PAGE:
+#        COMMON: Common pages
+#        SYSTEM: System pages
+#    MENU:
+#        FOOTER: Footer Menu
+#        BOTTOM: Bottom Menu
+#    MESSAGE: Translations
+#    COUNTRY: Countries
+#    LANGUAGE: Languagies
+    USER_ADMIN:     Admin Users
+#    USER_PORTAL:    Portal Users
+#    DEALER:         Dealers
+#    DEALER_USER:    Users
+    SETTINGS:
+        GENERAL:    General Settings
+#    MAIL_TEMPLATE:
+#        REGISTER:               Register E-Mail
+#        REGISTER_NOTIFICATION:  Register Notification E-Mail
+#        FORGOT_PASSWORD:        Forgot Password E-Mail
+#        DEALER_REQUEST:         Dealer Request E-Mail
+    SYSTEM:
+        MAIL_LOG:   Mail Log
+        #CRON_COMMAND:   'CronJob Commands'
+    SLIDER: Day With Somfy
+    SLIDE:  Slides
+    PARTNER: Partners
+    DESCRIPTIVE_PANEL: Descriptive Panels
+
+BREADCRUMB:
+    MENU_FILTER_GROUP:
+        FilterGroup_list: Filters Groups
+        FilterGroup_create: Create
+    MENU_FILTER:
+        Filter_list: Filters
+        Filter_create: Create
+    MENU_USER_ADMIN:
+        User_list: Admin Users
+        User_create: Create
+    MENU_PRODUCT:
+        Product_list: Products
+        Product_create: Create
+    MENU_USE_CASE:
+        ProductSet_list: Use Cases
+        ProductSet_create: Create
+    MENU_DECISION:
+        Decision_list: Decision Tree
+        Decision_create: Create
+    MENU_DECISION_CHILD:
+        Decision_list: Sub Entry
+        Decision_create: Create
+    MENU_USER_PORTAL:
+        User_list: Portal Users
+        User_create: Create
+    MENU_PAGE_COMMON:
+        CommonPage_list: Common pages
+        CommonPage_create: Create
+    MENU_PAGE_SYSTEM:
+        SystemPage_list: System pages
+        SystemPage_create: Create
+    MENU_MENU_BOTTOM:
+        BottomMenu_list: Bottom Menu
+        BottomMenu_create: Create
+    MENU_MENU_FOOTER:
+        FooterMenu_list: Footer Menu
+        FooterMenu_create: Create
+    MENU_MESSAGE:
+        Message_list: Translations
+        Message_create: Create
+    MENU_COUNTRY:
+        Country_list: Countries
+        Country_create: Create
+    MENU_LANGUAGE:
+        Language_list: Languages
+        Language_create: Create
+    MENU_SYSTEM_MAIL_LOG:
+        MailLog_list: Mail Log
+    MENU_MAIL_TEMPLATE_REGISTER:
+        RegisterMailTemplate_list: Mail Templates
+    MENU_MAIL_TEMPLATE_REGISTER_NOTIFICATION:
+        RegisterNotificationMailTemplate_list: Mail Templates
+    MENU_MAIL_TEMPLATE_FORGOT_PASSWORD:
+        ForgotPasswordMailTemplate_list: Mail Templates
+    MENU_MAIL_TEMPLATE_DEALER_REQUEST:
+        DealerRequestMailTemplate_list: Mail Templates
+    MENU_SETTINGS_GENERAL:
+        GeneralSettings_list: Site Settings
+    MENU_SLIDER:
+        Slider_list: Day With Somfy
+        Slider_create: Create
+    MENU_SLIDE:
+        Slide_list: Slides
+        Slide_create: Create
+    MENU_PARTNER:
+        Partner_list: Partners
+        Partner_create: Create
+    MENU_DESCRIPTIVE_PANEL:
+        DescriptivePanel_list: Descriptive Panels
+    MENU_DEALER:
+        Dealer_list: Dealers
+        Dealer_create: Create
+    MENU_DEALER_USER:
+        User_list:   Users
+        User_create: Create
+
+CHOICE:
+    YES:        'Yes'
+    NO:         'No'
+    ALWAYS:     'Always'
+    HOURLY:     'Hourly'
+    DAILY:      'Daily'
+    WEEKLY:     'Weekly'
+    MONTHLY:    'Monthly'
+    YEARLY:     'Yearly'
+    NEVER:      'Never'
+
+FIELD:
+    YES_NO:     'Choice Yes/No'
+    CHOICE:     'Choice'
+    ACTIVE:     'Is Active?'
+    TITLE:      'Title'
+    CONTENT:    'Content'
+    CREATED_AT: 'Created At'
+    UPDATED_AT: 'Updated At'
+    MOVE:       'Move'
+    TRANSLATIONS: 'Translations'
+    POSITION:   'Position'
+    IMAGE:
+        LABEL:      'Image'
+        HELP:       'Image in max size will be resized to the best fit'
+        DOWNLOAD:   'Download'
+    LINK_ENTITY:
+        TYPE:       'Link Type'
+        PAGE:       'Page'
+        PAGE_HELP:  'Select a Page'
+        LINK:       'Link'
+        LINK_HELP:  'Absolute (http: // ...) or Relative Link (/ example-slug)'
+        LINK_TITLE: 'Link Title'
+        NO_FOLLOW:  'No Follow?'
+        TARGET:     'Target'
+        CHOICE:
+            NONE:   '-- None --'
+            LINK:   'External URL'
+            PAGE:   'Page'
+            TOP:    'Same Window'
+            BLANK:  'New Window'
+    ITEMS_LIST_ENTITY:
+        TYPE:   'List Type'
+        LIMIT:  'Limit'
+        CHOICE:
+            ALL:        'All'
+            LAST:       'Last'
+            RAND:       'Rand'
+            PAGINATED:  'Paginated'
+    YOUTUBE_VIDEO:
+        ACTIVE:         'Is Active Youtube Video?'
+        ACTIVE_HELP:    ''
+        TITLE:         'Video Title'
+        TITLE_HELP:    ''
+        ID:         'Video ID'
+        ID_HELP:    'Youtube Video ID'
+        IMAGE:      'Video Thumbnail'
+        IMAGE_HELP: 'Image in max size will be resized to the best fit'
+
+
+SECURITY:
+    TITLE:  'Login'
+    LOGIN:  'Login'
+    LOGOUT: 'Logout'
+    ERROR:
+        NO_CREDENTIALS: 'You have entered wrong data. <br>Please try again.'
+        USER_NOT_FOUND: 'User "{{ username }}" not found.'
+        WRONG_PASSWORD: 'You have entered wrong pasword. <br>Please try again.'
+        USER_LOCKED:    'User not allowed to login.'
+    TWO_STEP:
+        TITLE:          'Two Step Authentication'
+        VALIDATE:       'Validate code'
+        INSTALL:        'Install "Google Authenticator" on your smartphone.'
+        SCAN_CODE:      'Scan QR code using your mobile application'
+        ENTER_CODE:     'Enter the verification code generated by your mobile application'
+        CODE_INVALID:   'Validation code you have entered is wrong'
+        CONFIRM:        'Confirm'
+
+
+CRUD:
+    CRON_COMMAND:
+        SECTION:
+            LIST:     'CronJob Commands List'
+            RESULTS:  'Run Result'
+        FLASH:
+            ERROR_RUN:   'Unable to run "%NAME%" CronJob.'
+            SUCCESS_RUN: 'CronJob "%NAME%" was successfully run.'
+        LABEL:
+            CODE:     'Result Code'
+            MESSAGE:  'Message'
+            OUTPUT:   'Output'
+
+USER_ENTITY:
+    SECTION:
+        MAIN:   'User Data'
+        PORTAL: 'Portal Data'
+        DEALER: 'Dealer User Data'
+    LABEL:
+        ID:    'ID'
+        EMAIL: 'E-Mail'
+        PASSWORD:           'Password'
+        PASSWORD_REPEAT:    'Repeat Password '
+        ROLES:  'Role'
+        GOOGLE_AUTHENTICATOR_ENABLED:   'Enable Two-Step Authentication?'
+        GOOGLE_AUTHENTICATOR_TOKEN:     'Two-Step Authentication Token'
+        ACTIVE:  'User Is Active?'
+        FIRST_NAME: 'First Name'
+        LAST_NAME: 'Last Name'
+        ACCEPT_NEWS: 'Accept News?'
+        ACCEPT_PROCESS_PERSONAL_DATA: 'Accept Process Personal Data?'
+    HELP:
+        EMAIL:      ''
+        PASSWORD:   ''
+        PASSWORD_REPEAT: ''
+        ROLES:  ''
+        GOOGLE_AUTHENTICATOR_ENABLED: ''
+        GOOGLE_AUTHENTICATOR_TOKEN: ''
+        ACTIVE:  ''
+        FIRST_NAME: ''
+        LAST_NAME: ''
+        ACCEPT_NEWS: ''
+        ACCEPT_PROCESS_PERSONAL_DATA: ''
+    ERROR:
+        EMAIL_TAKEN:        'E-Mail "%EMAIL%" already registered'
+        PASSWORD_MISMATCH:  'Password does not equal confirmation'
+    ROLE:
+        ROLE_SUPER_ADMIN:   'Super Admin'
+        ROLE_ADMIN:         'Admin'
+        ROLE_EDITOR:        'Editor'
+        ROLE_USER:          'User'
+        ROLE_DEALER_ADMIN:    'Dealer Admin'
+        ROLE_DEALER_EMPLOYEE: 'Dealer Employee'
+
+DEALER_ENTITY:
+    SECTION:
+        MAIN: 'Main section'
+    LABEL:
+        TITLE: 'Name'
+        SLUG: 'Slug'
+        EMAIL: 'E-Mail'
+        IMAGE: 'Logo'
+        ACTIVE: 'Dealer Is Active?'
+        COUNTRY: 'Country'
+        REGION: 'Region'
+        CITY: 'City'
+        ADDRESS_LINE_1: 'Address Line 1'
+        ADDRESS_LINE_2: 'Address Line 2'
+        POSTAL_CODE: 'Postal code'
+    HELP:
+        TITLE: ''
+        SLUG: ''
+        EMAIL: ''
+        IMAGE: ''
+        ACTIVE: ''
+        COUNTRY: ''
+        REGION: ''
+        CITY: ''
+        ADDRESS_LINE_1: ''
+        ADDRESS_LINE_2: ''
+        POSTAL_CODE: ''
+    ERROR:
+        SLUG_EXISTS: 'Slug must be unique'
+
+GENERAL_SETTINGS_ENTITY:
+    SECTION:
+        SOCIAL: 'Social Links'
+    LABEL:
+        SOCIAL_FACEBOOK:    'Facebook'
+        SOCIAL_YOUTUBE:     'Youtube'
+        SOCIAL_INSTAGRAM:   'Instagram'
+    HELP:
+        SOCIAL_FACEBOOK:    'Leave blank to hide the social link'
+        SOCIAL_YOUTUBE:     'Leave blank to hide the social link'
+        SOCIAL_INSTAGRAM:   'Leave blank to hide the social link'
+
+
+CRON_COMMAND_ENTITY:
+    SECTION:
+        MAIN:   'CronJob Data'
+    LABEL:
+        NAME:           'Name'
+        TITLE:          'Title'
+        EXECUTED_AT:    'Last Executed At'
+        RUN:            'Run CronJob'
+
+MAIL_LOG_ENTITY:
+    STATUS:
+        PENDING:    'Pending'
+        SENT:       'Sent'
+        ERROR:      'Error'
+    LABEL:
+        MESSAGE_ID: 'Message ID'
+        STATUS:     'Status'
+        DEBUG:      'Debug'
+        SUBJECT:    'Subject'
+        MESSAGE:    'Message'
+        FROM:       'From'
+        REPLY_TO:   'Reply To'
+        TO:     'To'
+        CC:     'CC'
+        BCC:    'BCC'
+
+FILTER_GROUP_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        TITLE: Title
+        ACTIVE: Active
+
+    HELP:
+        TITLE: ''
+
+FILTER_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        TITLE: Title
+        ACTIVE: Active
+        USE_CASES: Use Cases
+    HELP:
+        TITLE: ''
+        USE_CASES: ''
+
+PRODUCT_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        IMAGE: Image
+        SKU: SKU
+        DEALER_SKU: Dealer SKU
+        PRICE: Price
+        PRICE_END: End Price
+        NAME: Name
+        TITLE: Title
+        DESCRIPTION: Description
+        WHERE_TO_BUY: Where to buy?
+        SPECIAL_SHOP: Available only at specialist?
+        PRICE_ON_REQUEST: Is Price on Request?
+        ALTERNATIVE_PRODUCTS: Alternative Products
+    VIEW:
+        PRICE: '%PRICE% €'
+        PRICE_RANGE: 'From %PRICE% € - To %PRICE_END% €'
+        PRICE_ON_REQUEST: '%PRICE% € Price is on request'
+    HELP:
+        IMAGE: ''
+        SKU: ''
+        DEALER_SKU: ''
+        PRICE: ''
+        PRICE_END: If the product has the "End Price" It will be shown as "Price Range"
+        TITLE: ''
+        DESCRIPTION: ''
+        WHERE_TO_BUY: ''
+        SHOW_PRICE: ''
+        SPECIAL_SHOP: Set "Yes" to show a message. Set "No" to hide a message.
+        PRICE_ON_REQUEST: Set "No" to show a price. Set "Yes" to hide a price.
+        ALTERNATIVE_PRODUCTS: Choose alternative products if necessary
+    CHOICES:
+        WHERE_TO_BUY:
+            ONLINE_AND_RETAIL: 'Online and Retail'
+            ONLINE: 'Online Only'
+            RETAIL: 'Retail Only'
+
+PRODUCT_SET_ENTITY:
+    SECTION:
+        MAIN: Main section
+        LAYER1_SETTING: Layer 1
+        LAYER2_SETTING: Layer 2
+        LAYER3_SETTING: Layer 3
+    LABEL:
+        RECOMMENDED: Is Recommended?
+        ICON: Icon
+        IMAGE: Image
+        YOUTUBE_VIDEO_URL: YouTube Video Url
+        TRANSLATIONS: Translations
+        PRODUCTS: Products
+        FILTERS: Filters
+        TITLE: Title
+        DESCRIPTION: Description
+        ICON_TITLE: Map icon title
+        LAYER1_ICON_X: Layer1 icon X coordinates
+        LAYER1_ICON_Y: Layer1 icon Y coordinates
+        LAYER1_ACTIVE: Show icon as active on layer 1?
+        LAYER2_ICON_X: Layer2 icon X coordinates
+        LAYER2_ICON_Y: Layer2 icon Y coordinates
+        LAYER2_ACTIVE: Show icon as active on layer 2?
+        LAYER3_ICON_X: Layer3 icon X coordinates
+        LAYER3_ICON_Y: Layer3 icon Y coordinates
+        LAYER3_ACTIVE: Show icon as active on layer 3?
+    HELP:
+        RECOMMENDED: ''
+        ICON: ''
+        IMAGE: ''
+        YOUTUBE_VIDEO_URL: ''
+        PRODUCTS: ''
+        FILTERS: ''
+        TITLE: ''
+        DESCRIPTION: ''
+        ICON_TITLE: 'Leave blank to use Use Case title'
+        LAYER1_ICON_X: 'Leave blank to hide on this view'
+        LAYER1_ICON_Y: 'Leave blank to hide on this view'
+        LAYER1_ACTIVE: ''
+        LAYER2_ICON_X: 'Leave blank to hide on this view'
+        LAYER2_ICON_Y: 'Leave blank to hide on this view'
+        LAYER2_ACTIVE: ''
+        LAYER3_ICON_X: 'Leave blank to hide on this view'
+        LAYER3_ICON_Y: 'Leave blank to hide on this view'
+        LAYER3_ACTIVE: ''
+    CHOICE:
+        ICON_FIRE: 'Fire'
+        ICON_SUN: 'Sun'
+        ICON_PROTECT: 'Simulate presence'
+        ICON_SOLAR_PANEL: 'Solar Panel'
+        ICON_THERMOMETER: 'Thermometer'
+        ICON_MOON: 'Moon'
+        ICON_LEAVE: 'Leaving home'
+        ICON_SUNRISE: 'Sunrise'
+        ICON_WELCOME: 'Welcome'
+        ICON_CAMERA: 'Camera'
+        ICON_LOCK: 'Lock'
+        ICON_RAIN: 'Rain'
+        ICON_KEY: 'Key'
+        ICON_WIND: 'Wind'
+
+PRODUCT_SET_PRODUCT_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TYPE: Type
+        PRODUCT: Product
+        QUANTITY: Quantity
+
+    HELP:
+        TYPE: ''
+        PRODUCT: ''
+        QUANTITY: ''
+    CHOICES:
+        PRODUCT_TYPE:
+            REGULAR: 'Regular'
+            OPTIONAL: 'Optional'
+
+PAGE_ENTITY:
+    SECTION:
+        MAIN:       Main section
+        CODE_BLOCK: Code Block
+        SETTINGS:   Settings
+    LABEL:
+        TRANSLATIONS: Translations
+        TITLE: Title
+        SLUG: Slug
+        CONTENT: Content
+        REDIRECT: Redirect
+        META_TITLE:         Meta title
+        META_KEYWORDS:      Meta Keywords
+        META_DESCRIPTION:   Meta Description
+        OG_TITLE:       OpenGraph Title
+        OG_DESCRIPTION: OpenGraph Description
+        LOGO_TITLE:     Logo Title
+        OG_IMAGE:       OpenGraph Image
+        ADDITIONAL_META_TAGS:   Additional Meta Tags
+        CODE_BLOCK:             Custom Code Block
+        CODE_BLOCK_ACTIVE:      Is Active Custom Code Block?
+    HELP:
+        TITLE: ''
+        REDIRECT: 'To show page content leave this option blank'
+        CODE_BLOCK:        Code will be inserted "as is" at the bottom of the page. Useful for custom JavaScript trackers.
+        CODE_BLOCK_ACTIVE: ''
+    ERROR:
+        SLUG_EXISTS: 'Slug must be unique'
+
+MENU_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        TITLE: Title
+        LINK: Link
+        ACTIVE: Active
+        CSS_CLASS: Style
+        SUB_MENU: 'Sub Menu'
+        CHILDREN_MENU_TYPE: 'Children Menu Type'
+    HELP:
+        TITLE: ''
+    CHOICE:
+        MENU_ITEM_CSS_DEFAULT: Link
+        MENU_ITEM_CSS_OUTLINE: Outlined Button
+        MENU_ITEM_CSS_BLUE: Blue Button
+
+MESSAGE_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        CODE: Code
+        DEFAULT_VALUE: Default Value
+        VALUE: Value
+    HELP:
+        CODE: ''
+        DEFAULT_VALUE: ''
+        VALUE: ''
+
+COUNTRY_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        CODE: Code
+        TITLE: Title
+        VALUE: Value
+        LANGUAGES: Languages
+        CART_ADD_PRODUCTS_URL: 'Buy in the Somfy Online Shop URL'
+        DEALER_SEARCH_URL: 'Dealer Search URL'
+    HELP:
+        CODE: ''
+        TITLE: ''
+        LANGUAGES: ''
+        CART_ADD_PRODUCTS_URL: 'SKU will be added automatically to the end of URL'
+        DEALER_SEARCH_URL: 'Zip code will be added automatically to the end of URL'
+
+LANGUAGE_ENTITY:
+    SECTION:
+        MAIN: Main section
+    LABEL:
+        TRANSLATIONS: Translations
+        CODE: Code
+        TITLE: Title
+        VALUE: Value
+        COUNTRIES: Coutries
+    HELP:
+        CODE: ''
+        TITLE: ''
+        COUNTRIES: ''
+
+MAIL_TEMPLATE_ENTITY:
+    SECTION:
+        MAIN:       'Register E-Mail Template Data'
+        REGISTER:   'E-Mail Template Message: Send to the Registered User'
+        REGISTER_NOTIFICATION:  'E-Mail Template Message: Send as a Notification to the admins when the portal user registered'
+        DEALER_REQUEST: 'E-Mail Template Message: Send to a Dealer'
+    LABEL:
+        ACTIVE:         'Is Template Active?'
+        SEND_TO:        'Send To'
+        SEND_FROM:      'Send From'
+        SUBJECT:        'Subject'
+        REPLACEMENTS:   'Replacements'
+        CONTENT:        'Message'
+    HELP:
+        ACTIVE:         'To activate sending message set "Yes". To disable sending set "No".'
+        SEND_TO:        'Use a comma "," to set several recipients. Leave blank to not send a copy.'
+        SEND_FROM:      'Sender of the message'
+        SUBJECT:        'Message Subject'
+        REPLACEMENTS:   'You can use the replacements in the message.'
+        CONTENT:        ''
+    REGISTER:
+        LABEL:
+            CONTENT2:   'Message To Save configuration'
+        HELP:
+            CONTENT2:   ''
+    DEALER_REQUEST:
+        LABEL:
+            SUBJECT:    'Dealer Subject'
+            SUBJECT2:   'Customer Subject'
+            CONTENT:    'Dealer Message Prefix'
+            CONTENT2:   'Dealer Message'
+            CONTENT3:   'Customer Copy Message Prefix'
+        HELP:
+            SUBJECT:    'Dealer Message Subject'
+            SUBJECT2:   'Customer Message Subject'
+            CONTENT:    'This message prefix is sent to a dealer'
+            CONTENT2:   'This message is sent to a dealer'
+            CONTENT3:   'This message prefix is sent to a customer as a copy'
+
+DECISION_ENTITY:
+    LABEL:
+        ADMIN_TITLE:    Title
+        QUESTION:       Question
+        ANSWER:         Answer
+        FINAL:          Is Final?
+        POSITIVE:       Is Positive?
+        PRODUCT_SETS:   Use cases
+        TREE:           Tree
+        PRODUCT:        Product
+        PRODUCTS:       Products
+        ACTION:         Action
+    HELP:
+        ADMIN_TITLE:    Displayed only in the admin-area
+        QUESTION:       Question for Next Step (Sub Decision) if the current step is not a final step
+        ANSWER:         ''
+        FINAL:          Is the current step is final?
+        POSITIVE:       Is the current step is positive?
+        PRODUCT_SETS:   Choose the final "Use Cases" on the positive final step
+        PRODUCT:        Choose a Main Product
+        PRODUCTS:       Choose the final "Products" on the positive final step
+        ACTION:         Select an Action
+    STEP:
+        FINAL: Final
+        POSITIVE: Positive
+        NEGATIVE: Negative
+    CHOICES:
+        ACTION:
+            REPLACE_MAIN:   Replace Main Product
+            DELETE_MAIN:    Delete Main Product
+            KEEP_MAIN:      Keep Main Product
+
+SLIDER_ENTITY:
+    LABEL:
+        TITLE:      Title
+        SUB_TITLE:  Sub Title
+        FILE: File on Desktop
+        FILE_MOBILE: File on Mobile
+        YOUTUBE_VIDEO_URL: Youtube Video Url
+    HELP:
+        TITLE: ''
+        SUB_TITLE: ''
+        FILE: 'Allowed types: .png, .jpeg, .gif, .mp4, .mov.'
+        FILE_MOBILE: 'Allowed types: .png, .jpeg, .gif, .mp4, .mov. Keep blank to use same file as on desktop'
+        YOUTUBE_VIDEO_URL: ''
+
+SLIDE_ENTITY:
+    LABEL:
+        FILE: File on Desktop
+        FILE_MOBILE: File on Mobile
+        PRODUCT_SET_ACTIVE: "Is Active Use Case?"
+        PRODUCT_SET_POSITION: "Use Case Position"
+        PRODUCT_SET: Use case
+    HELP:
+        FILE: 'Allowed types: .png, .jpeg, .gif, .mp4, .mov.'
+        FILE_MOBILE: 'Allowed types: .png, .jpeg, .gif, .mp4, .mov. Keep blank to use same file as on desktop'
+        PRODUCT_SET_ACTIVE: Set "Yes" to Show a "Use Case".
+        PRODUCT_SET_POSITION: ''
+        PRODUCT_SET: Choose the "Use Case"
+    CHOICES:
+        PRODUCT_SET_POSITION:
+            CENTER: Center
+            LEFT:   Left
+            RIGHT:  Right
+
+DESCRIPTIVE_PANEL_ENTITY:
+    SECTION:
+        MAIN: 'Descriptive Panel'
+    LABEL:
+        TRANSLATIONS: Translations
+        ACTIVE:       Is Active?
+        POSITION:     Position
+        PAGES:        Pages
+        TITLE:        Title
+        DESCRIPTION:  Description
+        FILE:         Image
+    HELP:
+        ACTIVE:       ''
+        POSITION:     ''
+        PAGES:        ''
+        TITLE:        ''
+        DESCRIPTION:  ''
+        FILE:         'Allowed types: .png, .jpeg, .gif'
+
+PARTNER_ENTITY:
+    LABEL:
+        IMAGE: Image
+        TITLE: Title
+    HELP:
+        IMAGE: ''
+        TITLE: ''

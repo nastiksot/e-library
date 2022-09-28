@@ -1,0 +1,82 @@
+// *** Mixins *** //
+@import "../mixins/custom";
+@import "../mixins/helper";
+
+// *** Variables *** //
+@import "variables";
+
+// *** Helpers *** //
+@import "helpers";
+@import "icons";
+@import "typography";
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow: visible;
+    color: #091417;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: #343a40;
+}
+
+body {
+    font-size: 14px;
+    font-family: $fontSomfySansRegular;
+}
+
+img {
+    max-width: 100%;
+    vertical-align: top;
+}
+
+.centered {
+    max-width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.v-application--wrap {
+    display: block !important;
+}
+
+.container {
+    padding: 0 !important;
+}
+
+div.v-application {
+    .orange--text {
+        color: #fcac22 !important;
+        caret-color: #fcac22 !important;
+    }
+
+    .primary--text {
+        color: #425973 !important;
+        caret-color: #425973 !important;
+    }
+
+    a {
+        color: #485C74;
+    }
+
+    .v-tooltip__content{
+        padding: 10px 16px;
+        color: #343a40;
+        @include normal-font(12px, 15px);
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        border: solid 1px #d5dadf;
+        border-radius: 5px;
+        background: #fff;
+    }
+}
+
+.product-set-decision-tree-dialog{
+    background: #fff;
+}

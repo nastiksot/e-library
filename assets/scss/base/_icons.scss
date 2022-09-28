@@ -1,0 +1,187 @@
+@include font-face('somfy', '../../fonts/somfy');
+
+i {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'somfy' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.warning-icon:before {
+    content: "\e937";
+}
+
+.instagram-icon:before {
+    content: "\e936";
+}
+
+.fire-icon:before {
+    content: "\e90b";
+}
+.sun-icon:before {
+    content: "\e902";
+}
+.protect-icon:before {
+    content: "\e907";
+}
+.welcome-icon:before {
+    content: "\e931";
+}
+.lock-icon:before {
+    content: "\e933";
+}
+.moon-icon:before {
+    content: "\e92d";
+}
+.wind-icon:before {
+    content: "\e92e";
+}
+.key-icon:before {
+    content: "\e92f";
+}
+.rain-icon:before {
+    content: "\e930";
+}
+.camera-icon:before {
+    content: "\e932";
+}
+.sunrise-icon:before {
+    content: "\e934";
+}
+.leave-icon:before {
+    content: "\e935";
+}
+.location-icon:before {
+    content: "\e92c";
+}
+.upload-icon:before {
+    content: "\e911";
+}
+.copy-icon:before {
+    content: "\e922";
+}
+.youtube-icon:before {
+    content: "\e900";
+}
+.user-icon:before {
+    content: "\e901";
+}
+.smart-home-icon:before {
+    content: "\e903";
+}
+.share-icon:before {
+    content: "\e904";
+}
+.save-icon:before {
+    content: "\e905";
+}
+.question-icon:before {
+    content: "\e906";
+}
+.play-icon:before {
+    content: "\e908";
+}
+.thermometer-icon:before {
+    content: "\e909";
+}
+.heart-icon:before {
+    content: "\e90a";
+}
+.filter-icon:before {
+    content: "\e90c";
+}
+.fb-icon:before {
+    content: "\e90d";
+}
+.close-icon:before {
+    content: "\e90e";
+}
+.chevron-down-icon:before {
+    content: "\e90f";
+}
+.arrow-left-icon:before {
+    content: "\e910";
+}
+.tw-icon:before {
+    content: "\e912";
+}
+.pin-icon:before {
+    content: "\e913";
+}
+.email-icon:before {
+    content: "\e914";
+}
+.visibility-off-icon:before {
+    content: "\e915";
+}
+.visibility-on-icon:before {
+    content: "\e916";
+}
+.logout-icon:before {
+    content: "\e917";
+}
+.heart-f-icon:before {
+    content: "\e918";
+}
+.cart-icon:before {
+    content: "\e919";
+}
+.info-icon:before {
+    content: "\e91a";
+}
+.lamp-icon:before {
+    content: "\e91b";
+}
+.external-link-icon:before {
+    content: "\e91c";
+}
+.minus-icon:before {
+    content: "\e91d";
+}
+.plus-icon:before {
+    content: "\e91e";
+}
+.home-icon:before {
+    content: "\e91f";
+}
+.solar-panel:before {
+    content: "\e920";
+}
+.check-icon:before {
+    content: "\e921";
+}
+.left-icon:before {
+    content: "\e923";
+}
+.home-clock-icon:before {
+    content: "\e924";
+}
+.back-icon:before {
+    content: "\e925";
+}
+.info-o-icon:before {
+    content: "\e926";
+}
+.whatssapp-icon:before {
+    content: "\e927";
+}
+.download-icon:before {
+    content: "\e928";
+}
+.trash-icon:before {
+    content: "\e929";
+}
+.edit-icon:before {
+    content: "\e92a";
+}
+.round-check-icon:before {
+    content: "\e92b";
+}

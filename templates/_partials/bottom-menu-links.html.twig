@@ -1,0 +1,9 @@
+{% if menu is not empty %}
+    <div class="footer__questions--actions">
+        {% for item in menu %}
+            {% set link = getLink(item, 1, app.request.locale) %}
+            {% set linkAttr = getLinkAttr(item) %}
+            <a href="{{ link }}" {{ linkAttr | raw }} class="footer__questions--actions-btn {{ item.cssClass }}">{{ item.translate.title }}</a>
+        {% endfor %}
+    </div>
+{% endif %}

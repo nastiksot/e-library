@@ -1,0 +1,45 @@
+GENERAL:
+  VALIDATION_FAILED: 'Überprüfung fehlgeschlagen'
+  ENTITY_NOT_FOUND: 'Entität nicht gefunden'
+  ENTITY_UNPROCESSABLE: 'Nicht verarbeitbare Entität'
+  SEND_MAIL_FAILED: 'E-Mail senden fehlgeschlagen'
+
+USER:
+  IDENTIFIER_NOT_FOUND: 'Benutzer "%IDENTIFIER%" nicht gefunden'
+  IDENTIFIER_TAKEN: 'Benutzer "%IDENTIFIER%" ist bereits registriert'
+  IDENTIFIER_TAKEN_LOGIN: 'Benutzer ist bereits registriert. Bitte loggen Sie sich ein.'
+  NOT_FOUND: 'Benutzer nicht gefunden'
+  NOT_ACTIVE: 'Benutzer ist nicht aktiv'
+  PASSWORD_MISMATCH: 'Passwort nicht bestätigt'
+  ACCEPT_PRIVACY_POLICY: 'Sie müssen die Datenschutzerklärung lesen und damit einverstanden sein'
+
+WISHLIST:
+  NOT_FOUND: 'Merkzettel nicht gefunden'
+
+DEALER:
+    NOT_FOUND: 'Händler nicht gefunden'
+
+DEALER_REQUEST:
+    NOT_FOUND: 'Händleranfrage nicht gefunden'
+    STATUS:
+        NOT_FOUND: 'Zustand nicht gefunden'
+
+DEALER_REQUESTS:
+    ALL_NOT_FOUND: 'Keine Händleranfrage gefunden'
+    SOME_NOT_FOUND: 'Einige Händleranfragen wurden nicht gefunden'
+
+DEALER_REQUEST_COMMENT:
+    NOT_FOUND: 'Kommentar nicht gefunden'
+
+ENTITY:
+    SLIDER:
+        INVALID_FILE: 'Bitte laden Sie eine gültige Datei auf dem Desktop hoch'
+        INVALID_MOBILE_FILE: 'Bitte laden Sie eine gültige Datei auf dem Handy hoch'
+    SLIDE:
+        INVALID_FILE: 'Bitte laden Sie eine gültige Datei auf dem Desktop hoch'
+        INVALID_MOBILE_FILE: 'Bitte laden Sie eine gültige Datei auf dem Handy hoch'
+    DESCRIPTIVE_PANEL:
+        INVALID_FILE: 'Bitte laden Sie ein gültiges Bild hoch'
+
+COUNTRY:
+    NOT_FOUND: 'Land nicht gefunden'

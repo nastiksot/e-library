@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <v-app>
+            <v-main>
+{#                {% include '_partials/header.html.twig' %}#}
+
+                <v-container fluid>
+                    {% block content %}{% endblock %}
+                </v-container>
+            </v-main>
+
+            <v-footer>
+                {% include '_partials/footer.html.twig' %}
+            </v-footer>
+        </v-app>
+    </div>
+
+    {% block tcBodyBottom %}{% endblock %}
+{% endblock %}

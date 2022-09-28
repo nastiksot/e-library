@@ -1,0 +1,21 @@
+.introjs-tooltip {
+
+    .introjs-skipbutton {
+        position: absolute;
+        bottom: 12px;
+        left: 0;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .introjs-tooltipbuttons {
+        display: flex;
+        justify-content: right;
+
+        a {
+            &:not(:first-child) {
+                margin-left: 5px;
+            }
+        }
+    }
+}

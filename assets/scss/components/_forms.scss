@@ -1,0 +1,127 @@
+.v-application{
+    .v-text-field--filled > .v-input__control > .v-input__slot,
+    .v-text-field--full-width > .v-input__control > .v-input__slot,
+    .v-text-field--outlined > .v-input__control > .v-input__slot{
+        min-height: 40px;
+        background: #fff;
+    }
+
+    .theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset{
+        color: #8996a4;
+    }
+
+    .v-text-field--outlined.v-input--is-focused fieldset,
+    .v-text-field--outlined.v-input--has-state fieldset{
+        border-width: 1px!important;
+    }
+
+    .v-select.v-text-field--outlined:not(.v-text-field--single-line){
+        .v-select__selections{
+            padding: 0;
+        }
+    }
+
+    .v-input{
+        .v-input__icon{
+            .v-icon{
+                color: #8996a4;
+            }
+        }
+    }
+
+    .v-select{
+        .v-input__icon--append{
+            .v-icon{
+                svg{
+                    display: none;
+                }
+
+                &:before{
+                    content: "\e90f";
+                    font-family: 'somfy' !important;
+                    font-size: 7px;
+                    color: #8996a4;
+                }
+            }
+        }
+    }
+
+    .v-text-field--full-width .v-input__prepend-outer,
+    .v-text-field--full-width .v-input__prepend-inner,
+    .v-text-field--full-width .v-input__append-inner,
+    .v-text-field--full-width .v-input__append-outer,
+    .v-text-field--enclosed .v-input__prepend-outer,
+    .v-text-field--enclosed .v-input__prepend-inner,
+    .v-text-field--enclosed .v-input__append-inner,
+    .v-text-field--enclosed .v-input__append-outer{
+        margin-top: 9px;
+    }
+
+    .v-text-field--outlined{
+        padding-top: 20px!important;
+
+        fieldset{
+            top: 0;
+        }
+
+        legend{
+            display: none;
+        }
+
+        .v-label{
+            top: 9px;
+            color: #8996a4;
+            @include normal-font(14px, 19px);
+
+            &--active{
+                @include transform(translateY(-30px) translateX(-12px) scale(0.75));
+            }
+        }
+
+        input{
+            font-size: 14px;
+
+            @include placeholder(){
+                color: #8996a4!important;
+            }
+        }
+
+        &.v-label--active{
+            .v-label{
+                color: #485c74!important;
+            }
+        }
+    }
+
+    .v-input--checkbox{
+        .v-icon{
+            color: #8996a4;
+        }
+
+        .v-input__slot{
+            @include align-items(flex-start);
+            @include align-items(center);
+        }
+
+        .v-label{
+            color: #8996a4;
+            font-family: $fontSomfySansLight;
+            @include normal-font(14px, 20px);
+
+            a{
+                color: #fcac22;
+                text-decoration: underline;
+
+                &:hover{
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.primary--text{
+            .v-icon{
+                color: #fcac22!important;
+            }
+        }
+    }
+}

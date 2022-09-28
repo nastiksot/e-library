@@ -1,0 +1,46 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.book.author:
+        class: App\Admin\Book\AuthorAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_book_author'] ]
+            - [ setBaseRoutePattern,    ['book-author'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Book\Author', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK_AUTHOR }
+
+    admin.book.category:
+        class: App\Admin\Book\CategoryAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_book_category'] ]
+            - [ setBaseRoutePattern,    ['book-category'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Book\Category', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK_CATEGORY }
+
+    admin.book:
+        class: App\Admin\Book\BookAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_book'] ]
+            - [ setBaseRoutePattern,    ['book'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Book\Book', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK }
+
+#    admin.user.librarian:
+#        class: App\Admin\User\AdminUserLibrarian
+#        calls:
+#            - [ setBaseRouteName,       [ 'admin_user_librarian' ] ]
+#            - [ setBaseRoutePattern,    [ 'user-librarian' ] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_LIBRARIAN }
+#
+#    admin.user.reader:
+#        class: App\Admin\User\AdminUserReader
+#        calls:
+#            - [ setBaseRouteName,       [ 'admin_user_reader' ] ]
+#            - [ setBaseRoutePattern,    [ 'user-reader' ] ]
+#        tags:
+#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_READER }
+#

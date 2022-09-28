@@ -1,0 +1,32 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    # show_in_dashboard = false
+    # do not display, it used as link entity
+    admin.page:
+        class: App\Admin\Page\AllPageAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_page'] ]
+            - [ setBaseRoutePattern,    ['page'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Page\AbstractPage', manager_type: orm, group: MENU_GROUP.CONTENT, label: MENU.PAGE.ALL, show_in_dashboard: false }
+
+
+    admin.page.common:
+        class: App\Admin\Page\CommonPageAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_common_page'] ]
+            - [ setBaseRoutePattern,    ['common-page'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Page\CommonPage', manager_type: orm, group: MENU_GROUP.CONTENT, label: MENU.PAGE.COMMON }
+
+    admin.page.system:
+        class: App\Admin\Page\SystemPageAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin_system_page'] ]
+            - [ setBaseRoutePattern,    ['system-page'] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Page\SystemPage', manager_type: orm, group: MENU_GROUP.CONTENT, label: MENU.PAGE.SYSTEM }

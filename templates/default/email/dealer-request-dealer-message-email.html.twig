@@ -1,0 +1,54 @@
+{% extends 'layout.email.html.twig' %}
+
+{% block title %}
+    {{ subject }}
+{% endblock %}
+
+
+{% block header %}
+    {% include 'default/email/_partials/dealer-request-header.html.twig' with {'dealer': dealerRequest.dealer} %}
+{% endblock %}
+
+
+{% block body %}
+    <table align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0"
+           style="border-collaps: collaps; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; max-width: 700px">
+        <tr>
+            <td style="padding: 0 90px 16px 90px">
+                {% block dealerMessagePrefix %}
+                    {{ dealerMessagePrefix | raw }}
+                {% endblock %}
+            </td>
+        </tr>
+    </table>
+
+    <table align="center" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0"
+           style="border-collaps: collaps; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; max-width: 700px">
+        <tr style="background: #f5f6f8;">
+            <td style="padding: 24px 90px 14px 90px">
+                {% block dealerMessage %}
+                    {{ dealerMessage | raw }}
+                {% endblock %}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 20px 90px 0 90px;">
+                <p style="color:#fff; font-size:14px; line-height:19px; margin-bottom:35px; margin-left:0; margin-right:0; margin-top:0; text-align:right">
+                    <a href="{{ expertAreaLink }}"
+                       style="display: inline-block; font-size: 16px; line-height: 24px; text-decoration: none; color: #fff; padding: 10px 24px 8px 24px; border: 1px solid #FCAC22; background: #FCAC22; border-radius: 4px"
+                    >{{ 'MAIL.DEALER_REQUEST.LINK_TO_EXPERT_AREA'|trans() | raw }}</a>
+                </p>
+
+                <table width="100%">
+                    <tr>
+                        <td style="border:none; border-bottom: 1px solid #CED4DA; font-size:1px; line-height:1px;">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}
+

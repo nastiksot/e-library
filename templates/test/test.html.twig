@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    data:
+    {{ dump(data) }}
+
+    {% if app.request.get('request') %}
+        <hr>
+        request:
+        <pre>
+        {{ dump(app.request) }}
+    </pre>
+    {% endif %}
+
+{% endblock %}

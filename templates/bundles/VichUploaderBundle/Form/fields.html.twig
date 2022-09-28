@@ -1,0 +1,23 @@
+{% extends '@!VichUploader/Form/fields.html.twig' %}
+{% block vich_image_widget %}
+    {% apply spaceless %}
+        <div class="vich-image">
+            {{ form_widget(form.file) }}
+
+            {% if form.delete is defined %}
+                {{ form_row(form.delete) }}
+            {% endif %}
+
+            {% if image_uri %}
+                {% set imageType = ('youtubeVideoImage' in form.file.vars.full_name ? 'youtube' : getImageType(object) ) %}
+                {# {% set imageType = getImageType(object) %} #}
+                {% set imageUrlThumbnail = url('image', {'type' : imageType, 'size' : '400x400', 'crop' : 'resize', 'name' : basename(image_uri)}) %}
+                {% set imageUrlDownload = url('image', {'type' : imageType, 'size' : '9999x9999', 'crop' : 'resize', 'name' : basename(image_uri)}) %}
+                <a href="{{ imageUrlDownload }}" target="_blank">
+                    <img src="{{ imageUrlThumbnail }}" alt=""/>
+                </a>
+            {% endif %}
+
+        </div>
+    {% endapply %}
+{% endblock %}
