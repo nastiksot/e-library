@@ -7,12 +7,9 @@ namespace App\Repository\User;
 use App\Contracts\Entity\ItemsListEntityInterface;
 use App\Entity\User\User;
 use App\Repository\AbstractEntityRepository;
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Uid\UuidV4;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)

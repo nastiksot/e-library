@@ -26,6 +26,7 @@ class AuthorBookFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        return;
         for ($i = 0; $i <= BookFixtures::COUNT_BOOKS; $i++) {
             $bookReferenceId = 'book-' . $i;
             $maxAuthor       = random_int(1, self::MAX_AUTHORS);

@@ -1,45 +1,14 @@
 GENERAL:
-  VALIDATION_FAILED: 'Validation failed'
-  ENTITY_NOT_FOUND: 'Entity not found'
-  ENTITY_UNPROCESSABLE: 'Unprocessable Entity'
-  SEND_MAIL_FAILED: 'Send mail failed'
+    VALIDATION_FAILED: 'Validation failed'
+    ENTITY_NOT_FOUND: 'Entity not found'
+    ENTITY_UNPROCESSABLE: 'Unprocessable Entity'
+    SEND_MAIL_FAILED: 'Send mail failed'
 
 USER:
-  IDENTIFIER_NOT_FOUND: 'User "%IDENTIFIER%" not found'
-  IDENTIFIER_TAKEN: 'User "%IDENTIFIER%" is already registered'
-  IDENTIFIER_TAKEN_LOGIN: 'User is already registered. Please login.'
-  NOT_FOUND: 'User not found'
-  NOT_ACTIVE: 'User is not active'
-  PASSWORD_MISMATCH: 'Password not confirmed'
-  ACCEPT_PRIVACY_POLICY: 'You have to read the privacy policy and agree with it'
-
-WISHLIST:
-  NOT_FOUND: 'Wish List not found'
-
-DEALER:
-    NOT_FOUND: 'Dealer not found'
-
-DEALER_REQUEST:
-    NOT_FOUND: 'Dealer request not found'
-    STATUS:
-        NOT_FOUND: 'Status not found'
-
-DEALER_REQUESTS:
-    ALL_NOT_FOUND: 'No one Dealer request found'
-    SOME_NOT_FOUND: 'Some Dealer requests not found'
-
-DEALER_REQUEST_COMMENT:
-    NOT_FOUND: 'Comment not found'
-
-ENTITY:
-    SLIDER:
-        INVALID_FILE: 'Please upload a valid File on Desktop'
-        INVALID_MOBILE_FILE: 'Please upload a valid File on Mobile'
-    SLIDE:
-        INVALID_FILE: 'Please upload a valid File on Desktop'
-        INVALID_MOBILE_FILE: 'Please upload a valid File on Mobile'
-    DESCRIPTIVE_PANEL:
-        INVALID_FILE: 'Please upload a valid image'
-
-COUNTRY:
-    NOT_FOUND: 'Country not found'
+    IDENTIFIER_NOT_FOUND: 'User "%IDENTIFIER%" not found'
+    IDENTIFIER_TAKEN: 'User "%IDENTIFIER%" is already registered'
+    IDENTIFIER_TAKEN_LOGIN: 'User is already registered. Please login.'
+    NOT_FOUND: 'User not found'
+    NOT_ACTIVE: 'User is not active'
+    PASSWORD_MISMATCH: 'Password not confirmed'
+    ACCEPT_PRIVACY_POLICY: 'You have to read the privacy policy and agree with it'

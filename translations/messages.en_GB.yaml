@@ -1,19 +1,2 @@
-'De- d e': 'German (Germany)'
-'En- g b': 'English (Great Britain)'
-
 GENERAL:
-    DEFAULT_HTML_TITLE: 'Somfy'
-
-COPYRIGHT:
-    YEARS: '&copy; Somfy GmbH %YEARS%'
-
-MAIL:
-    LINK:
-        IMPRESSUM: Impressum
-        GUARANTEE-CONDITIONS: Guarantee Conditions
-        COOKIE-POLICY: Cookie Policy
-        DATA-PROTECTION: Data Protection
-        AGB: AGB
-    DEALER_REQUEST:
-        LINK_TO_EXPERT_AREA: 'Open in expert area'
-        FOOTER_CUSTOMER: 'This email was sent to %EMAIL% <br> on behalf of Somfy GmbH and %DEALER_NAME%.'
+    DEFAULT_HTML_TITLE: 'Library'

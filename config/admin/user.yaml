@@ -4,33 +4,24 @@ services:
         autowire: true
         autoconfigure: true
 
-#    admin.dealer:
-#        class: App\Admin\User\DealerAdmin
-#        calls:
-#            - [ setBaseRouteName,       [ 'admin_dealer' ] ]
-#            - [ setBaseRoutePattern,    [ 'dealer' ] ]
-#            - [ addChild,               [ '@admin.dealer.user', 'dealer'] ]
-#        tags:
-#            - { name: sonata.admin, model_class: 'App\Entity\User\Dealer', manager_type: orm, group: MENU_GROUP.USER, label: MENU.DEALER }
-
-#    admin.dealer.user:
-#        class: App\Admin\User\DealerUserAdmin
-#        calls:
-#            - [ setBaseRouteName,       [ 'admin_dealer_user' ] ]
-#            - [ setBaseRoutePattern,    [ 'user' ] ]
-#        tags:
-#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.DEALER_USER }
+    admin.user.all:
+        class: App\Admin\User\AllUserAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_user_all' ] ]
+            - [ setBaseRoutePattern,    [ 'user-all' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_ALL }
 
     admin.user.admin:
-        class: App\Admin\User\AdminUserAdmin
+        class: App\Admin\User\UserAdmin
         calls:
-            - [ setBaseRouteName,       ['admin_user_admin'] ]
-            - [ setBaseRoutePattern,    ['user-admin'] ]
+            - [ setBaseRouteName,       [ 'admin_user_admin' ] ]
+            - [ setBaseRoutePattern,    [ 'user-admin' ] ]
         tags:
             - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_ADMIN }
 
     admin.user.librarian:
-        class: App\Admin\User\AdminUserLibrarian
+        class: App\Admin\User\UserLibrarianAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_user_librarian' ] ]
             - [ setBaseRoutePattern,    [ 'user-librarian' ] ]
@@ -38,18 +29,17 @@ services:
             - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_LIBRARIAN }
 
     admin.user.reader:
-        class: App\Admin\User\AdminUserReader
+        class: App\Admin\User\UserReaderAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_user_reader' ] ]
             - [ setBaseRoutePattern,    [ 'user-reader' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_READER }
+            - { name: sonata.admin, model_class: 'App\Entity\User\User', controller: App\Controller\Admin\CRUD\UserReaderCRUDController,  manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_READER }
 
-
-#    admin.user.portal:
-#        class: App\Admin\User\PortalUserAdmin
-#        calls:
-#            - [ setBaseRouteName,       ['admin_user_portal'] ]
-#            - [ setBaseRoutePattern,    ['user-portal'] ]
-#        tags:
-#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PORTAL }
+    admin.user.profile:
+        class: App\Admin\User\EditProfileAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_user_profile' ] ]
+            - [ setBaseRoutePattern,    [ 'user-profile' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.EDIT }

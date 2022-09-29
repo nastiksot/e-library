@@ -3,18 +3,8 @@ security:
         ROLE_USER:
             - IS_AUTHENTICATED_FULLY
             - IS_AUTHENTICATED_REMEMBERED
-
-#        ROLE_DEALER_EMPLOYEE:
-#            - ROLE_USER
-#
-#        ROLE_DEALER_ADMIN:
-#            - ROLE_DEALER_EMPLOYEE
-
         ROLE_EDITOR:
             - ROLE_USER
-#            - IS_AUTHENTICATED_FULLY
-#            - IS_AUTHENTICATED_REMEMBERED
-
         ROLE_ADMIN:
             - ROLE_EDITOR
 #            - ROLE_ADMIN_SETTINGS_GENERAL_ALL
@@ -49,13 +39,13 @@ security:
             provider: admin_user_provider
 
             form_login:
-                login_path: admin.login
+                login_path: admin_user_reader_login
                 check_path: admin.login_check
                 default_target_path: sonata_admin_dashboard
 
             logout:
                 path: admin.logout
-                target: admin.login
+                target: admin_user_reader_login
 
             entry_point: form_login
 

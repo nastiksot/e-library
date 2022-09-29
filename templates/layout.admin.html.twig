@@ -13,11 +13,13 @@
 {% endblock %}
 
 {% block sonata_top_nav_menu %}
-    {% apply spaceless %}
-        <a class="exit-btn" href="{{ path('admin.logout') }}">
-            <i class="fa fa-chain-broken" aria-hidden="true">{{ 'SECURITY.LOGOUT'|trans({}, adminTranslationDomain) }}</i>
-        </a>
-    {% endapply %}
+    {% if app.user is not null %}
+        {% apply spaceless %}
+            <a class="exit-btn" href="{{ path('admin.logout') }}">
+                <i class="fa fa-chain-broken" aria-hidden="true">{{ 'SECURITY.LOGOUT'|trans({}, adminTranslationDomain) }}</i>
+            </a>
+        {% endapply %}
+    {% endif %}
 {% endblock %}
 
 {% block side_bar_after_nav %}

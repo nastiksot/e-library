@@ -1,8 +1,0 @@
-{% extends "@SonataAdmin/CRUD/list_url.html.twig" %}
-{# @var \App\Admin\AbstractAdmin admin #}
-{# @var \App\Entity\Contracts\LinkEntityInterface object  #}
-
-{% block field %}
-    {% set value = getLink(object, 1, defaultLocale) %}
-    {{ parent() }}
-{% endblock %}

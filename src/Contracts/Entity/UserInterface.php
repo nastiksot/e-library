@@ -10,21 +10,21 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 interface UserInterface extends EntityInterface, PasswordAuthenticatedUserInterface, BaseUserInterface, Serializable
 {
-    public const ROLE_USER            = 'ROLE_USER';
-    public const ROLE_SUPER_ADMIN     = 'ROLE_SUPER_ADMIN';
-    public const ROLE_ADMIN           = 'ROLE_ADMIN';
-    public const ROLE_EDITOR          = 'ROLE_EDITOR';
-
+    public const ROLE_USER        = 'ROLE_USER';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_ADMIN       = 'ROLE_ADMIN';
+    public const ROLE_EDITOR      = 'ROLE_EDITOR';
     public const ROLE_READER      = 'ROLE_READER';
     public const ROLE_LIBRARIAN   = 'ROLE_LIBRARIAN';
 
-//    public const ROLE_DEALER_ADMIN    = 'ROLE_DEALER_ADMIN';
-//    public const ROLE_DEALER_EMPLOYEE = 'ROLE_DEALER_EMPLOYEE';
-
-//    public const AVAILABLE_DEALER_ROLES = [
-//        self::ROLE_DEALER_EMPLOYEE,
-//        self::ROLE_DEALER_ADMIN,
-//    ];
+    public const ALL_ROLES = [
+        self::ROLE_USER,
+        self::ROLE_SUPER_ADMIN,
+        self::ROLE_ADMIN,
+        self::ROLE_EDITOR,
+        self::ROLE_READER,
+        self::ROLE_LIBRARIAN,
+    ];
 
     public function setPlainPassword(string $password): static;
 

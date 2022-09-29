@@ -8,16 +8,17 @@ use App\Entity\AbstractEntity;
 use App\Entity\Traits\DescriptionEntityTrait;
 use App\Entity\Traits\NameEntityTrait;
 use App\Entity\Traits\QuantityEntityTrait;
-use App\Entity\Traits\TitleEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
+use function array_filter;
+use function implode;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(
  *     name="books",
- *
  * )
  */
 class Book extends AbstractEntity
@@ -25,117 +26,87 @@ class Book extends AbstractEntity
     use NameEntityTrait;
     use DescriptionEntityTrait;
     use QuantityEntityTrait;
-//
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\AuthorBook", mappedBy="book")
-//     */
-//    protected Collection $authorBooks;
-//
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="book")
-//     */
-//    protected Collection $reading;
-//
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="book")
-//     */
-//    protected Collection $orders;
-//
-//    public function __construct()
-//    {
-//        $this->authorBooks = new ArrayCollection();
-//        $this->reading     = new ArrayCollection();
-//        $this->orders      = new ArrayCollection();
-//    }
-//
-//    /**
-//     * @return Collection|AuthorBook[]
-//     */
-//    public function getAuthorBooks(): Collection
-//    {
-//        return $this->authorBooks;
-//    }
-//
-//    public function addAuthorBook(AuthorBook $authorBook): self
-//    {
-//        if (!$this->authorBooks->contains($authorBook)) {
-//            $this->authorBooks[] = $authorBook;
-//            $authorBook->setBook($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeAuthorBook(AuthorBook $authorBook): self
-//    {
-//        if ($this->authorBooks->removeElement($authorBook)) {
-//            // set the owning side to null (unless already changed)
-//            if ($authorBook->getBook() === $this) {
-//                $authorBook->setBook(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return Collection|Reading[]
-//     */
-//    public function getReading(): Collection
-//    {
-//        return $this->reading;
-//    }
-//
-//    public function addReading(Reading $reading): self
-//    {
-//        if (!$this->reading->contains($reading)) {
-//            $this->reading[] = $reading;
-//            $reading->setBook($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeReading(Reading $reading): self
-//    {
-//        if ($this->reading->removeElement($reading)) {
-//            // set the owning side to null (unless already changed)
-//            if ($reading->getBook() === $this) {
-//                $reading->setBook(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return Collection|Order[]
-//     */
-//    public function getOrders(): Collection
-//    {
-//        return $this->orders;
-//    }
-//
-//    public function addOrder(Order $order): self
-//    {
-//        if (!$this->orders->contains($order)) {
-//            $this->orders[] = $order;
-//            $order->setBook($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeOrder(Order $order): self
-//    {
-//        if ($this->orders->removeElement($order)) {
-//            // set the owning side to null (unless already changed)
-//            if ($order->getBook() === $this) {
-//                $order->setBook(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Book\Author", inversedBy="books")
+     * @ORM\JoinTable(name="books_authors")
+     *
+     * @var Collection|ArrayCollection|Author[]
+     */
+    private Collection $authors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Book\Category", inversedBy="books")
+     * @ORM\JoinTable(name="books_categories")
+     *
+     * @var Collection|ArrayCollection|Author[]
+     */
+    private Collection $categories;
+
+    public function __toString(): string
+    {
+        $labels = [];
+        if (!$this->getId()) {
+            $labels[] = 'New Book';
+        } else {
+            $labels[] = $this->getName();
+        }
+
+        return implode(' ', array_filter($labels));
+    }
+
+    public function __construct()
+    {
+        $this->authors    = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Author[]
+     */
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
+
+    public function addAuthor(Author $author): self
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Author $author): self
+    {
+        $this->authors->removeElement($author);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
 
 }

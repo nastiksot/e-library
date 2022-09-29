@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -25,6 +26,7 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Contracts\Service\Attribute\Required;
+
 use function current;
 use function in_array;
 use function strtoupper;
@@ -110,7 +112,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
                     'choices' => $choices,
                     //'translation_domain' => $this->getTranslationDomain(),
                 ],
-                'callback' => static function (
+                'callback'      => static function (
                     ProxyQuery|QueryBuilder $qb,
                     string $alias,
                     string $field,
@@ -133,6 +135,8 @@ abstract class AbstractUserAdmin extends AbstractAdmin
     {
         $this->configureFilterFieldText($filter, 'id', 'USER_ENTITY.LABEL.ID');
         $this->configureFilterFieldText($filter, 'email', 'USER_ENTITY.LABEL.EMAIL');
+        $this->configureFilterFieldText($filter, 'firstName', 'USER_ENTITY.LABEL.FIRST_NAME');
+        $this->configureFilterFieldText($filter, 'lastName', 'USER_ENTITY.LABEL.LAST_NAME');
         $this->configureFilterFieldRoles($filter);
         $this->configureFilterFieldActive($filter, null, 'USER_ENTITY.LABEL.ACTIVE');
         $this->configureFilterFieldCreatedAtDateRange($filter);
@@ -142,6 +146,8 @@ abstract class AbstractUserAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'email', 'USER_ENTITY.LABEL.EMAIL');
+        $this->configureListFieldText($list, 'firstName', 'USER_ENTITY.LABEL.FIRST_NAME');
+        $this->configureListFieldText($list, 'lastName', 'USER_ENTITY.LABEL.LAST_NAME');
         $this->configureListFieldCreatedAt($list);
         $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldActive($list);
@@ -151,15 +157,41 @@ abstract class AbstractUserAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form->with('USER_ENTITY.SECTION.MAIN');
+        $form->add(
+            'firstName',
+            TextType::class,
+            [
+                'required'           => false,
+                'label'              => 'USER_ENTITY.LABEL.FIRST_NAME',
+                'help'               => 'USER_ENTITY.HELP.FIRST_NAME',
+                'constraints'        => [new NotBlank()],
+                'translation_domain' => $this->getTranslationDomain(),
+            ]
+        );
 
+        $form->add(
+            'lastName',
+            TextType::class,
+            [
+                'required'           => false,
+                'label'              => 'USER_ENTITY.LABEL.LAST_NAME',
+                'help'               => 'USER_ENTITY.HELP.LAST_NAME',
+                'constraints'        => [new NotBlank()],
+                'translation_domain' => $this->getTranslationDomain(),
+            ]
+        );
+
+        $form->end();
+
+        $form->with('USER_ENTITY.SECTION.CREDENTIALS');
         $form->add(
             'email',
             TextType::class,
             [
-                'required'    => true,
-                'label'       => 'USER_ENTITY.LABEL.EMAIL',
-                'help'        => 'USER_ENTITY.HELP.EMAIL',
-                'constraints' => [
+                'required'           => false,
+                'label'              => 'USER_ENTITY.LABEL.EMAIL',
+                'help'               => 'USER_ENTITY.HELP.EMAIL',
+                'constraints'        => [
                     new NotBlank(),
                     new Callback([$this, 'validateFormFieldUserEmail']),
                 ],
@@ -175,13 +207,13 @@ abstract class AbstractUserAdmin extends AbstractAdmin
                 'plainPassword',
                 RepeatedType::class,
                 [
-                    'type'          => PasswordType::class,
-                    'required'      => $isPasswordRequired,
-                    'first_options' => [
+                    'type'               => PasswordType::class,
+                    'required'           => $isPasswordRequired,
+                    'first_options'      => [
                         'label' => 'USER_ENTITY.LABEL.PASSWORD',
                         'attr'  => ['autocomplete' => 'new-password'],
                     ],
-                    'second_options' => [
+                    'second_options'     => [
                         'label' => 'USER_ENTITY.LABEL.PASSWORD_REPEAT',
                         'attr'  => ['autocomplete' => 'new-password'],
                     ],
@@ -231,6 +263,35 @@ abstract class AbstractUserAdmin extends AbstractAdmin
             }
         }
 
+        $form->end();
+    }
+
+    protected function configureFormFieldsGoogleAuthenticator(FormMapper $form): void
+    {
+        $form->with('USER_ENTITY.SECTION.GOOGLE_AUTH');
+        $form
+            ->add(
+                'googleAuthenticatorEnabled',
+                ChoiceFieldMaskType::class,
+                [
+                    'label'              => 'USER_ENTITY.LABEL.GOOGLE_AUTHENTICATOR_ENABLED',
+                    'choices'            => self::$choicesYesNo,
+                    'map'                => [
+                        1 => ['googleAuthenticatorToken'],
+                        0 => [],
+                    ],
+                    'required'           => true,
+                    'translation_domain' => $this->getTranslationDomain(),
+                ]
+            )
+            ->add(
+                'googleAuthenticatorToken',
+                TextType::class,
+                [
+                    'label'    => 'USER_ENTITY.LABEL.GOOGLE_AUTHENTICATOR_TOKEN',
+                    'required' => false,
+                ]
+            );
         $form->end();
     }
 

@@ -1,9 +1,0 @@
-{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
-
-{% block field %}
-    {% if attribute(object, 'imageUrl') is defined %}
-        {% set imageTitle = getImageType(object) %}
-        <img src="{{ object.imageUrl }}" alt="{{ imageTitle }}" width="100px"> <br />
-
-    {% endif %}
-{% endblock %}
