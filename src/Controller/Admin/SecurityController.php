@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(
-        path: '/admin/login',
+        path: '/library/login',
         name: 'admin.login',
         methods: ['GET'],
     )]
@@ -34,7 +34,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(
-        path: '/admin/logout',
+        path: '/library/logout',
         name: 'admin.logout',
         methods: ['GET'],
     )]
@@ -44,7 +44,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(
-        path: '/admin/login-check',
+        path: '/library/login-check',
         name: 'admin.login_check',
         methods: ['POST']
     )]
@@ -52,16 +52,4 @@ class SecurityController extends AbstractController
     {
         throw new RuntimeException('Should be captured by security component');
     }
-
-//    #[Route(
-//        path: '/admin/register',
-//        name: 'admin.register',
-//        options: ['expose' => true]
-//    )]
-//    final public function register(/* Request $request, MessageRepository $messageRepository*/): Response
-//    {
-////        $title = $messageRepository->getMessageByCode($request->getLocale(), 'USER.REGISTER.TITLE');
-//
-//        return $this->render('admin/security/register.html.twig');
-//    }
 }

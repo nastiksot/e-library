@@ -34,7 +34,7 @@ security:
             security: false
 
         admin:
-            pattern: ^/admin
+            pattern: ^/library
             lazy: true
             provider: admin_user_provider
 
@@ -54,17 +54,17 @@ security:
             lazy: true
             provider: regular_user_provider
 
-            json_login:
-                check_path: api.login_check
+#            json_login:
+#                check_path: api.login_check
 
             form_login:
-                login_path: web.login
-                check_path: web.login_check
-                default_target_path: web.account
+                login_path: admin_user_reader_login
+                check_path: admin.login_check
+                default_target_path: sonata_admin_dashboard
 
             logout:
-                path: default.logout
-                target: web.login
+                path: admin.logout
+                target: admin_user_reader_login
 
             entry_point: form_login
 
@@ -78,8 +78,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # allow unauthenticated users to access the login form
-        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin/register, roles: PUBLIC_ACCESS }
+        - { path: ^/library/login, roles: PUBLIC_ACCESS }
+#        - { path: ^/admin/register, roles: PUBLIC_ACCESS }
 
         # but require authentication for all other admin routes
 #        - { path: '^/admin', roles: [PUBLIC_ACCESS] }

@@ -19,15 +19,15 @@ admin_controllers:
 #    type: annotation
 #    trailing_slash_on_root: false
 
-#default_controller:
-#    resource: ../../src/Controller/DefaultController.php
-#    type: annotation
-#    trailing_slash_on_root: false
-
-register_controller:
-    resource: ../../src/Controller/RegisterController.php
+default_controller:
+    resource: ../../src/Controller/DefaultController.php
     type: annotation
     trailing_slash_on_root: false
+
+#register_controller:
+#    resource: ../../src/Controller/RegisterController.php
+#    type: annotation
+#    trailing_slash_on_root: false
 
 #route_controller:
 #    resource: ../../src/Controller/RouteController.php

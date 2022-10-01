@@ -62,26 +62,12 @@ services:
             - '../src/Enum/'
             - '../src/Kernel.php'
 
-#    App\Loader\DatabaseTranslationLoader:
-#        tags:
-#            - { name: translation.loader, alias: db }
-
-#    App\Routing\LocaleAwareRouteProvider:
-#        arguments:
-#            $annotatedLoader: '@routing.loader.annotation'
-#            $paths: ['../src/Controller/Web']
-
-#    App\Routing\LocaleAwareRouteGenerator:
-#        arguments:
-#            $provider: '@App\Routing\LocaleAwareRouteProvider'
-
-    App\Controller\RouteController:
-        arguments:
-            $exposedRoutesExtractor: '@fos_js_routing.extractor'
-
     Intervention\Image\ImageManager:
         class: Intervention\Image\ImageManager
         factory: [ App\Service\ImageManager\ImageManagerFactory, 'create' ]
 
     Sonata\GoogleAuthenticator\GoogleAuthenticator:
         class: Sonata\GoogleAuthenticator\GoogleAuthenticator
+
+    App\Controller\DefaultController:
+        class: App\Controller\DefaultController

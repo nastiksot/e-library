@@ -61,7 +61,7 @@ class EditProfileAdmin extends AbstractAdmin
                 'help'               => 'USER_ENTITY.HELP.EMAIL',
                 'constraints'        => [
                     new NotBlank(),
-                    new Callback([$this, 'validateFormFieldUserEmail']),
+//                    new Callback([$this, 'validateFormFieldUserEmail']),
                 ],
                 'translation_domain' => $this->getTranslationDomain(),
             ]
