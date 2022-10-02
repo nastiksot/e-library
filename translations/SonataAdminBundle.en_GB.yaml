@@ -185,15 +185,13 @@ USER_ENTITY:
 
 GENERAL_SETTINGS_ENTITY:
     SECTION:
-        SOCIAL: 'Social Links'
+        MAIN: 'Main Settings'
     LABEL:
-        SOCIAL_FACEBOOK: 'Facebook'
-        SOCIAL_YOUTUBE: 'Youtube'
-        SOCIAL_INSTAGRAM: 'Instagram'
+        PENALTY: 'Penalty'
+        EXPIRE_COLOR: 'Expire Color'
     HELP:
-        SOCIAL_FACEBOOK: 'Leave blank to hide the social link'
-        SOCIAL_YOUTUBE: 'Leave blank to hide the social link'
-        SOCIAL_INSTAGRAM: 'Leave blank to hide the social link'
+        PENALTY: ''
+        EXPIRE_COLOR: ''
 
 
 CRON_COMMAND_ENTITY:

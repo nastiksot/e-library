@@ -5,37 +5,38 @@ declare(strict_types=1);
 namespace App\Admin\Settings;
 
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EditGeneralSettingsAdmin extends AbstractSettingsEditAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
-        $this->configureFormSectionSocial($form);
+        $this->configureFormSectionMain($form);
     }
 
-    protected function configureFormSectionSocial(FormMapper $form): void
+    protected function configureFormSectionMain(FormMapper $form): void
     {
-        $form->with('GENERAL_SETTINGS_ENTITY.SECTION.SOCIAL');
+        $form->with('GENERAL_SETTINGS_ENTITY.SECTION.MAIN');
 
-        $this->configureFormFieldText(
+        $this->configureFormFieldNumber(
             $form,
-            'socialFacebook',
-            'GENERAL_SETTINGS_ENTITY.LABEL.SOCIAL_FACEBOOK',
-            'GENERAL_SETTINGS_ENTITY.HELP.SOCIAL_FACEBOOK'
+            'penalty',
+            'GENERAL_SETTINGS_ENTITY.LABEL.PENALTY',
+            'GENERAL_SETTINGS_ENTITY.HELP.PENALTY',
+            false,
+            [
+                'scale' => 2,
+                'constraints' => [new NotBlank()],
+            ]
         );
 
         $this->configureFormFieldText(
             $form,
-            'socialYoutube',
-            'GENERAL_SETTINGS_ENTITY.LABEL.SOCIAL_YOUTUBE',
-            'GENERAL_SETTINGS_ENTITY.HELP.SOCIAL_YOUTUBE'
-        );
-
-        $this->configureFormFieldText(
-            $form,
-            'socialInstagram',
-            'GENERAL_SETTINGS_ENTITY.LABEL.SOCIAL_INSTAGRAM',
-            'GENERAL_SETTINGS_ENTITY.HELP.SOCIAL_INSTAGRAM'
+            'expireColor',
+            'GENERAL_SETTINGS_ENTITY.LABEL.EXPIRE_COLOR',
+            'GENERAL_SETTINGS_ENTITY.HELP.EXPIRE_COLOR',
+            false,
+            ['constraints' => [new NotBlank()]]
         );
 
         $form->end();

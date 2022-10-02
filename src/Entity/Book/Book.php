@@ -19,6 +19,10 @@ use function implode;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="books",
+ *     indexes={
+ *          @ORM\Index(name="idx_created_at", columns={"created_at"}),
+ *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
+ *     },
  * )
  */
 class Book extends AbstractEntity
@@ -42,6 +46,12 @@ class Book extends AbstractEntity
      * @var Collection|ArrayCollection|Author[]
      */
     private Collection $categories;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="book")
+     */
+    private Collection $reading;
+
 
     public function __toString(): string
     {

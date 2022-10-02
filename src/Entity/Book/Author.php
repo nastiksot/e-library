@@ -17,6 +17,10 @@ use function implode;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="authors",
+ *     indexes={
+ *          @ORM\Index(name="idx_created_at", columns={"created_at"}),
+ *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
+ *     },
  * )
  */
 class Author extends AbstractEntity

@@ -19,9 +19,9 @@ use JetBrains\PhpStorm\Pure;
  * @ORM\Table(
  *     name="users",
  *     indexes={
- *          @ORM\Index(name="idx_active", columns={"active"}),
  *          @ORM\Index(name="idx_created_at", columns={"created_at"}),
  *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
+ *          @ORM\Index(name="idx_active", columns={"active"}),
  *     },
  *     uniqueConstraints={
  *          @ORM\UniqueConstraint(name="uniq_email", columns={"email"}),

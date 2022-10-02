@@ -16,11 +16,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(
  *     name="reading",
- *
  *     indexes={
+ *          @ORM\Index(name="idx_created_at", columns={"created_at"}),
+ *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
+ *          @ORM\Index(name="idx_start_at", columns={"start_at"}),
+ *          @ORM\Index(name="idx_end_at", columns={"end_at"}),
+ *          @ORM\Index(name="idx_prolong_at", columns={"prolong_at"}),
  *          @ORM\Index(name="fk_book_id", columns={"book_id"}),
  *          @ORM\Index(name="fk_user_id", columns={"user_id"}),
- *     }
+ *     },
  * )
  */
 class Reading extends AbstractEntity
