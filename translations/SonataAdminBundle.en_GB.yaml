@@ -47,6 +47,9 @@ BREADCRUMB:
     MENU_BOOK:
         Book_list: 'Books'
         Book_create: 'Create'
+    MENU_READING:
+        Reading_list: 'Reading list'
+        Reading_create: 'Create'
 
 CHOICE:
     YES: 'Yes'

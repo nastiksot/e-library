@@ -1,6 +1,7 @@
 imports:
     - { resource: admin/user.yaml }
     - { resource: admin/book.yaml }
+    - { resource: admin/reading.yaml }
     - { resource: admin/settings.yaml }
 #    - { resource: admin/product_catalog.yaml }
 #    - { resource: admin/page.yaml }

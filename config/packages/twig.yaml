@@ -8,10 +8,10 @@ twig:
         adminLocale: '%adminLocale%'
         adminTranslationDomain: '%adminTranslationDomain%'
 
-#    form_themes:
-#        - '@App/form_themes/default.html.twig'
-#        - '@SonataForm/Form/datepicker.html.twig'
-#        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+    form_themes:
+        - 'form_themes/default.html.twig'
+        - '@SonataForm/Form/datepicker.html.twig'
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
 when@test:
     twig:

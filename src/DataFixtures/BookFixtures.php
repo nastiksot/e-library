@@ -27,7 +27,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i <= self::COUNT_BOOKS; $i++) {
+        for ($i = 1; $i <= self::COUNT_BOOKS; $i++) {
             $data   = $this->createData('book', $i);
             $entity = $this->createEntity(Book::class, $data);
             $manager->persist($entity);

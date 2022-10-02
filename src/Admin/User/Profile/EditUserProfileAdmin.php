@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\User;
+namespace App\Admin\User\Profile;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureFormTrait;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class EditProfileAdmin extends AbstractAdmin
+class EditUserProfileAdmin extends AbstractAdmin
 {
     use ConfigureFormTrait;
 

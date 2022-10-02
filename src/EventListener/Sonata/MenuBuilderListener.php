@@ -116,7 +116,7 @@ class MenuBuilderListener implements EventSubscriberInterface
             'MENU.USER_PROFILE.READING_MY',
             [
                 'label' => $this->translator->trans('MENU.USER_PROFILE.READING_MY', [], $this->adminTranslationDomain),
-                'route' => null,
+                'route' => 'admin_user_reading_list',
             ]
         );
 

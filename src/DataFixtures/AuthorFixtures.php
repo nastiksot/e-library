@@ -16,7 +16,7 @@ class AuthorFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i <= self::COUNT_AUTHORS; $i++) {
+        for ($i = 1; $i <= self::COUNT_AUTHORS; $i++) {
             $data   = $this->createData('author', $i);
             $entity = $this->createEntity(Author::class, $data);
             $manager->persist($entity);

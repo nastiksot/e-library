@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.reading:
+        class: App\Admin\ReadingAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_reading' ] ]
+            - [ setBaseRoutePattern,    [ 'reading' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.READING, label: MENU.READING }

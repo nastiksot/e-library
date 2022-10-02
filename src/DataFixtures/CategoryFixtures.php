@@ -16,7 +16,7 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i <= self::COUNT_CATEGORIES; $i++) {
+        for ($i = 1; $i <= self::COUNT_CATEGORIES; $i++) {
             $data   = $this->createData('Category', $i);
             $entity = $this->createEntity(Category::class, $data);
             $manager->persist($entity);

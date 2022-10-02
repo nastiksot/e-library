@@ -21,28 +21,28 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < self::COUNT_SUPER_ADMINS; $i++) {
+        for ($i = 1; $i <= self::COUNT_SUPER_ADMINS; $i++) {
             $data   = $this->createData(UserInterface::ROLE_SUPER_ADMIN, 'super-admin', $i);
             $entity = $this->createEntity(User::class, $data);
             $manager->persist($entity);
             $this->addReference('super-admin-' . $i, $entity);
         }
 
-        for ($i = 0; $i < self::COUNT_ADMINS; $i++) {
+        for ($i = 1; $i <= self::COUNT_ADMINS; $i++) {
             $data   = $this->createData(UserInterface::ROLE_ADMIN, 'admin', $i);
             $entity = $this->createEntity(User::class, $data);
             $manager->persist($entity);
             $this->addReference('admin-' . $i, $entity);
         }
 
-        for ($i = 0; $i < self::COUNT_LIBRARIANS; $i++) {
+        for ($i = 1; $i <= self::COUNT_LIBRARIANS; $i++) {
             $data   = $this->createData(UserInterface::ROLE_LIBRARIAN, 'lib', $i);
             $entity = $this->createEntity(User::class, $data);
             $manager->persist($entity);
             $this->addReference('librarian-' . $i, $entity);
         }
 
-        for ($i = 0; $i < self::COUNT_READERS; $i++) {
+        for ($i = 1; $i <= self::COUNT_READERS; $i++) {
             $data   = $this->createData(UserInterface::ROLE_READER, 'reader', $i);
             $entity = $this->createEntity(User::class, $data);
             $manager->persist($entity);

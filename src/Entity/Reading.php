@@ -44,7 +44,7 @@ class Reading extends AbstractEntity
     ];
 
     /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
+     * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
      */
     protected ?int $readingType = null;
 
