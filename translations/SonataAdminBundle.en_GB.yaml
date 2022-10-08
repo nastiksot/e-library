@@ -4,6 +4,8 @@ MENU_GROUP:
     SETTINGS: 'Settings'
     USER: 'Users'
     BOOK: 'Books'
+    ORDER: 'Orders'
+    READING: 'Reading'
 
 MENU:
     USER_UNDEFINED:
@@ -19,9 +21,12 @@ MENU:
     SETTINGS:
         GENERAL: General Settings
     USER_PROFILE:
-        READING_MY: 'I am Reading'
+        ORDER: 'My Orders'
+        READING: 'I am Reading'
         EDIT: 'Edit My Profile'
         LOGOUT: 'Logout'
+    ORDER: 'Orders'
+    READING: 'Reading'
 
 BREADCRUMB:
     MENU_USER_ALL:
@@ -47,6 +52,9 @@ BREADCRUMB:
     MENU_BOOK:
         Book_list: 'Books'
         Book_create: 'Create'
+    MENU_ORDER:
+        Order_list: 'Orders list'
+        Order_create: 'Create'
     MENU_READING:
         Reading_list: 'Reading list'
         Reading_create: 'Create'
@@ -238,3 +246,22 @@ BOOK_ENTITY:
         QUANTITY: ''
         AUTHORS: ''
         CATEGORIES: ''
+
+ORDER_ENTITY:
+    SECTION:
+        MAIN: 'Order Data'
+    LABEL:
+        BOOK: 'Book'
+        USER: 'Reader'
+        QUANTITY: 'Quantity'
+        STATUS: 'Status'
+    HELP:
+        BOOK: ''
+        USER: ''
+        QUANTITY: ''
+        STATUS: ''
+    CHOICES:
+        STATUS:
+            OPEN: 'Open'
+            DONE: 'Done'
+            CANCEL: 'Cancel'

@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait StartAtEntityTrait
 {
-
     /**
      * @ORM\Column(name="start_at", type="date", nullable=true)
      */

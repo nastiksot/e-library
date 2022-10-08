@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.order:
+        class: App\Admin\OrderAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_order' ] ]
+            - [ setBaseRoutePattern,    [ 'order' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.ORDER }

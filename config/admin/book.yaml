@@ -28,19 +28,18 @@ services:
         tags:
             - { name: sonata.admin, model_class: 'App\Entity\Book\Book', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK }
 
-#    admin.user.librarian:
-#        class: App\Admin\User\AdminUserLibrarian
-#        calls:
-#            - [ setBaseRouteName,       [ 'admin_user_librarian' ] ]
-#            - [ setBaseRoutePattern,    [ 'user-librarian' ] ]
-#        tags:
-#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_LIBRARIAN }
-#
-#    admin.user.reader:
-#        class: App\Admin\User\AdminUserReader
-#        calls:
-#            - [ setBaseRouteName,       [ 'admin_user_reader' ] ]
-#            - [ setBaseRoutePattern,    [ 'user-reader' ] ]
-#        tags:
-#            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_READER }
-#
+    admin.order:
+        class: App\Admin\OrderAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_order' ] ]
+            - [ setBaseRoutePattern,    [ 'order' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.ORDER }
+
+    admin.reading:
+        class: App\Admin\ReadingAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_reading' ] ]
+            - [ setBaseRoutePattern,    [ 'reading' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.READING }

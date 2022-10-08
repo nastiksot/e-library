@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use function array_filter;
 use function implode;
+use function method_exists;
 
 /**
  * @ORM\Entity()
@@ -25,7 +26,6 @@ use function implode;
  */
 class Author extends AbstractEntity
 {
-
     use FullNameEntityTrait;
 
     /**
@@ -41,8 +41,11 @@ class Author extends AbstractEntity
         if (!$this->getId()) {
             $labels[] = 'New Author';
         } else {
-            $labels[] = $this->getFirstName();
-            $labels[] = $this->getLastName();
+            $labels[] = $this->getFullName();
+        }
+
+        if (method_exists($this, 'isActive') && !$this->isActive()) {
+            $labels[] = '(disabled)';
         }
 
         return implode(' ', array_filter($labels));

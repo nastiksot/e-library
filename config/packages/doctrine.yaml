@@ -12,12 +12,7 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         mapping_types:
-            App\Contracts\Dictionary\WhereToBuy: string
-            App\Contracts\Dictionary\DecisionAction: string
-            App\Contracts\Dictionary\ProductSetProductType: string
-            App\Contracts\Dictionary\FileMimeType: string
-            App\Contracts\Dictionary\DealerRequestStatus: string
-            App\Contracts\Dictionary\DescriptivePanelPage: string
+            App\Contracts\Dictionary\OrderStatus: string
 
     orm:
         auto_generate_proxy_classes: true

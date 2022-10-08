@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait QuantityEntityTrait
 {
-
     /**
      * @ORM\Column(name="quantity", type="integer", nullable=false, options={"default":"0"})
      */
@@ -25,5 +24,4 @@ trait QuantityEntityTrait
 
         return $this;
     }
-
 }

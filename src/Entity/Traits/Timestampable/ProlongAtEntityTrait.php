@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ProlongAtEntityTrait
 {
-
     /**
      * @ORM\Column(name="prolong_at", type="date", nullable=true)
      */

@@ -2,6 +2,7 @@ sonata_admin:
     title: 'Admin'
     security:
         handler: sonata.admin.security.handler.role
+        role_admin: ROLE_ADMIN
         role_super_admin: ROLE_SUPER_ADMIN
 
     show_mosaic_button: false

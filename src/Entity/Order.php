@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Contracts\Dictionary\OrderStatus;
 use App\Entity\Book\Book;
 use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
@@ -18,6 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     indexes={
  *          @ORM\Index(name="idx_created_at", columns={"created_at"}),
  *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
+ *          @ORM\Index(name="idx_start_at", columns={"start_at"}),
+ *          @ORM\Index(name="idx_end_at", columns={"end_at"}),
  *          @ORM\Index(name="fk_book_id", columns={"book_id"}),
  *          @ORM\Index(name="fk_user_id", columns={"user_id"}),
  *     },
@@ -25,10 +28,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order extends AbstractEntity
 {
-
+    use QuantityEntityTrait;
     use StartAtEntityTrait;
     use EndAtEntityTrait;
-    use QuantityEntityTrait;
 
     public const STATUS_OPEN     = 1;
     public const STATUS_DONE     = 2;
@@ -40,38 +42,32 @@ class Order extends AbstractEntity
         self::STATUS_CANCELED => 'Canceled',
     ];
 
-    /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
-     */
-    protected ?int $readingType = null;
+//    /**
+//     * @ORM\Column(type="integer", options={"unsigned": true})
+//     */
+//    protected ?int $readingType = null;
 
-    /**
-     * @ORM\Column(name="status", type="smallint", nullable=true, options={"unsigned": true})
-     */
-    protected ?int $status = self::STATUS_OPEN;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="orders")
-     * @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected ?Book $book;
+    private ?Book $book;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="orders")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected ?User $user;
+    private ?User $user;
 
-    public function getStatus(): ?int
+    /**
+     * @ORM\Column(name="status", type=OrderStatus::class, nullable=false, options={"default": "new"})
+     */
+    private OrderStatus $status;
+
+    public function __construct()
     {
-        return $this->status;
-    }
-
-    public function setStatus(?int $status): self
-    {
-        $this->status = $status;
-
-        return $this;
+        $this->status = OrderStatus::OPEN();
     }
 
     public function getBook(): ?Book
@@ -82,18 +78,6 @@ class Order extends AbstractEntity
     public function setBook(?Book $book): self
     {
         $this->book = $book;
-
-        return $this;
-    }
-
-    public function getReadingType(): ?int
-    {
-        return $this->readingType;
-    }
-
-    public function setReadingType(int $readingType): self
-    {
-        $this->readingType = $readingType;
 
         return $this;
     }
@@ -110,5 +94,19 @@ class Order extends AbstractEntity
         return $this;
     }
 
+    public function getStatus(): ?OrderStatus
+    {
+        return $this->status;
+    }
 
+    public function setStatus(null|string|OrderStatus $status): self
+    {
+        if (is_string($status)) {
+            $this->status = new OrderStatus($status);
+        } else {
+            $this->status = $status;
+        }
+
+        return $this;
+    }
 }

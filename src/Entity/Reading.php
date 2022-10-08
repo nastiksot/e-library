@@ -29,7 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Reading extends AbstractEntity
 {
-
     use QuantityEntityTrait;
     use StartAtEntityTrait;
     use EndAtEntityTrait;
@@ -42,23 +41,23 @@ class Reading extends AbstractEntity
         self::READING_TYPE_SUBSCRIPTION => 'Subscription',
         self::READING_TYPE_READING_ROOM => 'Reading Hall',
     ];
-
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
-     */
-    protected ?int $readingType = null;
+//
+//    /**
+//     * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
+//     */
+//    protected ?int $readingType = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="reading")
      * @ORM\JoinColumn(name="book_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected ?Book $book;
+    private ?Book $book;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="reading")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected ?User $user;
+    private ?User $user;
 
     public function getBook(): ?Book
     {
@@ -80,18 +79,6 @@ class Reading extends AbstractEntity
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getReadingType(): ?int
-    {
-        return $this->readingType;
-    }
-
-    public function setReadingType(int $readingType): self
-    {
-        $this->readingType = $readingType;
 
         return $this;
     }

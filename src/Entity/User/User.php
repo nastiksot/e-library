@@ -6,6 +6,7 @@ namespace App\Entity\User;
 
 use App\Contracts\Entity\UserInterface;
 use App\Entity\AbstractEntity;
+use App\Entity\Order;
 use App\Entity\Reading;
 use App\Entity\Traits\ActiveEntityTrait;
 use App\Entity\Traits\Contact\FullNameEntityTrait;
@@ -14,6 +15,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+
+use function array_filter;
+use function implode;
+use function method_exists;
 
 /**
  * @ORM\Table(
@@ -36,22 +41,39 @@ class User extends AbstractEntity implements UserInterface
     use GeneralDataUserEntityTrait;
     use FullNameEntityTrait;
 
+    public function __toString(): string
+    {
+        $labels = [];
+        if (!$this->getId()) {
+            $labels[] = 'New User';
+        } else {
+            $labels[] = $this->getFullName();
+        }
+
+        if (method_exists($this, 'isActive') && !$this->isActive()) {
+            $labels[] = '(disabled)';
+        }
+
+        return implode(' ', array_filter($labels));
+    }
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="user")
      */
-    protected Collection $reading;
+    private Collection $reading;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
-//     */
-//    protected Collection $orders;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
+     */
+    private Collection $orders;
 
     #[Pure]
     public function __construct()
     {
-        $this->active = false;
-        $this->roles  = [UserInterface::ROLE_USER];
+        $this->active  = false;
+        $this->roles   = [UserInterface::ROLE_USER];
         $this->reading = new ArrayCollection();
+        $this->orders  = new ArrayCollection();
     }
 
     /**
@@ -78,6 +100,36 @@ class User extends AbstractEntity implements UserInterface
             // set the owning side to null (unless already changed)
             if ($reading->getUser() === $this) {
                 $reading->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 

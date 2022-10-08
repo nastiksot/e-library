@@ -113,9 +113,17 @@ class MenuBuilderListener implements EventSubscriberInterface
         $menu->setExtra('icon', '<i class="fa fa-user"></i>');
 
         $menu->addChild(
-            'MENU.USER_PROFILE.READING_MY',
+            'MENU.USER_PROFILE.ORDER',
             [
-                'label' => $this->translator->trans('MENU.USER_PROFILE.READING_MY', [], $this->adminTranslationDomain),
+                'label' => $this->translator->trans('MENU.USER_PROFILE.ORDER', [], $this->adminTranslationDomain),
+                'route' => 'admin_user_order_list',
+            ]
+        );
+
+        $menu->addChild(
+            'MENU.USER_PROFILE.READING',
+            [
+                'label' => $this->translator->trans('MENU.USER_PROFILE.READING', [], $this->adminTranslationDomain),
                 'route' => 'admin_user_reading_list',
             ]
         );

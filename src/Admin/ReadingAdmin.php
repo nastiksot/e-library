@@ -22,7 +22,7 @@ class ReadingAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('book', null, ['label' => 'READING_ENTITY.LABEL.BOOK']);
-        $filter->add('user', null, ['label' => 'READING_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user.all']);
+        $filter->add('user', null, ['label' => 'READING_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user']);
         $filter->add('quantity', null, ['label' => 'READING_ENTITY.LABEL.QUANTITY']);
 //        $this->configureFilterFieldCreatedAtDateRange($filter);
 //        $this->configureFilterFieldUpdatedAtDateRange($filter);
@@ -35,7 +35,7 @@ class ReadingAdmin extends AbstractAdmin
     {
         $this->configureListFieldText($list, 'id', 'ID');
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
-        $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user.all']);
+        $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
 //        $this->configureListFieldCreatedAt($list);
 //        $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
@@ -74,7 +74,7 @@ class ReadingAdmin extends AbstractAdmin
                     'btn_add'     => false,
                     'constraints' => [new NotBlank()],
                 ],
-                ['admin_code' => 'admin.user.all']
+                ['admin_code' => 'admin.user']
             );
 
         $this->configureFormFieldNumber(

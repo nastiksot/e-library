@@ -22,12 +22,12 @@ class GeneralSettings extends AbstractEntity
     /**
      * @ORM\Column(name="penalty", type="float", nullable=true)
      */
-    protected ?float $penalty = null;
+    private ?float $penalty = null;
 
     /**
      * @ORM\Column(name="expire_color", type="string", length=255, nullable=true)
      */
-    protected ?string $expireColor = null;
+    private ?string $expireColor = null;
 
 
     public function __toString(): string

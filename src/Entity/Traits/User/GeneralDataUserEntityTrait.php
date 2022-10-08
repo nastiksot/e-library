@@ -43,11 +43,6 @@ trait GeneralDataUserEntityTrait
      */
     protected ?string $googleAuthenticatorToken = null;
 
-//    /**
-//     * @ORM\Column(name="locale", type="string", length=5, nullable=false, options={"default": "de_DE"})
-//     */
-//    protected string $locale = 'de_DE';
-
     public function getUsername(): ?string
     {
         return $this->email;
@@ -140,18 +135,6 @@ trait GeneralDataUserEntityTrait
 
         return $this;
     }
-
-//    public function getLocale(): string
-//    {
-//        return $this->locale;
-//    }
-//
-//    public function setLocale(string $locale): static
-//    {
-//        $this->locale = $locale;
-//
-//        return $this;
-//    }
 
     public function eraseCredentials(): void
     {

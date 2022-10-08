@@ -4,7 +4,7 @@ services:
         autowire: true
         autoconfigure: true
 
-    admin.user.all:
+    admin.user:
         class: App\Admin\User\AllUserAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_user_all' ] ]
@@ -43,6 +43,14 @@ services:
             - [ setBaseRoutePattern,    [ 'user-profile' ] ]
         tags:
             - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.EDIT }
+
+    admin.user.profile.order:
+        class: App\Admin\User\Profile\OrderUserProfileAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_user_order' ] ]
+            - [ setBaseRoutePattern,    [ 'user-order' ] ]
+        tags:
+            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.ORDER, show_in_dashboard: false  }
 
     admin.user.profile.reading:
         class: App\Admin\User\Profile\ReadingUserProfileAdmin

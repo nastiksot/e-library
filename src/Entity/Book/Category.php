@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use function array_filter;
 use function implode;
+use function method_exists;
 
 /**
  * @ORM\Entity()
@@ -27,14 +28,12 @@ class Category extends AbstractEntity
 {
     use NameEntityTrait;
 
-
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Book\Book", mappedBy="categories")
      *
      * @var Collection|ArrayCollection|Book
      */
     private Collection $books;
-
 
     public function __toString(): string
     {
@@ -43,6 +42,10 @@ class Category extends AbstractEntity
             $labels[] = 'New Category';
         } else {
             $labels[] = $this->getName();
+        }
+
+        if (method_exists($this, 'isActive') && !$this->isActive()) {
+            $labels[] = '(disabled)';
         }
 
         return implode(' ', array_filter($labels));
