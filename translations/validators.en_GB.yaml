@@ -3,6 +3,7 @@ GENERAL:
     ENTITY_NOT_FOUND: 'Entity not found'
     ENTITY_UNPROCESSABLE: 'Unprocessable Entity'
     SEND_MAIL_FAILED: 'Send mail failed'
+    ACCESS_DENIED: 'Access denied'
 
 USER:
     IDENTIFIER_NOT_FOUND: 'User "%IDENTIFIER%" not found'

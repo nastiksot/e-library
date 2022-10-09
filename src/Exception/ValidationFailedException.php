@@ -32,8 +32,10 @@ class ValidationFailedException extends AppException
     /**
      * @param array<int, array> $violations
      */
-    public static function fromArray(array $violations, string $message = 'Validation failed'): ValidationFailedException
-    {
+    public static function fromArray(
+        array $violations,
+        string $message = 'Validation failed'
+    ): ValidationFailedException {
         $exceptions = [];
 
         foreach ($violations as $violation) {

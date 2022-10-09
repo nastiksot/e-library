@@ -1,7 +1,8 @@
 sonata_admin:
     title: 'Admin'
     security:
-        handler: sonata.admin.security.handler.role
+#        handler: sonata.admin.security.handler.role
+        handler: App\Security\RoleSecurityHandler
         role_admin: ROLE_ADMIN
         role_super_admin: ROLE_SUPER_ADMIN
 

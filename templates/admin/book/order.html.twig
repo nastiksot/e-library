@@ -1,0 +1,20 @@
+{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+
+{% block title %}
+    {{ 'USER_ENTITY.REGISTER'|trans({}, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block navbar_title %}
+    {{ 'USER_ENTITY.REGISTER'|trans({}, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block sonata_form_action_url %}
+    {{ path('admin_user_reader_register') }}
+{% endblock %}
+
+{% block formactions %}
+    <button type="submit" class="btn btn-success" name="btn_create">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        {{ 'USER_ENTITY.BUTTON.REGISTER'|trans({}, 'SonataAdminBundle') }}
+    </button>
+{% endblock %}

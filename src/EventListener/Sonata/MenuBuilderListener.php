@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\ItemInterface;
 use Sonata\AdminBundle\Event\ConfigureMenuEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -19,6 +20,7 @@ class MenuBuilderListener implements EventSubscriberInterface
     public function __construct(
         private EntityManagerInterface $em,
         private AuthorizationCheckerInterface $authorizationChecker,
+        private TokenStorageInterface $tokenStorage,
         private TranslatorInterface $translator,
         private string $adminTranslationDomain,
     ) {
@@ -44,6 +46,11 @@ class MenuBuilderListener implements EventSubscriberInterface
     private function isEditor(): bool
     {
         return $this->authorizationChecker->isGranted(UserInterface::ROLE_EDITOR);
+    }
+
+    private function getUser(): UserInterface|\Symfony\Component\Security\Core\User\UserInterface
+    {
+        return $this->tokenStorage->getToken()?->getUser();
     }
 
     public function addMenuItems(ConfigureMenuEvent $event): void
@@ -137,7 +144,7 @@ class MenuBuilderListener implements EventSubscriberInterface
                     $this->adminTranslationDomain
                 ),
                 'route'           => 'admin_user_profile_edit',
-                'routeParameters' => ['id' => 1],
+                'routeParameters' => ['id' => $this->getUser()->getId()],
             ]
         );
 

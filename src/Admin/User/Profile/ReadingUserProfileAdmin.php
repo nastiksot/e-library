@@ -18,42 +18,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * @method Reading|null getSubject()
  */
-class ReadingUserProfileAdmin extends AbstractAdmin
+class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
 {
     use ConfigureAdminFullTrait;
-
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        /** @var ProxyQueryInterface|QueryBuilder $query */
-        parent::configureQuery($query);
-
-
-        $user = $this->getUser();
-        if ($user !== null) {
-            $alias = current($query->getRootAliases());
-//            dd($alias);
-            $query->andWhere("{$alias}.user = :userId");
-            $query->setParameter(':userId', $user->getId());
-        }
-
-//        dd($user);
-
-//        $alias      = current($query->getRootAliases());
-//        $conditions = ["{$alias}.roles = 'ROLES_ARE_NOT_SET'"];
-//
-//        if ($roles = $this->resolveUserRoles()) {
-//            $conditions = [];
-//
-//            foreach ($roles as $key => $role) {
-//                $conditions[] = "{$alias}.roles LIKE :role_{$key}";
-//                $query->setParameter(":role_{$key}", '%' . $role . '%');
-//            }
-//        }
-//        $query->andWhere($query->expr()->orX(...$conditions));
-
-        return $query;
-    }
-
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {

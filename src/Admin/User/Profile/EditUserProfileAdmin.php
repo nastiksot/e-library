@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Admin\User\Profile;
 
-use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureFormTrait;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class EditUserProfileAdmin extends AbstractAdmin
+class EditUserProfileAdmin extends AbstractUserProfileAdmin
 {
     use ConfigureFormTrait;
 

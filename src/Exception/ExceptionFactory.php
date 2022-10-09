@@ -84,4 +84,15 @@ class ExceptionFactory
             $this->translator->trans($message ?? 'GENERAL.SEND_MAIL_FAILED', $parameters, $domain, $locale)
         );
     }
+
+    final public function createAccessDeniedException(
+        ?string $message = null,
+        array $parameters = [],
+        string $domain = self::DOMAIN,
+        string $locale = null,
+    ): AccessDeniedException {
+        return new AccessDeniedException(
+            $this->translator->trans($message ?? 'GENERAL.ACCESS_DENIED', $parameters, $domain, $locale)
+        );
+    }
 }

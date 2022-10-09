@@ -3,9 +3,11 @@ security:
         ROLE_USER:
             - IS_AUTHENTICATED_FULLY
             - IS_AUTHENTICATED_REMEMBERED
+            - ROLE_ADMIN_BOOK_LIST
+            - ROLE_ADMIN_BOOK_ORDER
             - ROLE_ADMIN_USER_PROFILE_EDIT
-            - ROLE_ADMIN_USER_PROFILE_ORDER
-            - ROLE_ADMIN_USER_PROFILE_READING
+            - ROLE_ADMIN_USER_PROFILE_ORDER_LIST
+            - ROLE_ADMIN_USER_PROFILE_READING_LIST
         ROLE_READER:
             - ROLE_USER
         ROLE_EDITOR:
@@ -16,12 +18,6 @@ security:
             - ROLE_EDITOR
         ROLE_ADMIN:
             - ROLE_EDITOR
-#            - ROLE_ADMIN_SETTINGS_GENERAL_ALL
-#            - ROLE_ADMIN_USER_LIBRARIAN
-#            - ROLE_ADMIN_USER_READER
-#            - ROLE_ADMIN_USER_PROFILE_EDIT
-#            - ROLE_ADMIN_USER_PROFILE_ORDER
-#            - ROLE_ADMIN_USER_PROFILE_READING
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN
             - ROLE_ALLOWED_TO_SWITCH
@@ -43,12 +39,10 @@ security:
     enable_authenticator_manager: true
 
     providers:
-        admin_user_provider:
-            id: App\Security\AdminUserProvider
-
-        regular_user_provider:
-            id: App\Security\RegularUserProvider
-
+        general_user_provider:
+            id: App\Security\GeneralUserProvider
+#        admin_user_provider:
+#            id: App\Security\AdminUserProvider
 
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
@@ -62,7 +56,7 @@ security:
         admin:
             pattern: ^/library
             lazy: true
-            provider: admin_user_provider
+            provider: general_user_provider
 
             form_login:
                 login_path: admin_user_reader_login
@@ -78,7 +72,7 @@ security:
         main:
             pattern: ^/
             lazy: true
-            provider: regular_user_provider
+            provider: general_user_provider
 
 #            json_login:
 #                check_path: api.login_check
@@ -104,6 +98,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # allow unauthenticated users to access the login form
+        - { path: ^/library/book, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/library/login, roles: PUBLIC_ACCESS }
 #        - { path: ^/admin/register, roles: PUBLIC_ACCESS }
 

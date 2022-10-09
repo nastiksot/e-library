@@ -71,3 +71,11 @@ services:
 
     App\Controller\DefaultController:
         class: App\Controller\DefaultController
+
+    App\Security\RoleSecurityHandler:
+        arguments:
+            $roleSecurityHandler: '@sonata.admin.security.handler.role'
+
+    App\Controller\Admin\CRUD\UserReaderCRUDController:
+        arguments:
+            $authenticator: '@security.authenticator.form_login.main'

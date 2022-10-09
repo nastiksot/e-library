@@ -10,6 +10,7 @@ use App\Entity\Book\Book;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -18,6 +19,23 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class BookAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
+
+//    /**
+//     * @return array<string, string|string[]> [action1 => requiredRole1, action2 => [requiredRole2, requiredRole3]]
+//     */
+    protected function getAccessMapping(): array
+    {
+        return [
+            'order' => 'ORDER',
+        ];
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+//        $collection->add('order', sprintf('%s/order', $this->getRouterIdParameter()));
+        $collection->add('order', $this->getRouterIdParameter().'/order');
+        parent::configureRoutes($collection);
+    }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
@@ -37,7 +55,11 @@ class BookAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'authors', 'BOOK_ENTITY.LABEL.AUTHORS');
         $this->configureListFieldText($list, 'categories', 'BOOK_ENTITY.LABEL.CATEGORIES');
 
-        $this->configureListFieldActions($list);
+        $actions = ['order' => [
+            'template' => 'admin/book/list__action_order.html.twig'
+        ],  'edit' => [], 'delete' => []];
+
+        $this->configureListFieldActions($list, $actions);
     }
 
     protected function configureFormFields(FormMapper $form): void

@@ -7,8 +7,8 @@ services:
     admin.user:
         class: App\Admin\User\AllUserAdmin
         calls:
-            - [ setBaseRouteName,       [ 'admin_user_all' ] ]
-            - [ setBaseRoutePattern,    [ 'user-all' ] ]
+            - [ setBaseRouteName,       [ 'admin_user' ] ]
+            - [ setBaseRoutePattern,    [ 'user' ] ]
         tags:
             - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_ALL }
 
@@ -34,15 +34,24 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_reader' ] ]
             - [ setBaseRoutePattern,    [ 'user-reader' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', controller: App\Controller\Admin\CRUD\UserReaderCRUDController,  manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_READER }
+            -   name: sonata.admin
+                model_class: 'App\Entity\User\User'
+                controller: App\Controller\Admin\CRUD\UserReaderCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_READER
 
-    admin.user.profile.edit:
+    admin.user.profile:
         class: App\Admin\User\Profile\EditUserProfileAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_user_profile' ] ]
             - [ setBaseRoutePattern,    [ 'user-profile' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.EDIT }
+            -   name: sonata.admin
+                model_class: 'App\Entity\User\User'
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_PROFILE.EDIT
 
     admin.user.profile.order:
         class: App\Admin\User\Profile\OrderUserProfileAdmin
@@ -50,7 +59,7 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_order' ] ]
             - [ setBaseRoutePattern,    [ 'user-order' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.ORDER, show_in_dashboard: false  }
+            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.ORDER, show_in_dashboard: false }
 
     admin.user.profile.reading:
         class: App\Admin\User\Profile\ReadingUserProfileAdmin
@@ -58,4 +67,4 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_reading' ] ]
             - [ setBaseRoutePattern,    [ 'user-reading' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.READING, show_in_dashboard: false  }
+            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.READING, show_in_dashboard: false }

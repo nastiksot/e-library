@@ -25,7 +25,8 @@ class RegisterUserHandler implements CommandHandlerInterface
             ->setFirstName($command->getFirstName())
             ->setLastName($command->getLastName())
             ->setPlainPassword($command->getPassword())
-            ->setRoles([UserInterface::ROLE_READER]);
+            ->setRoles([UserInterface::ROLE_READER])
+            ->setActive(true);
 
         // save
         $this->em->persist($user);
