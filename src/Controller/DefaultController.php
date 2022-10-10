@@ -16,6 +16,6 @@ class DefaultController extends AbstractController
     )]
     public function index(): Response
     {
-        return $this->redirectToRoute('sonata_admin_dashboard');
+        return $this->redirectToRoute('admin_book_list');
     }
 }

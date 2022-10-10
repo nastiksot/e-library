@@ -12,12 +12,19 @@ security:
             - ROLE_USER
         ROLE_EDITOR:
             - ROLE_USER
-            - ROLE_ADMIN_USER_LIBRARIAN
-            - ROLE_ADMIN_USER_READER
+            - ROLE_ADMIN_USER_LIBRARIAN_ALL
+            - ROLE_ADMIN_USER_READER_ALL
+            - ROLE_ADMIN_BOOK_AUTHOR_ALL
+            - ROLE_ADMIN_BOOK_CATEGORY_ALL
+            - ROLE_ADMIN_BOOK_ALL
+            - ROLE_ADMIN_ORDER_ALL
+            - ROLE_ADMIN_READING_ALL
         ROLE_LIBRARIAN:
             - ROLE_EDITOR
         ROLE_ADMIN:
             - ROLE_EDITOR
+            - ROLE_ADMIN_USER_ADMIN_ALL
+            - ROLE_ADMIN_SETTINGS_GENERAL_EDIT
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN
             - ROLE_ALLOWED_TO_SWITCH
@@ -61,7 +68,7 @@ security:
             form_login:
                 login_path: admin_user_reader_login
                 check_path: admin.login_check
-                default_target_path: sonata_admin_dashboard
+                default_target_path: admin_book_list
 
             logout:
                 path: admin.logout
@@ -80,7 +87,7 @@ security:
             form_login:
                 login_path: admin_user_reader_login
                 check_path: admin.login_check
-                default_target_path: sonata_admin_dashboard
+                default_target_path: admin_book_list
 
             logout:
                 path: admin.logout

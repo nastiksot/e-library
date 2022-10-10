@@ -78,7 +78,10 @@ class MenuBuilderListener implements EventSubscriberInterface
         $this->addMenuProfileUser($event);
 
         // create settings menu
-        $this->addMenuSettings($event);
+        if ($this->isAdmin()) {
+            $this->addMenuSettings($event);
+        }
+
     }
 
     private function addMenuUndefinedUser(ConfigureMenuEvent $event): void

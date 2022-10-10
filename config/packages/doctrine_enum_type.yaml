@@ -1,3 +1,4 @@
 danaki_doctrine_enum_type:
     types:
         App\Contracts\Dictionary\OrderStatus: ~
+        App\Contracts\Dictionary\ReadingType: ~

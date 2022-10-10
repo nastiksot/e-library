@@ -1,20 +1,60 @@
 {% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{# @var \App\Entity\Book\Book book #}
+{# @var \App\Entity\Book\Book object #}
+{# @var \App\Entity\Book\Author author #}
 
 {% block title %}
-    {{ 'USER_ENTITY.REGISTER'|trans({}, 'SonataAdminBundle') }}
+    {{ 'BOOK_ENTITY.MESSAGE.ORDER_TITLE'|trans({}, 'SonataAdminBundle') }}
 {% endblock %}
 
 {% block navbar_title %}
-    {{ 'USER_ENTITY.REGISTER'|trans({}, 'SonataAdminBundle') }}
+    {{ 'BOOK_ENTITY.MESSAGE.ORDER_TITLE'|trans({}, 'SonataAdminBundle') }}
 {% endblock %}
 
 {% block sonata_form_action_url %}
-    {{ path('admin_user_reader_register') }}
+    {{ path('admin_book_order', {'id': objectId}) }}
+{% endblock %}
+
+
+{% block form %}
+
+    <div id="sonata-ba-field-container-order_book" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.NAME'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {{ book }}
+        </div>
+    </div>
+
+    <div id="sonata-ba-field-container-order_book_authors" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.AUTHORS'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {% for author in book.authors %}
+                {{ author }} <br/>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="sonata-ba-field-container-order_book_categories" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.CATEGORIES'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {% for category in book.categories %}
+                {{ category }} <br/>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ parent() }}
 {% endblock %}
 
 {% block formactions %}
     <button type="submit" class="btn btn-success" name="btn_create">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
-        {{ 'USER_ENTITY.BUTTON.REGISTER'|trans({}, 'SonataAdminBundle') }}
+        {{ 'BOOK_ENTITY.BUTTON.ORDER_SUBMIT'|trans({}, 'SonataAdminBundle') }}
     </button>
 {% endblock %}

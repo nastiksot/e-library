@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Contracts\Dictionary\OrderStatus;
+use App\Contracts\Dictionary\ReadingType;
 use App\Entity\Book\Book;
 use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
@@ -23,6 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\Index(name="idx_end_at", columns={"end_at"}),
  *          @ORM\Index(name="fk_book_id", columns={"book_id"}),
  *          @ORM\Index(name="fk_user_id", columns={"user_id"}),
+ *          @ORM\Index(name="idx_status", columns={"status"}),
+ *          @ORM\Index(name="idx_reading_type", columns={"reading_type"}),
  *     },
  * )
  */
@@ -31,22 +34,6 @@ class Order extends AbstractEntity
     use QuantityEntityTrait;
     use StartAtEntityTrait;
     use EndAtEntityTrait;
-
-    public const STATUS_OPEN     = 1;
-    public const STATUS_DONE     = 2;
-    public const STATUS_CANCELED = 3;
-
-    public const STATUSES = [
-        self::STATUS_OPEN     => 'Open',
-        self::STATUS_DONE     => 'Done',
-        self::STATUS_CANCELED => 'Canceled',
-    ];
-
-//    /**
-//     * @ORM\Column(type="integer", options={"unsigned": true})
-//     */
-//    protected ?int $readingType = null;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="orders")
@@ -61,13 +48,19 @@ class Order extends AbstractEntity
     private ?User $user;
 
     /**
-     * @ORM\Column(name="status", type=OrderStatus::class, nullable=false, options={"default": "new"})
+     * @ORM\Column(name="status", type=OrderStatus::class, nullable=false, options={"default": "open"})
      */
     private OrderStatus $status;
 
+    /**
+     * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
+     */
+    private ReadingType $readingType;
+
     public function __construct()
     {
-        $this->status = OrderStatus::OPEN();
+        $this->status      = OrderStatus::OPEN();
+        $this->readingType = ReadingType::READING_HALL();
     }
 
     public function getBook(): ?Book
@@ -105,6 +98,22 @@ class Order extends AbstractEntity
             $this->status = new OrderStatus($status);
         } else {
             $this->status = $status;
+        }
+
+        return $this;
+    }
+
+    public function getReadingType(): ?ReadingType
+    {
+        return $this->readingType;
+    }
+
+    public function setReadingType(null|string|ReadingType $readingType): self
+    {
+        if (is_string($readingType)) {
+            $this->readingType = new ReadingType($readingType);
+        } else {
+            $this->readingType = $readingType;
         }
 
         return $this;

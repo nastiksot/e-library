@@ -13,6 +13,7 @@ doctrine:
 
         mapping_types:
             App\Contracts\Dictionary\OrderStatus: string
+            App\Contracts\Dictionary\ReadingType: string
 
     orm:
         auto_generate_proxy_classes: true

@@ -40,7 +40,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_order' ] ]
             - [ setBaseRoutePattern,    [ 'order' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.ORDER }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Order'
+                controller: App\Controller\Admin\CRUD\OrderCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.ORDER
 
     admin.reading:
         class: App\Admin\ReadingAdmin

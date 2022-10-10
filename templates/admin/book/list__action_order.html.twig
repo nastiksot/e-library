@@ -1,34 +1,21 @@
 {# @var \App\Admin\AbstractAdmin admin #}
 
-{#{% if admin.hasRoute('order')  %}#}
-{#    {% for child in admin.children %}#}
-{#        {% if child is not null %}#}
-{#            <a href="{{ admin.generateObjectUrl(child, object) }}"#}
-{#               class="btn btn-sm btn-default child-link">#}
-{#                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}#}
-{#            </a>#}
-{#        {% endif %}#}
-{#    {% endfor %}#}
-{#{% endif %}#}
-
-{{ dump(admin.hasAccess('order', object)) }}
-{{ dump(admin.hasRoute('order')) }}
-{#{% if admin.hasAccess('order', object) and admin.hasRoute('order') %}#}
+{% if admin.hasAccess('order', object) and admin.hasRoute('order') %}
     {% set button_content = sonata_config.getOption('list_action_button_content') %}
     <a
         href="{{ admin.generateObjectUrl('order', object, actions.link_parameters|default([])) }}"
-        class="btn btn-sm btn-default edit_link"
-        title="{{ 'action_order'|trans({}, 'SonataAdminBundle') }}"
+        class="btn btn-sm btn-success order_link"
+        title="{{ 'BOOK_ENTITY.BUTTON.ORDER'|trans({}, 'SonataAdminBundle') }}"
     >
         {% if button_content == 'icon' or button_content == 'all' %}
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+            <i class="fas fa-cart-plus" aria-hidden="true"></i>
         {% endif %}
         {% if button_content == 'text' or button_content == 'all' %}
-            {{ 'action_order'|trans({}, 'SonataAdminBundle') }}
+            {{ 'BOOK_ENTITY.BUTTON.ORDER'|trans({}, 'SonataAdminBundle') }}
         {% else %}
             <span class="sr-only">
-                {{ 'action_order'|trans({}, 'SonataAdminBundle') }}
+                {{ 'BOOK_ENTITY.BUTTON.ORDER'|trans({}, 'SonataAdminBundle') }}
             </span>
         {% endif %}
     </a>
-{#{% endif %}#}
+{% endif %}

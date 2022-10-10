@@ -20,9 +20,6 @@ class BookAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
 
-//    /**
-//     * @return array<string, string|string[]> [action1 => requiredRole1, action2 => [requiredRole2, requiredRole3]]
-//     */
     protected function getAccessMapping(): array
     {
         return [
@@ -32,8 +29,7 @@ class BookAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-//        $collection->add('order', sprintf('%s/order', $this->getRouterIdParameter()));
-        $collection->add('order', $this->getRouterIdParameter().'/order');
+        $collection->add('order', $this->getRouterIdParameter() . '/order');
         parent::configureRoutes($collection);
     }
 
@@ -55,11 +51,14 @@ class BookAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'authors', 'BOOK_ENTITY.LABEL.AUTHORS');
         $this->configureListFieldText($list, 'categories', 'BOOK_ENTITY.LABEL.CATEGORIES');
 
-        $actions = ['order' => [
-            'template' => 'admin/book/list__action_order.html.twig'
-        ],  'edit' => [], 'delete' => []];
-
-        $this->configureListFieldActions($list, $actions);
+        if ($this->getUser()) {
+            $actions = [
+                'order' => ['template' => 'admin/book/list__action_order.html.twig'],
+                'edit' => [],
+                'delete' => [],
+            ];
+            $this->configureListFieldActions($list, $actions);
+        }
     }
 
     protected function configureFormFields(FormMapper $form): void

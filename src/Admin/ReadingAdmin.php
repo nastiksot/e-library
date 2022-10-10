@@ -19,6 +19,14 @@ class ReadingAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues = [
+            '_sort_by'    => 'id',
+            '_sort_order' => 'DESC',
+        ];
+    }
+
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('book', null, ['label' => 'READING_ENTITY.LABEL.BOOK']);

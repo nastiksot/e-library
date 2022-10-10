@@ -137,7 +137,6 @@ SECURITY:
         CODE_INVALID: 'Validation code you have entered is wrong'
         CONFIRM: 'Confirm'
 
-action_order: 'Order'
 #CRUD:
 #    CRON_COMMAND:
 #        SECTION:
@@ -182,6 +181,8 @@ USER_ENTITY:
         ACTIVE: ''
         FIRST_NAME: ''
         LAST_NAME: ''
+    MESSAGE:
+        NOT_FOUND: 'User Not Found'
     ERROR:
         REGISTER: 'An error has occurred during the registration'
         EMAIL_TAKEN: 'E-Mail "%EMAIL%" already registered'
@@ -246,6 +247,13 @@ BOOK_ENTITY:
         QUANTITY: ''
         AUTHORS: ''
         CATEGORIES: ''
+    BUTTON:
+        ORDER: 'Order'
+        ORDER_SUBMIT: 'Order a Book'
+    MESSAGE:
+        NOT_FOUND: 'Book Not Found'
+        ORDER_TITLE: 'Order a Book'
+        ORDER_SUCCESS: 'Book "%name%" has been successfully ordered. Order "%order%".'
 
 ORDER_ENTITY:
     SECTION:
@@ -255,6 +263,8 @@ ORDER_ENTITY:
         USER: 'Reader'
         QUANTITY: 'Quantity'
         STATUS: 'Status'
+        START_AT: 'Start At'
+        END_AT: 'End At'
     HELP:
         BOOK: ''
         USER: ''
@@ -265,3 +275,31 @@ ORDER_ENTITY:
             OPEN: 'Open'
             DONE: 'Done'
             CANCEL: 'Cancel'
+    MESSAGE:
+        NOT_FOUND: 'Order Not Found'
+        CANCEL:
+            TITLE: 'Confirm the "Cancel" Order Action'
+            CONFIRM: 'Are you sure you want to "Cancel" the order "%order%"?'
+            SUCCESS: 'Order "%order%" has been successfully canceled.'
+            SUBMIT: 'Confirm Cancel'
+        DONE:
+            TITLE: 'Confirm the "Done" Order Action'
+            CONFIRM: 'Are you sure you want to "Done" the order "%order%"?'
+            SUCCESS: 'Order "%order%" has been successfully done.'
+            SUBMIT: 'Confirm Done'
+    BUTTON:
+        DONE: 'Done'
+        CANCEL: 'Cancel'
+#        CANCEL_CONFIRM: 'Confirm Cancel'
+
+READING_ENTITY:
+    LABEL:
+        READING_TYPE:
+            'Reading type'
+    HELP:
+        READING_TYPE: ''
+    CHOICES:
+        TYPE:
+            SUBSCRIPTION: 'Subscription'
+            READING_HALL: 'Reading Hall'
+

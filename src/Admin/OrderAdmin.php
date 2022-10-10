@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Admin\Traits\ConfigureAdminFullTrait;
+use App\Admin\Traits\OrderStatusChoicesTrait;
+use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\Contracts\Dictionary\DecisionAction;
 use App\Contracts\Dictionary\OrderStatus;
 use App\Entity\Order;
@@ -13,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -21,43 +24,88 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class OrderAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
+    use OrderStatusChoicesTrait;
+    use ReadingTypeChoicesTrait;
+
+    protected function getAccessMapping(): array
+    {
+        return [
+            'done'   => 'DONE',
+            'cancel' => 'CANCEL',
+        ];
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->add('done', $this->getRouterIdParameter() . '/done');
+        $collection->add('cancel', $this->getRouterIdParameter() . '/cancel');
+        parent::configureRoutes($collection);
+    }
+
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues = [
+            '_sort_by'    => 'id',
+            '_sort_order' => 'DESC',
+        ];
+    }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
+        $this->configureFilterFieldChoice(
+            $filter,
+            'status',
+            $this->getOrderStatusChoices(),
+            'ORDER_ENTITY.LABEL.STATUS'
+        );
+
+        $this->configureFilterFieldChoice(
+            $filter,
+            'readingType',
+            $this->getReadingTypeChoices(),
+            'READING_ENTITY.LABEL.READING_TYPE'
+        );
+
         $filter->add('book', null, ['label' => 'ORDER_ENTITY.LABEL.BOOK']);
-        $filter->add('user', null, ['label' => 'ORDER_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user']);
+        $filter->add('book.categories', null, ['label' => 'BOOK_ENTITY.LABEL.CATEGORIES']);
         $filter->add('quantity', null, ['label' => 'ORDER_ENTITY.LABEL.QUANTITY']);
-        $this->configureFilterFieldChoice($filter, 'status', $this->getStatusChoices(), 'ORDER_ENTITY.LABEL.STATUS');
+        $filter->add('user', null, ['label' => 'ORDER_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user']);
         $this->configureFilterFieldCreatedAtDateRange($filter);
         $this->configureFilterFieldUpdatedAtDateRange($filter);
+        $this->configureFilterFieldDateRange($filter, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
+        $this->configureFilterFieldDateRange($filter, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
-        $this->configureListFieldText($list, 'book', 'ORDER_ENTITY.LABEL.BOOK');
-        $this->configureListFieldText($list, 'user', 'ORDER_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
-        $this->configureListFieldText($list, 'quantity', 'ORDER_ENTITY.LABEL.QUANTITY');
+        $this->configureListFieldCreatedAt($list);
         $this->configureListFieldText($list, 'status', 'ORDER_ENTITY.LABEL.STATUS');
-//        $this->configureListFieldCreatedAt($list);
-//        $this->configureListFieldUpdatedAt($list);
-//        $this->configureListFieldDate($list, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
-//        $this->configureListFieldDate($list, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
-//        $this->configureListFieldDate($list, 'prolongAt', 'ORDER_ENTITY.LABEL.PROLONG_AT');
+        $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
+        $this->configureListFieldUpdatedAt($list);
+        $this->configureListFieldText($list, 'book', 'ORDER_ENTITY.LABEL.BOOK');
+        $this->configureListFieldText($list, 'quantity', 'ORDER_ENTITY.LABEL.QUANTITY');
+        $this->configureListFieldText($list, 'user', 'ORDER_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
+        $this->configureListFieldDate($list, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
+        $this->configureListFieldDate($list, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
+
+        $handle = [
+            'done'   => ['template' => 'admin/order/list__action_done.html.twig'],
+            'cancel' => ['template' => 'admin/order/list__action_cancel.html.twig'],
+        ];
+
+        $list->add(
+            '_handle',
+            ListMapper::TYPE_ACTIONS,
+            [
+                'actions'      => $handle,
+                'label'        => 'Handle',
+                'header_style' => 'min-width:170px;',
+            ],
+        );
 
         $this->configureListFieldActions($list);
-    }
-
-
-    private function getStatusChoices(): array
-    {
-        $choices = [];
-
-        foreach (OrderStatus::toArray() as $key => $value) {
-            $choices['ORDER_ENTITY.CHOICES.STATUS.' . $key] = $value;
-        }
-
-        return $choices;
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -104,7 +152,7 @@ class OrderAdmin extends AbstractAdmin
         $this->configureFormFieldChoice(
             $form,
             'status',
-            $this->getStatusChoices(),
+            $this->getOrderStatusChoices(),
             'ORDER_ENTITY.LABEL.STATUS',
             'ORDER_ENTITY.HELP.STATUS',
             true,

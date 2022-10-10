@@ -6,6 +6,8 @@ namespace App\Admin\User\Profile;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
+use App\Admin\Traits\OrderStatusChoicesTrait;
+use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\Entity\Order;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -21,14 +23,38 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class OrderUserProfileAdmin extends AbstractUserProfileAdmin
 {
     use ConfigureAdminFullTrait;
+    use OrderStatusChoicesTrait;
+    use ReadingTypeChoicesTrait;
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues = [
+            '_sort_by'    => 'id',
+            '_sort_order' => 'DESC',
+        ];
+    }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
+        $this->configureFilterFieldChoice(
+            $filter,
+            'status',
+            $this->getOrderStatusChoices(),
+            'ORDER_ENTITY.LABEL.STATUS'
+        );
+
+        $this->configureFilterFieldChoice(
+            $filter,
+            'readingType',
+            $this->getReadingTypeChoices(),
+            'READING_ENTITY.LABEL.READING_TYPE'
+        );
+
         $filter->add('book', null, ['label' => 'ORDER_ENTITY.LABEL.BOOK']);
-        $filter->add('user', null, ['label' => 'ORDER_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user']);
+        $filter->add('book.categories', null, ['label' => 'BOOK_ENTITY.LABEL.CATEGORIES']);
         $filter->add('quantity', null, ['label' => 'ORDER_ENTITY.LABEL.QUANTITY']);
-//        $this->configureFilterFieldCreatedAtDateRange($filter);
-//        $this->configureFilterFieldUpdatedAtDateRange($filter);
+        $this->configureFilterFieldCreatedAtDateRange($filter);
+        $this->configureFilterFieldUpdatedAtDateRange($filter);
         $this->configureFilterFieldDateRange($filter, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
         $this->configureFilterFieldDateRange($filter, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
 //        $this->configureFilterFieldDateRange($filter, 'prolongAt', 'ORDER_ENTITY.LABEL.PROLONG_AT');
@@ -37,15 +63,16 @@ class OrderUserProfileAdmin extends AbstractUserProfileAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
+        $this->configureListFieldCreatedAt($list);
+        $this->configureListFieldText($list, 'status', 'ORDER_ENTITY.LABEL.STATUS');
+        $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
+        $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldText($list, 'book', 'ORDER_ENTITY.LABEL.BOOK');
-        $this->configureListFieldText($list, 'user', 'ORDER_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
-//        $this->configureListFieldCreatedAt($list);
-//        $this->configureListFieldUpdatedAt($list);
+        $this->configureListFieldText($list, 'quantity', 'ORDER_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldDate($list, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
         $this->configureListFieldDate($list, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
-//        $this->configureListFieldDate($list, 'prolongAt', 'ORDER_ENTITY.LABEL.PROLONG_AT');
 
-        $this->configureListFieldActions($list);
+        //$this->configureListFieldActions($list);
     }
 
     protected function configureFormFields(FormMapper $form): void

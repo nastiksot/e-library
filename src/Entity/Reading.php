@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Contracts\Dictionary\ReadingType;
 use App\Entity\Book\Book;
 use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
@@ -24,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\Index(name="idx_prolong_at", columns={"prolong_at"}),
  *          @ORM\Index(name="fk_book_id", columns={"book_id"}),
  *          @ORM\Index(name="fk_user_id", columns={"user_id"}),
+ *          @ORM\Index(name="idx_reading_type", columns={"reading_type"}),
  *     },
  * )
  */
@@ -33,19 +35,6 @@ class Reading extends AbstractEntity
     use StartAtEntityTrait;
     use EndAtEntityTrait;
     use ProlongAtEntityTrait;
-
-    public const READING_TYPE_SUBSCRIPTION = 1;
-    public const READING_TYPE_READING_ROOM = 2;
-
-    public const READING_TYPES = [
-        self::READING_TYPE_SUBSCRIPTION => 'Subscription',
-        self::READING_TYPE_READING_ROOM => 'Reading Hall',
-    ];
-//
-//    /**
-//     * @ORM\Column(type="integer", nullable=true, options={"unsigned": true})
-//     */
-//    protected ?int $readingType = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="reading")
@@ -58,6 +47,17 @@ class Reading extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private ?User $user;
+
+    /**
+     * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
+     */
+    private ReadingType $readingType;
+
+
+    public function __construct()
+    {
+        $this->readingType = ReadingType::READING_HALL();
+    }
 
     public function getBook(): ?Book
     {
@@ -83,4 +83,19 @@ class Reading extends AbstractEntity
         return $this;
     }
 
+    public function getReadingType(): ?ReadingType
+    {
+        return $this->readingType;
+    }
+
+    public function setReadingType(null|string|ReadingType $readingType): self
+    {
+        if (is_string($readingType)) {
+            $this->readingType = new ReadingType($readingType);
+        } else {
+            $this->readingType = $readingType;
+        }
+
+        return $this;
+    }
 }
