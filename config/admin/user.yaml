@@ -10,7 +10,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_user' ] ]
             - [ setBaseRoutePattern,    [ 'user' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_ALL }
+            -   name: sonata.admin
+                model_class: 'App\Entity\User\User'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_ALL
 
     admin.user.admin:
         class: App\Admin\User\UserAdmin
@@ -18,7 +23,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_admin' ] ]
             - [ setBaseRoutePattern,    [ 'user-admin' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_ADMIN }
+            -   name: sonata.admin
+                model_class: 'App\Entity\User\User'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_ADMIN
 
     admin.user.librarian:
         class: App\Admin\User\UserLibrarianAdmin
@@ -26,7 +36,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_librarian' ] ]
             - [ setBaseRoutePattern,    [ 'user-librarian' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\User\User', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_LIBRARIAN }
+            -   name: sonata.admin
+                model_class: 'App\Entity\User\User'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_LIBRARIAN
 
     admin.user.reader:
         class: App\Admin\User\UserReaderAdmin
@@ -36,7 +51,7 @@ services:
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
-                controller: App\Controller\Admin\CRUD\UserReaderCRUDController
+                controller: App\Controller\Admin\CRUD\User\UserReaderCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_READER
@@ -49,6 +64,7 @@ services:
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_PROFILE.EDIT
@@ -59,7 +75,13 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_order' ] ]
             - [ setBaseRoutePattern,    [ 'user-order' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Order', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.ORDER, show_in_dashboard: false }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Order'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_PROFILE.ORDER
+                show_in_dashboard: false
 
     admin.user.profile.reading:
         class: App\Admin\User\Profile\ReadingUserProfileAdmin
@@ -67,4 +89,10 @@ services:
             - [ setBaseRouteName,       [ 'admin_user_reading' ] ]
             - [ setBaseRoutePattern,    [ 'user-reading' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.USER, label: MENU.USER_PROFILE.READING, show_in_dashboard: false }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Reading'
+                controller: App\Controller\Admin\CRUD\User\Profile\ReadingUserProfileCRUDController
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_PROFILE.READING
+                show_in_dashboard: false

@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -179,6 +180,42 @@ trait ConfigureFormTrait
                 $options
             )
         );
+    }
+
+    protected function configureFormFieldDateType(
+        FormMapper $form,
+        string $name,
+        ?string $label = null,
+        ?string $help = null,
+        bool $required = false,
+        array $options = []
+    ): void {
+        $form->add(
+            $name,
+            DateType::class,
+            array_merge(
+                [
+                    'required'           => $required,
+                    'label'              => $label,
+                    'help'               => $help,
+                    'translation_domain' => $this->getTranslationDomain(),
+                ],
+                $options
+            )
+        );
+
+//        $form->add(
+//            'startAt',
+//            DateType::class,
+//            [
+//                'required'    => false,
+//                'widget'      => 'single_text',
+//                'constraints' => [
+//                    new NotBlank(),
+//                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
+//                ],
+//            ]
+//        );
     }
 
     protected function configureFormFieldReplacements(

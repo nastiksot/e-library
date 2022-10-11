@@ -10,12 +10,15 @@ use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\Contracts\Dictionary\DecisionAction;
 use App\Contracts\Dictionary\OrderStatus;
 use App\Entity\Order;
+use Carbon\Carbon;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -42,7 +45,6 @@ class OrderAdmin extends AbstractAdmin
         parent::configureRoutes($collection);
     }
 
-
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues = [
@@ -53,6 +55,7 @@ class OrderAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
+        $filter->add('id', null, ['label' => 'ORDER_ENTITY.LABEL.ID']);
         $this->configureFilterFieldChoice(
             $filter,
             'status',
@@ -105,7 +108,11 @@ class OrderAdmin extends AbstractAdmin
             ],
         );
 
-        $this->configureListFieldActions($list);
+        $actions = [
+            'edit'   => ['template' => 'admin/order/list__action_edit.html.twig'],
+            'delete' => [],
+        ];
+        $this->configureListFieldActions($list, $actions);
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -151,36 +158,40 @@ class OrderAdmin extends AbstractAdmin
 
         $this->configureFormFieldChoice(
             $form,
-            'status',
-            $this->getOrderStatusChoices(),
-            'ORDER_ENTITY.LABEL.STATUS',
-            'ORDER_ENTITY.HELP.STATUS',
+            'readingType',
+            $this->getReadingTypeChoices(),
+            'ORDER_ENTITY.LABEL.READING_TYPE',
+            'ORDER_ENTITY.HELP.READING_TYPE',
             true,
         );
 
-//        $this->configureFormFieldDate(
-//            $form,
-//            'startAt',
-//            'ORDER_ENTITY.LABEL.START_AT',
-//            'ORDER_ENTITY.HELP.START_AT',
-//            false
-//        );
-//
-//        $this->configureFormFieldDate(
-//            $form,
-//            'endAt',
-//            'ORDER_ENTITY.LABEL.END_AT',
-//            'ORDER_ENTITY.HELP.END_AT',
-//            false
-//        );
+        $this->configureFormFieldDate(
+            $form,
+            'startAt',
+            'ORDER_ENTITY.LABEL.START_AT',
+            'ORDER_ENTITY.HELP.START_AT',
+            false,
+            [
+                'constraints' => [
+                    new NotBlank(),
+                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
+                ],
+            ]
+        );
 
-//        $this->configureFormFieldDate(
-//            $form,
-//            'prolongAt',
-//            'ORDER_ENTITY.LABEL.PROLONG_AT',
-//            'ORDER_ENTITY.HELP.PROLONG_AT',
-//            false
-//        );
+        $this->configureFormFieldDate(
+            $form,
+            'endAt',
+            'ORDER_ENTITY.LABEL.END_AT',
+            'ORDER_ENTITY.HELP.END_AT',
+            false,
+            [
+                'constraints' => [
+                    new NotBlank(),
+                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
+                ],
+            ]
+        );
 
         $form->end();
     }

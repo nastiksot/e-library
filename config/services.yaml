@@ -76,6 +76,6 @@ services:
         arguments:
             $roleSecurityHandler: '@sonata.admin.security.handler.role'
 
-    App\Controller\Admin\CRUD\UserReaderCRUDController:
+    App\Controller\Admin\CRUD\User\UserReaderCRUDController:
         arguments:
             $authenticator: '@security.authenticator.form_login.main'

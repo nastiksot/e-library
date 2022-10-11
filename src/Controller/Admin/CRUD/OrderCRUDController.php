@@ -7,17 +7,12 @@ namespace App\Controller\Admin\CRUD;
 use App\CQ\Command\Order\CancelBookOrderCommand;
 use App\CQ\Command\Order\DoneBookOrderCommand;
 use App\Entity\Order;
-use App\Entity\User\User;
 use App\Service\MessageBusHandler;
-use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-/**
- * @method User|null getUser()
- */
-final class OrderCRUDController extends CRUDController
+final class OrderCRUDController extends AdminCRUDController
 {
     public function cancelAction(
         Request $request,

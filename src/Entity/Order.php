@@ -11,6 +11,8 @@ use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
 use App\Entity\Traits\Timestampable\StartAtEntityTrait;
 use App\Entity\User\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,6 +55,11 @@ class Order extends AbstractEntity
     private OrderStatus $status;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="order")
+     */
+    private Collection $reading;
+
+    /**
      * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
      */
     private ReadingType $readingType;
@@ -61,6 +68,7 @@ class Order extends AbstractEntity
     {
         $this->status      = OrderStatus::OPEN();
         $this->readingType = ReadingType::READING_HALL();
+        $this->reading = new ArrayCollection();
     }
 
     public function getBook(): ?Book
@@ -114,6 +122,36 @@ class Order extends AbstractEntity
             $this->readingType = new ReadingType($readingType);
         } else {
             $this->readingType = $readingType;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reading>
+     */
+    public function getReading(): Collection
+    {
+        return $this->reading;
+    }
+
+    public function addReading(Reading $reading): self
+    {
+        if (!$this->reading->contains($reading)) {
+            $this->reading->add($reading);
+            $reading->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReading(Reading $reading): self
+    {
+        if ($this->reading->removeElement($reading)) {
+            // set the owning side to null (unless already changed)
+            if ($reading->getOrder() === $this) {
+                $reading->setOrder(null);
+            }
         }
 
         return $this;

@@ -10,4 +10,9 @@ services:
             - [ setBaseRouteName,       ['admin_general_settings' ] ]
             - [ setBaseRoutePattern,    ['general-settings' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Settings\GeneralSettings', manager_type: orm, group: MENU_GROUP.SETTINGS, label: MENU.SETTINGS.GENERAL }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Settings\GeneralSettings'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.SETTINGS
+                label: MENU.SETTINGS.GENERAL

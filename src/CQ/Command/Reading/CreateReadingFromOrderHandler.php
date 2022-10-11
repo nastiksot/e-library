@@ -38,6 +38,7 @@ class CreateReadingFromOrderHandler implements CommandHandlerInterface
         $reading = (new Reading())
             ->setBook($order->getBook())
             ->setUser($order->getUser())
+            ->setOrder($order)
             ->setQuantity($order->getQuantity())
             ->setReadingType($order->getReadingType())
             ->setStartAt($order->getStartAt())

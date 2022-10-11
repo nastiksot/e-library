@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\CRUD;
+namespace App\Controller\Admin\CRUD\User;
 
+use App\Controller\Admin\CRUD\AdminCRUDController;
 use App\CQ\Command\User\RegisterUserCommand;
 use App\Entity\User\User;
 use App\Form\Type\User\ReaderLoginUserType;
 use App\Form\Type\User\ReaderRegisterUserType;
 use App\Repository\User\UserRepository;
 use App\Service\MessageBusHandler;
-use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Throwable;
 
-final class UserReaderCRUDController extends CRUDController
+final class UserReaderCRUDController extends AdminCRUDController
 {
     public function __construct(
         private AuthenticatorInterface $authenticator

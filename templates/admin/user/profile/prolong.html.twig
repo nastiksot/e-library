@@ -1,0 +1,59 @@
+{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{# @var \App\Entity\Reading reading #}
+{# @var \App\Entity\Reading object #}
+
+{% block title %}
+    {{ 'BOOK_ENTITY.MESSAGE.ORDER_TITLE'|trans({}, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block navbar_title %}
+    {{ 'BOOK_ENTITY.MESSAGE.ORDER_TITLE'|trans({}, 'SonataAdminBundle') }}
+{% endblock %}
+
+{% block sonata_form_action_url %}
+    {{ path('admin_user_reading_prolong', {'id': objectId}) }}
+{% endblock %}
+
+
+{% block form %}
+
+    <div id="sonata-ba-field-container-order_book" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.NAME'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {{ reading.book }}
+        </div>
+    </div>
+
+    <div id="sonata-ba-field-container-order_book_authors" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.AUTHORS'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {% for author in reading.book.authors %}
+                {{ author }} <br/>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="sonata-ba-field-container-order_book_categories" class="form-group">
+        <label class="control-label">
+            {{ 'BOOK_ENTITY.LABEL.CATEGORIES'|trans({}, 'SonataAdminBundle') }}
+        </label>
+        <div class="sonata-ba-field">
+            {% for category in reading.book.categories %}
+                {{ category }} <br/>
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ parent() }}
+{% endblock %}
+
+{% block formactions %}
+    <button type="submit" class="btn btn-success" name="btn_create">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        {{ 'BOOK_ENTITY.BUTTON.ORDER_SUBMIT'|trans({}, 'SonataAdminBundle') }}
+    </button>
+{% endblock %}

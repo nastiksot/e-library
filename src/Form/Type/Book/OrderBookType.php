@@ -6,13 +6,11 @@ namespace App\Form\Type;
 
 use App\Admin\Traits\ReadingTypeChoicesTrait;
 use Carbon\Carbon;
+use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -20,31 +18,9 @@ class OrderBookType extends AbstractType
 {
     use ReadingTypeChoicesTrait;
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-        $resolver->setRequired(['book_id', 'user_id']);
-        $resolver->setAllowedTypes('book_id', ['int']);
-        $resolver->setAllowedTypes('user_id', ['int']);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'book_id',
-                HiddenType::class,
-                [
-                    'data' => $options['book_id'],
-                ]
-            )
-            ->add(
-                'user_id',
-                HiddenType::class,
-                [
-                    'data' => $options['user_id'],
-                ]
-            )
             ->add(
                 'quantity',
                 NumberType::class,
@@ -70,10 +46,10 @@ class OrderBookType extends AbstractType
             )
             ->add(
                 'start_at',
-                DateType::class,
+                DatePickerType::class,
                 [
-                    'required'    => false,
                     'widget'      => 'single_text',
+                    'required'    => false,
                     'constraints' => [
                         new NotBlank(),
                         new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
@@ -82,10 +58,10 @@ class OrderBookType extends AbstractType
             )
             ->add(
                 'end_at',
-                DateType::class,
+                DatePickerType::class,
                 [
-                    'required'    => false,
                     'widget'      => 'single_text',
+                    'required'    => false,
                     'constraints' => [
                         new NotBlank(),
                         new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),

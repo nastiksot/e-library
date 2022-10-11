@@ -1,22 +1,22 @@
 {# @see '@SonataAdmin/CRUD/list__action_edit.html.twig' #}
 {# @var \App\Admin\AbstractAdmin admin #}
-{# @var \App\Entity\Order object #}
+{# @var \App\Entity\Reading object #}
 
-{% if object.status == 'open' and admin.hasAccess('cancel', object) and admin.hasRoute('cancel') %}
+{% if object.prolongAt is not null and admin.hasAccess('prolong_cancel', object) and admin.hasRoute('prolong_cancel') %}
     {% set button_content = sonata_config.getOption('list_action_button_content') %}
     <a
-        href="{{ admin.generateObjectUrl('cancel', object, actions.link_parameters|default([])) }}"
+        href="{{ admin.generateObjectUrl('prolong_cancel', object, actions.link_parameters|default([])) }}"
         class="btn btn-sm btn-default cancel_link"
-        title="{{ 'ORDER_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}"
+        title="{{ 'READING_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}"
     >
         {% if button_content == 'icon' or button_content == 'all' %}
             <i class="fas fa-trash" aria-hidden="true"></i>
         {% endif %}
         {% if button_content == 'text' or button_content == 'all' %}
-            {{ 'ORDER_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}
+            {{ 'READING_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}
         {% else %}
             <span class="sr-only">
-                {{ 'ORDER_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}
+                {{ 'READING_ENTITY.BUTTON.CANCEL'|trans({}, 'SonataAdminBundle') }}
             </span>
         {% endif %}
     </a>

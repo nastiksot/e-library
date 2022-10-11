@@ -6,6 +6,8 @@ namespace App\Admin\User\Profile;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
+use App\Admin\Traits\OrderStatusChoicesTrait;
+use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\Entity\Reading;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -13,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -21,14 +24,48 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
 {
     use ConfigureAdminFullTrait;
+    use OrderStatusChoicesTrait;
+    use ReadingTypeChoicesTrait;
+
+    protected function getAccessMapping(): array
+    {
+        return [
+            'prolong'        => 'PROLONG',
+            'prolong_cancel' => 'PROLONG_CANCEL',
+        ];
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->add('prolong', $this->getRouterIdParameter() . '/prolong');
+        $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
+        parent::configureRoutes($collection);
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues = [
+            '_sort_by'    => 'id',
+            '_sort_order' => 'DESC',
+        ];
+    }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
+        $filter->add('order.id', null, ['label' => 'READING_ENTITY.LABEL.ORDER_ID']);
+        $this->configureFilterFieldChoice(
+            $filter,
+            'readingType',
+            $this->getReadingTypeChoices(),
+            'READING_ENTITY.LABEL.READING_TYPE'
+        );
+
         $filter->add('book', null, ['label' => 'READING_ENTITY.LABEL.BOOK']);
-        $filter->add('user', null, ['label' => 'READING_ENTITY.LABEL.USER'], ['admin_code' => 'admin.user']);
+        $filter->add('book.categories', null, ['label' => 'BOOK_ENTITY.LABEL.CATEGORIES']);
         $filter->add('quantity', null, ['label' => 'READING_ENTITY.LABEL.QUANTITY']);
-//        $this->configureFilterFieldCreatedAtDateRange($filter);
-//        $this->configureFilterFieldUpdatedAtDateRange($filter);
+
+        $this->configureFilterFieldCreatedAtDateRange($filter);
+        $this->configureFilterFieldUpdatedAtDateRange($filter);
         $this->configureFilterFieldDateRange($filter, 'startAt', 'READING_ENTITY.LABEL.START_AT');
         $this->configureFilterFieldDateRange($filter, 'endAt', 'READING_ENTITY.LABEL.END_AT');
         $this->configureFilterFieldDateRange($filter, 'prolongAt', 'READING_ENTITY.LABEL.PROLONG_AT');
@@ -37,15 +74,21 @@ class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
+        $this->configureListFieldCreatedAt($list);
+        $this->configureListFieldText($list, 'order.id', 'READING_ENTITY.LABEL.ORDER_ID');
+        $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
+        $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
-        $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
-//        $this->configureListFieldCreatedAt($list);
-//        $this->configureListFieldUpdatedAt($list);
+        $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
         $this->configureListFieldDate($list, 'endAt', 'READING_ENTITY.LABEL.END_AT');
         $this->configureListFieldDate($list, 'prolongAt', 'READING_ENTITY.LABEL.PROLONG_AT');
 
-        $this->configureListFieldActions($list);
+        $actions = [
+            'prolong'        => ['template' => 'admin/user/profile/list__action_prolong.html.twig'],
+            'prolong_cancel' => ['template' => 'admin/user/profile/list__action_prolong_cancel.html.twig'],
+        ];
+        $this->configureListFieldActions($list, $actions);
     }
 
     protected function configureFormFields(FormMapper $form): void

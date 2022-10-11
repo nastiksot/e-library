@@ -10,7 +10,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_book_author' ] ]
             - [ setBaseRoutePattern,    [ 'book-author' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Book\Author', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK_AUTHOR }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Book\Author'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.BOOK_AUTHOR
 
     admin.book.category:
         class: App\Admin\Book\CategoryAdmin
@@ -18,7 +23,12 @@ services:
             - [ setBaseRouteName,       [ 'admin_book_category' ] ]
             - [ setBaseRoutePattern,    [ 'book-category' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Book\Category', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.BOOK_CATEGORY }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Book\Category'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.BOOK_CATEGORY
 
     admin.book:
         class: App\Admin\Book\BookAdmin
@@ -28,11 +38,10 @@ services:
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Book\Book'
-                controller: App\Controller\Admin\CRUD\BookCRUDController
+                controller: App\Controller\Admin\CRUD\Book\BookCRUDController
                 manager_type: orm
                 group: MENU_GROUP.BOOK
                 label: MENU.BOOK
-
 
     admin.order:
         class: App\Admin\OrderAdmin
@@ -53,4 +62,9 @@ services:
             - [ setBaseRouteName,       [ 'admin_reading' ] ]
             - [ setBaseRoutePattern,    [ 'reading' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.READING }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Reading'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.READING

@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\CRUD;
+namespace App\Controller\Admin\CRUD\Book;
 
+use App\Controller\Admin\CRUD\AdminCRUDController;
 use App\CQ\Command\Order\CreateBookOrderCommand;
 use App\Entity\Book\Book;
 use App\Entity\Order;
-use App\Entity\User\User;
 use App\Form\Type\OrderBookType;
 use App\Service\MessageBusHandler;
-use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-/**
- * @method User|null getUser()
- */
-final class BookCRUDController extends CRUDController
+final class BookCRUDController extends AdminCRUDController
 {
 
     public function orderAction(
@@ -34,8 +30,7 @@ final class BookCRUDController extends CRUDController
         $this->admin->checkAccess('order', $book);
         $this->admin->setSubject($book);
 
-        $options = ['book_id' => $book->getId(), 'user_id' => $this->getUser()?->getId()];
-        $form    = $this->createForm(OrderBookType::class, null, $options);
+        $form = $this->createForm(OrderBookType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -47,8 +42,8 @@ final class BookCRUDController extends CRUDController
                     /** @var Order $order */
                     $order = $messageBusHandler->handleCommand(
                         new CreateBookOrderCommand(
-                            bookId:      (int)$form->get('book_id')->getData(),
-                            userId:      (int)$form->get('user_id')->getData(),
+                            bookId:      (int)$book->getId(),
+                            userId:      (int)$this->getUser()?->getId(),
                             quantity:    (int)$form->get('quantity')->getData(),
                             readingType: (string)$form->get('reading_type')->getData(),
                             startAt:     $form->get('start_at')->getData(),

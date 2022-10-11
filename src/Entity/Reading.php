@@ -25,6 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\Index(name="idx_prolong_at", columns={"prolong_at"}),
  *          @ORM\Index(name="fk_book_id", columns={"book_id"}),
  *          @ORM\Index(name="fk_user_id", columns={"user_id"}),
+ *          @ORM\Index(name="fk_order_id", columns={"order_id"}),
  *          @ORM\Index(name="idx_reading_type", columns={"reading_type"}),
  *     },
  * )
@@ -47,6 +48,12 @@ class Reading extends AbstractEntity
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private ?User $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="reading")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private ?Order $order;
 
     /**
      * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
@@ -95,6 +102,18 @@ class Reading extends AbstractEntity
         } else {
             $this->readingType = $readingType;
         }
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }

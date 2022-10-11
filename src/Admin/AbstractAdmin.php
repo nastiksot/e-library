@@ -60,12 +60,6 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
         $collection->remove('export');
     }
 
-    protected function configureBatchActions(array $actions): array
-    {
-        unset($actions['delete']);
-        return parent::configureBatchActions($actions);
-    }
-
     public function generateChildListUrl(AdminInterface $admin, EntityInterface $object): string
     {
         $routes = $admin->getRoutes();

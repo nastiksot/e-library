@@ -10,4 +10,9 @@ services:
             - [ setBaseRouteName,       [ 'admin_reading' ] ]
             - [ setBaseRoutePattern,    [ 'reading' ] ]
         tags:
-            - { name: sonata.admin, model_class: 'App\Entity\Reading', manager_type: orm, group: MENU_GROUP.BOOK, label: MENU.READING }
+            -   name: sonata.admin
+                model_class: 'App\Entity\Reading'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.READING

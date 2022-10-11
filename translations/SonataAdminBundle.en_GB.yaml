@@ -58,6 +58,9 @@ BREADCRUMB:
     MENU_READING:
         Reading_list: 'Reading list'
         Reading_create: 'Create'
+    MENU_USER_PROFILE_READING:
+        Reading_list: 'I am Reading'
+        Reading_create: 'Create'
 
 CHOICE:
     YES: 'Yes'
@@ -259,9 +262,11 @@ ORDER_ENTITY:
     SECTION:
         MAIN: 'Order Data'
     LABEL:
+        ID:    'OrderID'
         BOOK: 'Book'
         USER: 'Reader'
         QUANTITY: 'Quantity'
+        READING_TYPE: 'Reading Type'
         STATUS: 'Status'
         START_AT: 'Start At'
         END_AT: 'End At'
@@ -269,7 +274,10 @@ ORDER_ENTITY:
         BOOK: ''
         USER: ''
         QUANTITY: ''
+        READING_TYPE: ''
         STATUS: ''
+        START_AT: ''
+        END_AT: ''
     CHOICES:
         STATUS:
             OPEN: 'Open'
@@ -278,28 +286,54 @@ ORDER_ENTITY:
     MESSAGE:
         NOT_FOUND: 'Order Not Found'
         CANCEL:
-            TITLE: 'Confirm the "Cancel" Order Action'
+            TITLE: 'Confirm the "Cancel" order action'
             CONFIRM: 'Are you sure you want to "Cancel" the order "%order%"?'
             SUCCESS: 'Order "%order%" has been successfully canceled.'
             SUBMIT: 'Confirm Cancel'
         DONE:
-            TITLE: 'Confirm the "Done" Order Action'
+            TITLE: 'Confirm the "Done" order action'
             CONFIRM: 'Are you sure you want to "Done" the order "%order%"?'
             SUCCESS: 'Order "%order%" has been successfully done.'
             SUBMIT: 'Confirm Done'
     BUTTON:
         DONE: 'Done'
         CANCEL: 'Cancel'
-#        CANCEL_CONFIRM: 'Confirm Cancel'
 
 READING_ENTITY:
+    SECTION:
+        MAIN: 'Reading Data'
     LABEL:
-        READING_TYPE:
-            'Reading type'
+        ORDER_ID: 'OrderID'
+        BOOK: 'Book'
+        USER: 'Reader'
+        QUANTITY: 'Quantity'
+        READING_TYPE: 'Reading Type'
+        STATUS: 'Status'
+        START_AT: 'Start At'
+        END_AT: 'End At'
+        PROLONG_AT: 'Prolong At'
     HELP:
+        ORDER_ID: ''
+        BOOK: ''
+        USER: ''
+        QUANTITY: ''
         READING_TYPE: ''
+        STATUS: ''
+        START_AT: ''
+        END_AT: ''
+        PROLONG_AT: ''
     CHOICES:
         TYPE:
             SUBSCRIPTION: 'Subscription'
             READING_HALL: 'Reading Hall'
-
+    BUTTON:
+        PROLONG: 'Prolong'
+        CANCEL: 'Cancel'
+    MESSAGE:
+        NOT_FOUND: 'Reading Not Found'
+        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
+        PROLONG_CANCEL:
+            TITLE: 'Confirm the "Cancel" reading prolongation action'
+            CONFIRM: 'Are you sure you want to "Cancel" the reading prolongation "%prolongAt%"?'
+            SUCCESS: 'Reading prolongation has been successfully canceled.'
+            SUBMIT: 'Confirm Cancel Prolongation'

@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Traits\EntityDataFixtureTrait;
 use App\Entity\Order;
+use Carbon\Carbon;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -69,6 +70,8 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             'quantity' => random_int(1, 2),
             'book'     => $this->getReference($bookReferenceId),
             'user'     => $this->getReference($readerReferenceId),
+            'startAt'  => Carbon::today()->addDays(5),
+            'endAt'    => Carbon::today()->addMonth(1),
         ];
     }
 
