@@ -55,16 +55,3 @@ services:
                 manager_type: orm
                 group: MENU_GROUP.BOOK
                 label: MENU.ORDER
-
-    admin.reading:
-        class: App\Admin\ReadingAdmin
-        calls:
-            - [ setBaseRouteName,       [ 'admin_reading' ] ]
-            - [ setBaseRoutePattern,    [ 'reading' ] ]
-        tags:
-            -   name: sonata.admin
-                model_class: 'App\Entity\Reading'
-                controller: App\Controller\Admin\CRUD\AdminCRUDController
-                manager_type: orm
-                group: MENU_GROUP.BOOK
-                label: MENU.READING

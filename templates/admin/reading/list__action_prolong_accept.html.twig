@@ -1,0 +1,23 @@
+{# @see '@SonataAdmin/CRUD/list__action_edit.html.twig' #}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Entity\Reading object #}
+
+{% if admin.hasAccess('prolong_accept', object) and admin.hasRoute('prolong_accept') %}
+    {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    <a
+        href="{{ admin.generateObjectUrl('prolong_accept', object, actions.link_parameters|default([])) }}"
+        class="btn btn-sm btn-success done_link"
+        title="{{ 'READING_ENTITY.BUTTON.PROLONG_ACCEPT'|trans({}, 'SonataAdminBundle') }}"
+    >
+        {% if button_content == 'icon' or button_content == 'all' %}
+            <i class="fas fa-edit" aria-hidden="true"></i>
+        {% endif %}
+        {% if button_content == 'text' or button_content == 'all' %}
+            {{ 'READING_ENTITY.BUTTON.PROLONG_ACCEPT'|trans({}, 'SonataAdminBundle') }}
+        {% else %}
+            <span class="sr-only">
+                {{ 'READING_ENTITY.BUTTON.PROLONG_ACCEPT'|trans({}, 'SonataAdminBundle') }}
+            </span>
+        {% endif %}
+    </a>
+{% endif %}

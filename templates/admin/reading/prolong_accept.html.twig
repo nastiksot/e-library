@@ -1,0 +1,34 @@
+{% extends '@SonataAdmin/CRUD/delete.html.twig' %}
+{# @var \App\Entity\Reading reading #}
+{# @var \App\Entity\Reading object #}
+
+{% block content %}
+    <div class="sonata-ba-prolong_accept">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">{{ 'READING_ENTITY.MESSAGE.PROLONG_ACCEPT.TITLE'|trans({}, 'SonataAdminBundle') }}</h3>
+            </div>
+            <div class="box-body">
+                {{ 'READING_ENTITY.MESSAGE.PROLONG_ACCEPT.CONFIRM'|trans({'%prolongAt%': reading.prolongAt.format('Y-m-d')}, 'SonataAdminBundle') }}
+            </div>
+            <div class="box-footer clearfix">
+                <form method="POST" action="{{ admin.generateObjectUrl('prolong_accept', object) }}">
+                    <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+
+                    <button type="submit" name="btn_delete" class="btn btn-success">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        {{ 'READING_ENTITY.MESSAGE.PROLONG_ACCEPT.SUBMIT'|trans({}, 'SonataAdminBundle') }}
+                    </button>
+
+                    {% if admin.hasRoute('list') and admin.hasAccess('list') %}
+                        {{ 'delete_or'|trans({}, 'SonataAdminBundle') }}
+
+                        <a class="btn btn-success" href="{{ admin.generateUrl('list') }}">
+                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                            {{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

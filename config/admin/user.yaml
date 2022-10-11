@@ -91,7 +91,8 @@ services:
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'
-                controller: App\Controller\Admin\CRUD\User\Profile\ReadingUserProfileCRUDController
+#                controller: App\Controller\Admin\CRUD\User\Profile\ReadingUserProfileCRUDController
+                controller: App\Controller\Admin\CRUD\ReadingCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_PROFILE.READING

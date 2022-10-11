@@ -1,5 +1,5 @@
 MENU_GROUP:
-    USER_UNDEFINED: 'Reader'
+    USER_UNDEFINED: 'Account'
     USER_PROFILE: 'My Profile'
     SETTINGS: 'Settings'
     USER: 'Users'
@@ -27,6 +27,8 @@ MENU:
         LOGOUT: 'Logout'
     ORDER: 'Orders'
     READING: 'Reading'
+    READING_PROLONG: 'Prolong'
+    READING_EXPIRE: 'Expired'
 
 BREADCRUMB:
     MENU_USER_ALL:
@@ -56,7 +58,10 @@ BREADCRUMB:
         Order_list: 'Orders list'
         Order_create: 'Create'
     MENU_READING:
-        Reading_list: 'Reading list'
+        Reading_list: 'Books Reading list'
+        Reading_create: 'Create'
+    MENU_READING_PROLONG:
+        Reading_list: 'Books Prolong list'
         Reading_create: 'Create'
     MENU_USER_PROFILE_READING:
         Reading_list: 'I am Reading'
@@ -329,11 +334,19 @@ READING_ENTITY:
     BUTTON:
         PROLONG: 'Prolong'
         CANCEL: 'Cancel'
+        PROLONG_ACCEPT: 'Accept'
+        PROLONG_CANCEL: 'Cancel'
     MESSAGE:
         NOT_FOUND: 'Reading Not Found'
-        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
+#        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
         PROLONG_CANCEL:
             TITLE: 'Confirm the "Cancel" reading prolongation action'
             CONFIRM: 'Are you sure you want to "Cancel" the reading prolongation "%prolongAt%"?'
             SUCCESS: 'Reading prolongation has been successfully canceled.'
             SUBMIT: 'Confirm Cancel Prolongation'
+        PROLONG_ACCEPT:
+            TITLE: 'Confirm the "Accept" reading prolongation action'
+            CONFIRM: 'Are you sure you want to "Accept" the reading prolongation "%prolongAt%"?'
+            SUCCESS: 'Reading prolongation has been successfully accepted to "%prolongAt%".'
+            SUBMIT: 'Confirm Accept Prolongation'
+

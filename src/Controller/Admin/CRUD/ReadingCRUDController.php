@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\CRUD\User\Profile;
+namespace App\Controller\Admin\CRUD;
 
-use App\Controller\Admin\CRUD\AdminCRUDController;
+use App\CQ\Command\Order\CancelBookOrderCommand;
 use App\CQ\Command\Order\DoneBookOrderCommand;
+use App\CQ\Command\Reading\ProlongAcceptReadingCommand;
 use App\CQ\Command\Reading\ProlongCancelReadingCommand;
 use App\CQ\Command\Reading\ProlongReadingCommand;
+use App\Entity\Order;
 use App\Entity\Reading;
 use App\Form\Type\Reading\ProlongReadingType;
 use App\Service\MessageBusHandler;
@@ -15,9 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-final class ReadingUserProfileCRUDController extends AdminCRUDController
+final class ReadingCRUDController extends AdminCRUDController
 {
-
     public function prolongAction(
         Request $request,
         MessageBusHandler $messageBusHandler,
@@ -61,7 +62,7 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
                     );
 
                     // redirect to list
-                    return $this->redirectToRoute('admin_user_reading_list');
+                    return $this->redirectToList();
                 } catch (Throwable $e) {
                     $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
                     $this->addFlash(
@@ -76,7 +77,7 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
         // set the theme for the current Admin Form
         $this->setFormTheme($formView, $this->admin->getFormTheme());
 
-        return $this->renderWithExtraParams('admin/user/profile/prolong.html.twig', [
+        return $this->renderWithExtraParams('admin/reading/prolong.html.twig', [
             'action'   => 'prolong',
             'form'     => $formView,
             'object'   => $reading,
@@ -84,7 +85,6 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
             'objectId' => $reading->getId(),
         ]);
     }
-
 
     public function prolongCancelAction(
         Request $request,
@@ -101,7 +101,7 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
 
         if ($request->getMethod() === Request::METHOD_POST) {
             // check the csrf token
-            $this->validateCsrfToken($request, 'admin.user.reading.prolong_cancel');
+            $this->validateCsrfToken($request, 'admin.reading.prolong_cancel');
 
             try {
                 /** @var Reading $reading */
@@ -124,7 +124,7 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
                 );
 
                 // redirect to list
-                return $this->redirectToRoute('admin_user_reading_list');
+                return $this->redirectToList();
             } catch (Throwable $e) {
                 $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
                 $this->addFlash(
@@ -134,12 +134,67 @@ final class ReadingUserProfileCRUDController extends AdminCRUDController
             }
         }
 
-        return $this->renderWithExtraParams('admin/user/profile/prolong_cancel.html.twig', [
+        return $this->renderWithExtraParams('admin/reading/prolong_cancel.html.twig', [
             'object'     => $reading,
             'reading'    => $reading,
             'action'     => 'prolong_cancel',
-            'csrf_token' => $this->getCsrfToken('admin.user.reading.prolong_cancel'),
+            'csrf_token' => $this->getCsrfToken('admin.reading.prolong_cancel'),
         ]);
     }
 
+    public function prolongAcceptAction(
+        Request $request,
+        MessageBusHandler $messageBusHandler,
+    ): Response {
+        /** @var Reading $reading */
+        $reading = $this->assertObjectExists($request, true);
+        if (!$reading) {
+            throw $this->createNotFoundException('Reading Not Found');
+        }
+
+        $this->admin->checkAccess('prolong_accept', $reading);
+        $this->admin->setSubject($reading);
+
+        if ($request->getMethod() === Request::METHOD_POST) {
+            // check the csrf token
+            $this->validateCsrfToken($request, 'admin.reading.prolong_accept');
+
+            try {
+                /** @var Reading $reading */
+                $reading = $messageBusHandler->handleCommand(
+                    new ProlongAcceptReadingCommand(
+                        readingId: (int)$reading->getId(),
+                    )
+                );
+
+                $this->addFlash(
+                    'sonata_flash_success',
+                    $this->trans(
+                        'READING_ENTITY.MESSAGE.PROLONG_ACCEPT.SUCCESS',
+                        [
+                            '%book%' => $this->escapeHtml($this->admin->toString($reading->getBook())),
+
+                        ],
+                        'SonataAdminBundle'
+                    )
+                );
+
+                // redirect to list
+                return $this->redirectToList();
+            } catch (Throwable $e) {
+                $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                $this->addFlash(
+                    'sonata_flash_error',
+                    $this->trans($errorMessage, [], $this->admin->getTranslationDomain())
+                );
+            }
+        }
+
+        return $this->renderWithExtraParams('admin/reading/prolong_accept.html.twig', [
+            'object'     => $reading,
+            'reading'    => $reading,
+            'action'     => 'prolong_accept',
+            'csrf_token' => $this->getCsrfToken('admin.reading.prolong_accept'),
+        ]);
+    }
 }

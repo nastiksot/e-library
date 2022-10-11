@@ -12,7 +12,33 @@ services:
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'
-                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                controller: App\Controller\Admin\CRUD\ReadingCRUDController
                 manager_type: orm
-                group: MENU_GROUP.BOOK
+                group: MENU_GROUP.READING
                 label: MENU.READING
+
+    admin.reading.prolong:
+        class: App\Admin\ReadingProlongAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_reading_prolong' ] ]
+            - [ setBaseRoutePattern,    [ 'reading-prolong' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Reading'
+                controller: App\Controller\Admin\CRUD\ReadingCRUDController
+                manager_type: orm
+                group: MENU_GROUP.READING
+                label: MENU.READING_PROLONG
+
+    admin.reading.expire:
+        class: App\Admin\ReadingExpireAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_reading_expire' ] ]
+            - [ setBaseRoutePattern,    [ 'reading-expire' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Reading'
+                controller: App\Controller\Admin\CRUD\ReadingCRUDController
+                manager_type: orm
+                group: MENU_GROUP.READING
+                label: MENU.READING_EXPIRE
