@@ -6,6 +6,7 @@ namespace App\Admin;
 
 use Carbon\Carbon;
 use Doctrine\ORM\QueryBuilder;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -26,6 +27,29 @@ class ReadingExpireAdmin extends ReadingAdmin
 //        $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
 //        parent::configureRoutes($collection);
 //    }
+
+
+//    protected function configureDatagridFilters(DatagridMapper $filter): void
+//    {
+//        $this->configureFilterFieldDateRange(
+//            $filter,
+//            'expireAt',
+//            'READING_ENTITY.LABEL.EXPIRE_AT',
+//            [],
+//            ['mapped' => false]
+//        );
+//        parent::configureDatagridFilters($filter);
+//    }
+
+    /**
+     * Configures a list of default filters.
+     *
+     * @param array<string, array<string, mixed>> $filterValues
+     */
+    protected function configureDefaultFilterValues(array &$filterValues): void
+    {
+        dump($filterValues);
+    }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {

@@ -9,6 +9,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 use function array_merge;
 
 trait ConfigureFilterTrait
@@ -36,7 +37,8 @@ trait ConfigureFilterTrait
         DatagridMapper $filter,
         string $name,
         string $label = null,
-        array $options = []
+        array $options = [],
+        array $fieldOptions = [],
     ): void {
         $options['label'] = $label;
         $filter
@@ -45,7 +47,12 @@ trait ConfigureFilterTrait
                 DateRangeFilter::class,
                 array_merge(
                     [
-                        'field_options' => ['field_options' => ['widget' => 'single_text']],
+                        'field_options' => array_merge(
+                            [
+                                'field_options' => ['widget' => 'single_text'],
+                            ],
+                            $fieldOptions
+                        ),
                     ],
                     $options
                 )

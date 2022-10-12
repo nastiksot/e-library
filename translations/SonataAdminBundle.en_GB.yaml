@@ -66,6 +66,9 @@ BREADCRUMB:
     MENU_USER_PROFILE_READING:
         Reading_list: 'I am Reading'
         Reading_create: 'Create'
+    MENU_READING_EXPIRE:
+        Reading_list: 'Reading has expired list'
+        Reading_create: 'Create'
 
 CHOICE:
     YES: 'Yes'
