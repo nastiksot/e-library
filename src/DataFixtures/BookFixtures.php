@@ -8,9 +8,12 @@ use App\DataFixtures\Traits\EntityDataFixtureTrait;
 use App\Entity\Book\Author;
 use App\Entity\Book\Book;
 use App\Entity\Book\Category;
+use App\Entity\Stock;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+
+use function random_int;
 
 /**
  * @method Book createEntity
@@ -19,7 +22,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
 {
     use EntityDataFixtureTrait;
 
-    public const COUNT_BOOKS = 100;
+    public const COUNT_BOOKS = 1;
 
     public function getDependencies()
     {
@@ -52,6 +55,16 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
 
         // save
         $manager->flush();
+
+        // update stoks
+        $stoks = $manager->getRepository(Stock::class)->findAll();
+        foreach ($stoks as $stok) {
+            $stok->setQuantity(random_int(100, 100));
+            $manager->persist($stok);
+        }
+
+        // save stocks
+        $manager->flush();
     }
 
     private function createData(string $prefix, int $index): array
@@ -60,7 +73,6 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
         $suffix   = ($indexKey ? '-' . $indexKey : '');
 
         return [
-            'quantity'    => random_int(1, 20),
             'name'        => $prefix . $suffix . '-Name',
             'description' => $prefix . $suffix . '-Description',
         ];

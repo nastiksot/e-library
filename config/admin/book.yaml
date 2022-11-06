@@ -43,6 +43,20 @@ services:
                 group: MENU_GROUP.BOOK
                 label: MENU.BOOK
 
+    admin.skock:
+        class: App\Admin\StockAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin_stock' ] ]
+            - [ setBaseRoutePattern,    [ 'stock' ] ]
+            - [ setTemplate, [ 'edit', 'admin/stock/edit.html.twig' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Stock'
+                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                manager_type: orm
+                group: MENU_GROUP.BOOK
+                label: MENU.STOCK
+
     admin.order:
         class: App\Admin\OrderAdmin
         calls:

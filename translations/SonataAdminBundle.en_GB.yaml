@@ -18,6 +18,7 @@ MENU:
     BOOK_AUTHOR: 'Authors'
     BOOK_CATEGORY: 'Book Categories'
     BOOK: 'Books'
+    STOCK: 'Stock'
     SETTINGS:
         GENERAL: General Settings
     USER_PROFILE:
@@ -69,6 +70,12 @@ BREADCRUMB:
     MENU_READING_EXPIRE:
         Reading_list: 'Reading has expired list'
         Reading_create: 'Create'
+    MENU_SETTINGS_GENERAL:
+        GeneralSettings_list: 'Settings'
+        GeneralSettings_create: 'Create'
+    MENU_STOCK:
+        Stock_list: 'Stock list'
+        Stock_create: 'Create'
 
 CHOICE:
     YES: 'Yes'
@@ -266,6 +273,16 @@ BOOK_ENTITY:
         ORDER_TITLE: 'Order a Book'
         ORDER_SUCCESS: 'Book "%name%" has been successfully ordered. Order "%order%".'
 
+STOCK_ENTITY:
+    SECTION:
+        MAIN: 'Stock Data'
+    LABEL:
+        QUANTITY: 'Quantity'
+        RESERVED: 'Reserved'
+    HELP:
+        QUANTITY: ''
+        RESERVED: ''
+
 ORDER_ENTITY:
     SECTION:
         MAIN: 'Order Data'
@@ -317,6 +334,7 @@ READING_ENTITY:
         QUANTITY: 'Quantity'
         READING_TYPE: 'Reading Type'
         STATUS: 'Status'
+        EXPIRE_AT: 'Expire At'
         START_AT: 'Start At'
         END_AT: 'End At'
         PROLONG_AT: 'Prolong At'
@@ -327,6 +345,7 @@ READING_ENTITY:
         QUANTITY: ''
         READING_TYPE: ''
         STATUS: ''
+        EXPIRE_AT: ''
         START_AT: ''
         END_AT: ''
         PROLONG_AT: ''

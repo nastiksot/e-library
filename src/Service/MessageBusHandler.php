@@ -8,6 +8,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\LogicException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
+
 use function array_map;
 use function count;
 use function get_class;
@@ -53,7 +54,7 @@ class MessageBusHandler
         $handledStamps = $envelope->all(HandledStamp::class);
 
         if (!$handledStamps) {
-            if (!$allowNoResult) {
+            if ($allowNoResult) {
                 return null;
             }
 

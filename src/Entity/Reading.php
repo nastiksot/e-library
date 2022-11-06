@@ -14,7 +14,6 @@ use App\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
  * @ORM\Table(
  *     name="reading",
  *     indexes={
@@ -29,6 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\Index(name="idx_reading_type", columns={"reading_type"}),
  *     },
  * )
+ * @ORM\Entity(repositoryClass="App\Repository\ReadingRepository")
  */
 class Reading extends AbstractEntity
 {
@@ -39,21 +39,21 @@ class Reading extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="reading")
-     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private ?Book $book;
+    private Book $book;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="reading")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private ?User $user;
+    private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="reading")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
-    private ?Order $order;
+    private ?Order $order = null;
 
     /**
      * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
@@ -66,24 +66,24 @@ class Reading extends AbstractEntity
         $this->readingType = ReadingType::READING_HALL();
     }
 
-    public function getBook(): ?Book
+    public function getBook(): Book
     {
         return $this->book;
     }
 
-    public function setBook(?Book $book): self
+    public function setBook(Book $book): self
     {
         $this->book = $book;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

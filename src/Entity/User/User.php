@@ -32,8 +32,8 @@ use function method_exists;
  *          @ORM\UniqueConstraint(name="uniq_email", columns={"email"}),
  *     }
  * )
- * @ORM\EntityListeners({"App\EventListener\Doctrine\UserEntityListener"})
  * @ORM\Entity(repositoryClass="App\Repository\User\UserRepository")
+ * @ORM\EntityListeners({"App\EventListener\Doctrine\UserEntityListener"})
  */
 class User extends AbstractEntity implements UserInterface
 {

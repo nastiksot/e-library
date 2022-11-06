@@ -8,7 +8,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ExceptionFactory
 {
-    public const DOMAIN = 'validators';
+    public const DOMAIN_VALIDATORS = 'validators';
+    public const DOMAIN_ADMIN      = 'SonataAdminBundle';
 
     public function __construct(
         private TranslatorInterface $translator,
@@ -22,7 +23,7 @@ class ExceptionFactory
         string $message = 'GENERAL.VALIDATION_FAILED',
         array $parameters = [],
         array $violations = [],
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_VALIDATORS,
         string $locale = null,
     ): ValidationFailedException {
         return ValidationFailedException::fromArray(
@@ -37,7 +38,7 @@ class ExceptionFactory
         array $parameters = [],
         ?string $value = null,
         ?string $generalMessage = null,
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_VALIDATORS,
         string $locale = null,
     ): ValidationFailedException {
         return ValidationFailedException::fromArray(
@@ -55,7 +56,7 @@ class ExceptionFactory
     final public function createEntityNotFoundException(
         ?string $message = null,
         array $parameters = [],
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_ADMIN,
         string $locale = null,
     ): EntityNotFoundException {
         return new EntityNotFoundException(
@@ -66,7 +67,7 @@ class ExceptionFactory
     final public function createUnprocessableEntityException(
         ?string $message = null,
         array $parameters = [],
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_VALIDATORS,
         string $locale = null,
     ): UnprocessableEntityException {
         return new UnprocessableEntityException(
@@ -77,7 +78,7 @@ class ExceptionFactory
     final public function createSendMailException(
         ?string $message = null,
         array $parameters = [],
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_VALIDATORS,
         string $locale = null,
     ): SendMailException {
         return new SendMailException(
@@ -88,7 +89,7 @@ class ExceptionFactory
     final public function createAccessDeniedException(
         ?string $message = null,
         array $parameters = [],
-        string $domain = self::DOMAIN,
+        string $domain = self::DOMAIN_VALIDATORS,
         string $locale = null,
     ): AccessDeniedException {
         return new AccessDeniedException(

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\CRUD;
 
-use App\CQ\Command\Order\CancelBookOrderCommand;
-use App\CQ\Command\Order\DoneBookOrderCommand;
+use App\CQ\Command\Order\CancelOrderCommand;
+use App\CQ\Command\Order\DoneOrderCommand;
 use App\Entity\Order;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,11 +33,7 @@ final class OrderCRUDController extends AdminCRUDController
 
             try {
                 /** @var Order $order */
-                $order = $messageBusHandler->handleCommand(
-                    new CancelBookOrderCommand(
-                        orderId: (int)$order->getId(),
-                    )
-                );
+                $order = $messageBusHandler->handleCommand(new CancelOrderCommand((int)$order->getId()));
 
                 $this->addFlash(
                     'sonata_flash_success',
@@ -88,11 +84,7 @@ final class OrderCRUDController extends AdminCRUDController
 
             try {
                 /** @var Order $order */
-                $order = $messageBusHandler->handleCommand(
-                    new DoneBookOrderCommand(
-                        orderId: (int)$order->getId(),
-                    )
-                );
+                $order = $messageBusHandler->handleCommand(new DoneOrderCommand((int)$order->getId()));
 
                 $this->addFlash(
                     'sonata_flash_success',

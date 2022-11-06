@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\CRUD\Book;
 
 use App\Controller\Admin\CRUD\AdminCRUDController;
-use App\CQ\Command\Order\CreateBookOrderCommand;
+use App\CQ\Command\Order\CreateOrderCommand;
 use App\Entity\Book\Book;
 use App\Entity\Order;
 use App\Form\Type\OrderBookType;
@@ -41,7 +41,7 @@ final class BookCRUDController extends AdminCRUDController
                 try {
                     /** @var Order $order */
                     $order = $messageBusHandler->handleCommand(
-                        new CreateBookOrderCommand(
+                        new CreateOrderCommand(
                             bookId:      (int)$book->getId(),
                             userId:      (int)$this->getUser()?->getId(),
                             quantity:    (int)$form->get('quantity')->getData(),

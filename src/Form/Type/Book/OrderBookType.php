@@ -6,9 +6,9 @@ namespace App\Form\Type;
 
 use App\Admin\Traits\ReadingTypeChoicesTrait;
 use Carbon\Carbon;
-use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -28,9 +28,10 @@ class OrderBookType extends AbstractType
                     'required'    => false,
                     'empty_data'  => 1,
                     'scale'       => 0,
+                    'attr'        => ['class' => 'w-150'],
                     'constraints' => [
                         new NotBlank(),
-                        new GreaterThanOrEqual(['value' => 1]),
+                        new GreaterThanOrEqual(1),
                     ],
                 ]
             )
@@ -40,16 +41,18 @@ class OrderBookType extends AbstractType
                 [
                     'required'           => false,
                     'choices'            => $this->getReadingTypeChoices(),
+                    'attr'               => ['class' => 'w-150', 'data-sonata-select2' => 'false'],
                     'constraints'        => [new NotBlank()],
                     'translation_domain' => 'SonataAdminBundle',
                 ]
             )
             ->add(
                 'start_at',
-                DatePickerType::class,
+                DateType::class,
                 [
                     'widget'      => 'single_text',
                     'required'    => false,
+                    'attr'        => ['min' => Carbon::today()->format('Y-m-d'), 'class' => 'w-150'],
                     'constraints' => [
                         new NotBlank(),
                         new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
@@ -58,10 +61,11 @@ class OrderBookType extends AbstractType
             )
             ->add(
                 'end_at',
-                DatePickerType::class,
+                DateType::class,
                 [
                     'widget'      => 'single_text',
                     'required'    => false,
+                    'attr'        => ['min' => Carbon::today()->format('Y-m-d'), 'class' => 'w-150'],
                     'constraints' => [
                         new NotBlank(),
                         new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),

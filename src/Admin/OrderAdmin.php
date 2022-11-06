@@ -42,6 +42,7 @@ class OrderAdmin extends AbstractAdmin
     {
         $collection->add('done', $this->getRouterIdParameter() . '/done');
         $collection->add('cancel', $this->getRouterIdParameter() . '/cancel');
+        $collection->remove('create');
         parent::configureRoutes($collection);
     }
 
@@ -153,7 +154,7 @@ class OrderAdmin extends AbstractAdmin
             'ORDER_ENTITY.LABEL.QUANTITY',
             'ORDER_ENTITY.HELP.QUANTITY',
             false,
-            ['constraints' => [new NotBlank()]]
+            ['constraints' => [new NotBlank(), new GreaterThanOrEqual(1)]]
         );
 
         $this->configureFormFieldChoice(
@@ -165,7 +166,7 @@ class OrderAdmin extends AbstractAdmin
             true,
         );
 
-        $this->configureFormFieldDate(
+        $this->configureFormFieldDateType(
             $form,
             'startAt',
             'ORDER_ENTITY.LABEL.START_AT',
@@ -179,7 +180,7 @@ class OrderAdmin extends AbstractAdmin
             ]
         );
 
-        $this->configureFormFieldDate(
+        $this->configureFormFieldDateType(
             $form,
             'endAt',
             'ORDER_ENTITY.LABEL.END_AT',

@@ -16,8 +16,8 @@ class UserFixtures extends Fixture
 
     public const COUNT_SUPER_ADMINS = 1;
     public const COUNT_ADMINS       = 2;
-    public const COUNT_LIBRARIANS   = 5;
-    public const COUNT_READERS      = 10;
+    public const COUNT_LIBRARIANS   = 1;
+    public const COUNT_READERS      = 1;
 
     public function load(ObjectManager $manager)
     {

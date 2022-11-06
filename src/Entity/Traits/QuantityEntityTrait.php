@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait QuantityEntityTrait
 {
     /**
-     * @ORM\Column(name="quantity", type="integer", nullable=false, options={"default":"0"})
+     * @ORM\Column(name="quantity", type="integer", nullable=false, options={"default":"0", "unsigned": true})
      */
     protected int $quantity = 0;
 

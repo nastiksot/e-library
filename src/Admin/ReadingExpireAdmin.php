@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
+use Sonata\Form\Type\DateRangeType;
 
 class ReadingExpireAdmin extends ReadingAdmin
 {
@@ -21,25 +25,40 @@ class ReadingExpireAdmin extends ReadingAdmin
 //        ];
 //    }
 //
-//    protected function configureRoutes(RouteCollectionInterface $collection): void
-//    {
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
 //        $collection->add('prolong_accept', $this->getRouterIdParameter() . '/prolong-accept');
 //        $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
-//        parent::configureRoutes($collection);
-//    }
+        $collection->remove('create');
+        parent::configureRoutes($collection);
+    }
 
 
-//    protected function configureDatagridFilters(DatagridMapper $filter): void
-//    {
-//        $this->configureFilterFieldDateRange(
-//            $filter,
-//            'expireAt',
-//            'READING_ENTITY.LABEL.EXPIRE_AT',
-//            [],
-//            ['mapped' => false]
-//        );
-//        parent::configureDatagridFilters($filter);
-//    }
+    protected function configureDatagridFilters(DatagridMapper $filter): void
+    {
+        $filter->add(
+            'expireAt',
+            CallbackFilter::class,
+            [
+                'callback'      => [$this, 'configureQueryExpireAtCallbackFilter'],
+                'label'         => 'READING_ENTITY.LABEL.EXPIRE_AT',
+                'field_type'    => DateRangeType::class,
+                'field_options' => [
+                    'field_options'       => [
+                        'widget' => 'single_text',
+                    ],
+//                    'field_options_start' => [
+//                        'attr' => ['max' => Carbon::today()->format('Y-m-d')],
+//                    ],
+//                    'field_options_end'   => [
+//                        'attr' => ['min' => Carbon::today()->format('Y-m-d')],
+//                    ],
+                ],
+            ],
+        );
+
+        parent::configureDatagridFilters($filter);
+    }
 
     /**
      * Configures a list of default filters.
@@ -48,22 +67,40 @@ class ReadingExpireAdmin extends ReadingAdmin
      */
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
-        dump($filterValues);
+        $expireDay                = Carbon::today()->startOfDay();
+        $filterValues['expireAt'] = ['value' => ['end' => $expireDay->format('Y-m-d')]];
     }
 
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $expireDay = Carbon::today()->startOfDay();
-        $expireDay = Carbon::tomorrow()->startOfDay();
-        /** @var ProxyQueryInterface|QueryBuilder $query */
-        $query = parent::configureQuery($query);
-        $alias = current($query->getRootAliases());
-//        $query->andWhere($query->expr()->isNotNull("{$alias}.prolongAt"));
-        $query->andWhere("{$alias}.endAt <= :expireDay");
-        $query->setParameter(':expireDay', $expireDay);
+    public function configureQueryExpireAtCallbackFilter(
+        ProxyQueryInterface|QueryBuilder $query,
+        string $alias,
+        string $field,
+        FilterData $data
+    ): bool {
+        if (!$data->hasValue()) {
+            return false;
+        }
 
-//        reading.end_at < NOW()
-        return $query;
+        // filter value
+        $value         = $data->getValue();
+        $expireStartAt = $value['start'] instanceof DateTimeInterface ? Carbon::instance($value['start']) : null;
+        $expireEndAt   = $value['end'] instanceof DateTimeInterface ? Carbon::instance($value['end']) : null;
+
+        // $expireStartAt update query
+        if ($expireStartAt !== null) {
+            $query
+                ->andWhere("{$alias}.endAt >= :expireStartAt")
+                ->setParameter('expireStartAt', $expireStartAt);
+        }
+
+        // $expireEndAt update query
+        if ($expireEndAt !== null) {
+            $query
+                ->andWhere("{$alias}.endAt <= :expireEndAt")
+                ->setParameter('expireEndAt', $expireEndAt);
+        }
+
+        return true;
     }
 
     protected function configureListFields(ListMapper $list): void

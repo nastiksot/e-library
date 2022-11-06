@@ -7,9 +7,9 @@ namespace App\Entity\Book;
 use App\Entity\AbstractEntity;
 use App\Entity\Order;
 use App\Entity\Reading;
+use App\Entity\Stock;
 use App\Entity\Traits\DescriptionEntityTrait;
 use App\Entity\Traits\NameEntityTrait;
-use App\Entity\Traits\QuantityEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +19,6 @@ use function implode;
 use function method_exists;
 
 /**
- * @ORM\Entity()
  * @ORM\Table(
  *     name="books",
  *     indexes={
@@ -27,12 +26,13 @@ use function method_exists;
  *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
  *     },
  * )
+ * @ORM\Entity(repositoryClass="App\Repository\Book\BookRepository")
+ * @ORM\EntityListeners({"App\EventListener\Doctrine\BookEntityListener"})
  */
 class Book extends AbstractEntity
 {
     use NameEntityTrait;
     use DescriptionEntityTrait;
-    use QuantityEntityTrait;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Book\Author", inversedBy="books")
@@ -60,6 +60,10 @@ class Book extends AbstractEntity
      */
     private Collection $orders;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Stock", mappedBy="book", cascade={"persist", "remove"})
+     */
+    private ?Stock $stock = null;
 
     public function __toString(): string
     {
@@ -189,6 +193,28 @@ class Book extends AbstractEntity
                 $order->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStock(): ?Stock
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?Stock $stock): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($stock === null && $this->stock !== null) {
+            $this->stock->setBook(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($stock !== null && $stock->getBook() !== $this) {
+            $stock->setBook($this);
+        }
+
+        $this->stock = $stock;
 
         return $this;
     }

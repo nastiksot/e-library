@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
  * @ORM\Table(
  *     name="orders",
  *     indexes={
@@ -30,6 +29,8 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\Index(name="idx_reading_type", columns={"reading_type"}),
  *     },
  * )
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\EntityListeners({"App\EventListener\Doctrine\OrderEntityListener"})
  */
 class Order extends AbstractEntity
 {
@@ -39,9 +40,9 @@ class Order extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="orders")
-     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private ?Book $book;
+    private Book $book;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="orders")
@@ -71,12 +72,12 @@ class Order extends AbstractEntity
         $this->reading = new ArrayCollection();
     }
 
-    public function getBook(): ?Book
+    public function getBook(): Book
     {
         return $this->book;
     }
 
-    public function setBook(?Book $book): self
+    public function setBook(Book $book): self
     {
         $this->book = $book;
 
@@ -95,12 +96,12 @@ class Order extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): ?OrderStatus
+    public function getStatus(): OrderStatus
     {
         return $this->status;
     }
 
-    public function setStatus(null|string|OrderStatus $status): self
+    public function setStatus(string|OrderStatus $status): self
     {
         if (is_string($status)) {
             $this->status = new OrderStatus($status);

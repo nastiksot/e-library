@@ -23,6 +23,7 @@ class ReadingProlongAdmin extends ReadingAdmin
     {
         $collection->add('prolong_accept', $this->getRouterIdParameter() . '/prolong-accept');
         $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
+        $collection->remove('create');
         parent::configureRoutes($collection);
     }
 

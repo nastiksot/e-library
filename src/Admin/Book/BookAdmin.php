@@ -37,7 +37,7 @@ class BookAdmin extends AbstractAdmin
     {
         $filter->add('name', null, ['label' => 'BOOK_ENTITY.LABEL.NAME']);
         $filter->add('description', null, ['label' => 'BOOK_ENTITY.LABEL.DESCRIPTION']);
-        $filter->add('quantity', null, ['label' => 'BOOK_ENTITY.LABEL.QUANTITY']);
+//        $filter->add('stock.quantity', null, ['label' => 'BOOK_ENTITY.LABEL.QUANTITY']);
         $filter->add('authors', null, ['label' => 'BOOK_ENTITY.LABEL.AUTHORS']);
         $filter->add('categories', null, ['label' => 'BOOK_ENTITY.LABEL.CATEGORIES']);
     }
@@ -47,7 +47,8 @@ class BookAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'id', 'ID');
         $this->configureListFieldText($list, 'name', 'BOOK_ENTITY.LABEL.NAME');
         $this->configureListFieldText($list, 'description', 'BOOK_ENTITY.LABEL.DESCRIPTION');
-        $this->configureListFieldText($list, 'quantity', 'BOOK_ENTITY.LABEL.QUANTITY');
+        $this->configureListFieldText($list, 'stock.quantity', 'STOCK_ENTITY.LABEL.QUANTITY');
+        $this->configureListFieldText($list, 'stock.reserved', 'STOCK_ENTITY.LABEL.RESERVED');
         $this->configureListFieldText($list, 'authors', 'BOOK_ENTITY.LABEL.AUTHORS');
         $this->configureListFieldText($list, 'categories', 'BOOK_ENTITY.LABEL.CATEGORIES');
 

@@ -26,6 +26,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        return;
         for ($i = 1; $i <= 5; $i++) {
             $data   = $this->createData($i, 'super-admin-', UserFixtures::COUNT_SUPER_ADMINS);
             $entity = $this->createEntity(Order::class, $data);

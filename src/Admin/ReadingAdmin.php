@@ -113,7 +113,7 @@ class ReadingAdmin extends AbstractAdmin
             'READING_ENTITY.LABEL.QUANTITY',
             'READING_ENTITY.HELP.QUANTITY',
             false,
-            ['constraints' => [new NotBlank()]]
+            ['constraints' => [new NotBlank(), new GreaterThanOrEqual(1)]]
         );
 
         $this->configureFormFieldChoice(
@@ -125,7 +125,7 @@ class ReadingAdmin extends AbstractAdmin
             true,
         );
 
-        $this->configureFormFieldDate(
+        $this->configureFormFieldDateType(
             $form,
             'startAt',
             'READING_ENTITY.LABEL.START_AT',
@@ -139,7 +139,7 @@ class ReadingAdmin extends AbstractAdmin
             ]
         );
 
-        $this->configureFormFieldDate(
+        $this->configureFormFieldDateType(
             $form,
             'endAt',
             'READING_ENTITY.LABEL.END_AT',
@@ -153,7 +153,7 @@ class ReadingAdmin extends AbstractAdmin
             ]
         );
 
-        $this->configureFormFieldDate(
+        $this->configureFormFieldDateType(
             $form,
             'prolongAt',
             'READING_ENTITY.LABEL.PROLONG_AT',

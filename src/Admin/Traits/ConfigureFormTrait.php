@@ -20,9 +20,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+
 use function array_merge;
 use function implode;
 use function is_array;
+
 use const PHP_EOL;
 
 trait ConfigureFormTrait
@@ -195,6 +197,8 @@ trait ConfigureFormTrait
             DateType::class,
             array_merge(
                 [
+                    'widget'             => 'single_text',
+                    'attr'               => ['class' => 'w-150'],
                     'required'           => $required,
                     'label'              => $label,
                     'help'               => $help,
@@ -348,13 +352,13 @@ trait ConfigureFormTrait
                 $namelinkType,
                 ChoiceFieldMaskType::class,
                 [
-                    'label'    => $labels['linkType'] ?? 'FIELD.LINK_ENTITY.TYPE',
-                    'required' => false,
-                    'choices'  => [
+                    'label'              => $labels['linkType'] ?? 'FIELD.LINK_ENTITY.TYPE',
+                    'required'           => false,
+                    'choices'            => [
                         'FIELD.LINK_ENTITY.CHOICE.LINK' => LinkEntityInterface::LINK_TYPE_EXTERNAL_LINK,
                         'FIELD.LINK_ENTITY.CHOICE.PAGE' => LinkEntityInterface::LINK_TYPE_PAGE,
                     ],
-                    'map' => [
+                    'map'                => [
                         LinkEntityInterface::LINK_TYPE_EXTERNAL_LINK => $mapExternal,
                         LinkEntityInterface::LINK_TYPE_PAGE          => $mapPage,
                     ],
@@ -381,9 +385,9 @@ trait ConfigureFormTrait
                 $nameLink,
                 TextType::class,
                 [
-                    'label'    => $labels['link'] ?? 'FIELD.LINK_ENTITY.LINK',
-                    'help'     => $labels['linkHelp'] ?? 'FIELD.LINK_ENTITY.LINK_HELP',
-                    'required' => false,
+                    'label'              => $labels['link'] ?? 'FIELD.LINK_ENTITY.LINK',
+                    'help'               => $labels['linkHelp'] ?? 'FIELD.LINK_ENTITY.LINK_HELP',
+                    'required'           => false,
                     // 'attr'     => ['class' => 'link_input_custom'],
                     'translation_domain' => $this->getTranslationDomain(),
                 ]
@@ -395,9 +399,9 @@ trait ConfigureFormTrait
                     $nameLinkTitle,
                     TextType::class,
                     [
-                        'label'    => $labels['linkTitle'] ?? 'FIELD.LINK_ENTITY.LINK_TITLE',
-                        'help'     => null,
-                        'required' => false,
+                        'label'              => $labels['linkTitle'] ?? 'FIELD.LINK_ENTITY.LINK_TITLE',
+                        'help'               => null,
+                        'required'           => false,
                         // 'attr'     => ['class' => 'link_input_custom'],
                         'translation_domain' => $this->getTranslationDomain(),
                     ]
@@ -420,8 +424,8 @@ trait ConfigureFormTrait
                 $nameLinkTarget,
                 ChoiceType::class,
                 [
-                    'label'   => $labels['linkTarget'] ?? 'FIELD.LINK_ENTITY.TARGET',
-                    'choices' => [
+                    'label'              => $labels['linkTarget'] ?? 'FIELD.LINK_ENTITY.TARGET',
+                    'choices'            => [
                         'FIELD.LINK_ENTITY.CHOICE.TOP'   => LinkEntityInterface::TARGET_TOP,
                         'FIELD.LINK_ENTITY.CHOICE.BLANK' => LinkEntityInterface::TARGET_BLANK,
                     ],

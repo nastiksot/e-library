@@ -15,7 +15,6 @@ use function implode;
 use function method_exists;
 
 /**
- * @ORM\Entity()
  * @ORM\Table(
  *     name="categories",
  *     indexes={
@@ -23,6 +22,7 @@ use function method_exists;
  *          @ORM\Index(name="idx_updated_at", columns={"updated_at"}),
  *     },
  * )
+ * @ORM\Entity(repositoryClass="App\Repository\Book\CategoryRepository")
  */
 class Category extends AbstractEntity
 {
