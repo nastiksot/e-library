@@ -53,7 +53,7 @@ class Book extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="book")
      */
-    private Collection $reading;
+    private Collection $readings;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="book")
@@ -64,6 +64,14 @@ class Book extends AbstractEntity
      * @ORM\OneToOne(targetEntity="App\Entity\Stock", mappedBy="book", cascade={"persist", "remove"})
      */
     private ?Stock $stock = null;
+
+    public function __construct()
+    {
+        $this->authors    = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->readings   = new ArrayCollection();
+        $this->orders     = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -81,16 +89,8 @@ class Book extends AbstractEntity
         return implode(' ', array_filter($labels));
     }
 
-    public function __construct()
-    {
-        $this->authors    = new ArrayCollection();
-        $this->categories = new ArrayCollection();
-        $this->reading    = new ArrayCollection();
-        $this->orders     = new ArrayCollection();
-    }
-
     /**
-     * @return Collection|Author[]
+     * @return Collection<int, Author>
      */
     public function getAuthors(): Collection
     {
@@ -100,7 +100,7 @@ class Book extends AbstractEntity
     public function addAuthor(Author $author): self
     {
         if (!$this->authors->contains($author)) {
-            $this->authors[] = $author;
+            $this->authors->add($author);
         }
 
         return $this;
@@ -114,7 +114,7 @@ class Book extends AbstractEntity
     }
 
     /**
-     * @return Collection|Category[]
+     * @return Collection<int, Category>
      */
     public function getCategories(): Collection
     {
@@ -124,7 +124,7 @@ class Book extends AbstractEntity
     public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
+            $this->categories->add($category);
         }
 
         return $this;
@@ -140,15 +140,15 @@ class Book extends AbstractEntity
     /**
      * @return Collection<int, Reading>
      */
-    public function getReading(): Collection
+    public function getReadings(): Collection
     {
-        return $this->reading;
+        return $this->readings;
     }
 
     public function addReading(Reading $reading): self
     {
-        if (!$this->reading->contains($reading)) {
-            $this->reading->add($reading);
+        if (!$this->readings->contains($reading)) {
+            $this->readings->add($reading);
             $reading->setBook($this);
         }
 
@@ -157,7 +157,7 @@ class Book extends AbstractEntity
 
     public function removeReading(Reading $reading): self
     {
-        if ($this->reading->removeElement($reading)) {
+        if ($this->readings->removeElement($reading)) {
             // set the owning side to null (unless already changed)
             if ($reading->getBook() === $this) {
                 $reading->setBook(null);
@@ -218,5 +218,4 @@ class Book extends AbstractEntity
 
         return $this;
     }
-
 }

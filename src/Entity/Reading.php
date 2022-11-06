@@ -29,7 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ReadingRepository")
- * @ORM\EntityListeners({"App\EventListener\Doctrine\ReadingEntityListener"})
  */
 class Reading extends AbstractEntity
 {
@@ -39,19 +38,19 @@ class Reading extends AbstractEntity
     use ProlongAtEntityTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="reading")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="readings")
      * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private Book $book;
+    private ?Book $book = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="reading")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="readings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private User $user;
+    private ?User $user = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="reading")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="readings")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private ?Order $order = null;
@@ -67,26 +66,38 @@ class Reading extends AbstractEntity
         $this->readingType = ReadingType::READING_HALL();
     }
 
-    public function getBook(): Book
+    public function getBook(): ?Book
     {
         return $this->book;
     }
 
-    public function setBook(Book $book): self
+    public function setBook(?Book $book): self
     {
         $this->book = $book;
 
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }
@@ -103,18 +114,6 @@ class Reading extends AbstractEntity
         } else {
             $this->readingType = $readingType;
         }
-
-        return $this;
-    }
-
-    public function getOrder(): ?Order
-    {
-        return $this->order;
-    }
-
-    public function setOrder(?Order $order): self
-    {
-        $this->order = $order;
 
         return $this;
     }

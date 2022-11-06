@@ -39,14 +39,14 @@ class ReadingAdmin extends AbstractAdmin
     {
         $this->messageBusHandler->handleCommand(
             new ReserveAddStockCommand(
-                $object->getBook()->getId(),
+                (int)$object->getBook()?->getId(),
                 $object->getQuantity()
             )
         );
 
         $this->messageBusHandler->handleCommand(
             new ReserveDoneStockCommand(
-                $object->getBook()->getId(),
+                (int)$object->getBook()?->getId(),
                 $object->getQuantity()
             )
         );
@@ -64,7 +64,7 @@ class ReadingAdmin extends AbstractAdmin
 
         $this->messageBusHandler->handleCommand(
             new ReserveRestoreStockCommand(
-                $object->getBook()->getId(),
+                (int)$object->getBook()?->getId(),
                 $object->getQuantity()
             )
         );

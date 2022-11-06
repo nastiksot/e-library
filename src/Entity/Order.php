@@ -11,6 +11,7 @@ use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
 use App\Entity\Traits\Timestampable\StartAtEntityTrait;
 use App\Entity\User\User;
+use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,7 +31,6 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
- * @ORM\EntityListeners({"App\EventListener\Doctrine\OrderEntityListener"})
  */
 class Order extends AbstractEntity
 {
@@ -58,7 +58,7 @@ class Order extends AbstractEntity
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="order")
      */
-    private Collection $reading;
+    private Collection $readings;
 
     /**
      * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
@@ -69,15 +69,31 @@ class Order extends AbstractEntity
     {
         $this->status      = OrderStatus::OPEN();
         $this->readingType = ReadingType::READING_HALL();
-        $this->reading = new ArrayCollection();
+        $this->readings    = new ArrayCollection();
     }
 
-    public function getBook(): Book
+    public function getStatus(): OrderStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(null|string|OrderStatus $status): self
+    {
+        if (is_string($status)) {
+            $this->status = new OrderStatus($status);
+        } else {
+            $this->status = $status;
+        }
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
     {
         return $this->book;
     }
 
-    public function setBook(Book $book): self
+    public function setBook(?Book $book): self
     {
         $this->book = $book;
 
@@ -96,17 +112,31 @@ class Order extends AbstractEntity
         return $this;
     }
 
-    public function getStatus(): OrderStatus
+    /**
+     * @return Collection<int, Reading>
+     */
+    public function getReadings(): Collection
     {
-        return $this->status;
+        return $this->readings;
     }
 
-    public function setStatus(string|OrderStatus $status): self
+    public function addReading(Reading $reading): self
     {
-        if (is_string($status)) {
-            $this->status = new OrderStatus($status);
-        } else {
-            $this->status = $status;
+        if (!$this->readings->contains($reading)) {
+            $this->readings->add($reading);
+            $reading->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReading(Reading $reading): self
+    {
+        if ($this->readings->removeElement($reading)) {
+            // set the owning side to null (unless already changed)
+            if ($reading->getOrder() === $this) {
+                $reading->setOrder(null);
+            }
         }
 
         return $this;
@@ -128,33 +158,4 @@ class Order extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reading>
-     */
-    public function getReading(): Collection
-    {
-        return $this->reading;
-    }
-
-    public function addReading(Reading $reading): self
-    {
-        if (!$this->reading->contains($reading)) {
-            $this->reading->add($reading);
-            $reading->setOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReading(Reading $reading): self
-    {
-        if ($this->reading->removeElement($reading)) {
-            // set the owning side to null (unless already changed)
-            if ($reading->getOrder() === $this) {
-                $reading->setOrder(null);
-            }
-        }
-
-        return $this;
-    }
 }

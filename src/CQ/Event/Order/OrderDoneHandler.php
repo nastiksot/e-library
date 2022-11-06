@@ -31,7 +31,7 @@ class OrderDoneHandler implements EventHandlerInterface
 
         $this->messageBusHandler->handleCommand(
             new ReserveDoneStockCommand(
-                $order->getBook()->getId(),
+                (int)$order->getBook()?->getId(),
                 $order->getQuantity()
             )
         );

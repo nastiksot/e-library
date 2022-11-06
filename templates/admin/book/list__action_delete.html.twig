@@ -1,0 +1,7 @@
+{# @see '@SonataAdmin/CRUD/list__action_delete.html.twig' #}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Entity\Book object #}
+
+{% if object.readings|length == 0 and object.orders|length == 0 %}
+    {% include '@SonataAdmin/CRUD/list__action_delete.html.twig' %}
+{% endif %}

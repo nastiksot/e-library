@@ -28,7 +28,7 @@ class OrderCreatedHandler implements EventHandlerInterface
 
         $this->messageBusHandler->handleCommand(
             new ReserveAddStockCommand(
-                $order->getBook()->getId(),
+                (int)$order->getBook()?->getId(),
                 $order->getQuantity()
             )
         );

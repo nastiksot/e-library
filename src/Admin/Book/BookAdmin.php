@@ -56,7 +56,7 @@ class BookAdmin extends AbstractAdmin
             $actions = [
                 'order' => ['template' => 'admin/book/list__action_order.html.twig'],
                 'edit' => [],
-                'delete' => [],
+                'delete' => ['template' => 'admin/book/list__action_delete.html.twig'],
             ];
             $this->configureListFieldActions($list, $actions);
         }

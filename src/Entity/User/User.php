@@ -60,7 +60,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reading", mappedBy="user")
      */
-    private Collection $reading;
+    private Collection $readings;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
@@ -72,8 +72,8 @@ class User extends AbstractEntity implements UserInterface
     {
         $this->active  = false;
         $this->roles   = [UserInterface::ROLE_USER];
-        $this->reading = new ArrayCollection();
-        $this->orders  = new ArrayCollection();
+        $this->readings = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
@@ -134,6 +134,14 @@ class User extends AbstractEntity implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Reading>
+     */
+    public function getReadings(): Collection
+    {
+        return $this->readings;
     }
 
 }

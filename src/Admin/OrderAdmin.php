@@ -40,7 +40,7 @@ class OrderAdmin extends AbstractAdmin
         if (OrderStatus::OPEN()->getValue() === $object->getStatus()->getValue()) {
             $this->messageBusHandler->handleCommand(
                 new ReserveCancelStockCommand(
-                    $object->getBook()->getId(),
+                    (int)$object->getBook()?->getId(),
                     $object->getQuantity()
                 )
             );
@@ -49,7 +49,7 @@ class OrderAdmin extends AbstractAdmin
         if (OrderStatus::DONE()->getValue() === $object->getStatus()->getValue()) {
             $this->messageBusHandler->handleCommand(
                 new ReserveRestoreStockCommand(
-                    $object->getBook()->getId(),
+                    (int)$object->getBook()?->getId(),
                     $object->getQuantity()
                 )
             );

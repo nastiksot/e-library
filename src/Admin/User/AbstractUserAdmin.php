@@ -151,7 +151,9 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         $this->configureListFieldCreatedAt($list);
         $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldActive($list);
-        $this->configureListFieldActions($list);
+
+        $actions = ['edit' => [], 'delete' => ['template' => 'admin/user/list__action_delete.html.twig']];
+        $this->configureListFieldActions($list, $actions);
     }
 
     protected function configureFormFields(FormMapper $form): void
