@@ -217,7 +217,11 @@ abstract class AbstractUserAdmin extends AbstractAdmin
                         'label' => 'USER_ENTITY.LABEL.PASSWORD_REPEAT',
                         'attr'  => ['autocomplete' => 'new-password'],
                     ],
-                    'invalid_message'    => 'USER_ENTITY.ERROR.PASSWORD_MISMATCH',
+                    'invalid_message'    => $this->trans(
+                        'USER_ENTITY.ERROR.PASSWORD_MISMATCH',
+                        [],
+                        $this->getTranslationDomain()
+                    ),
                     'translation_domain' => $this->getTranslationDomain(),
                 ]
             );

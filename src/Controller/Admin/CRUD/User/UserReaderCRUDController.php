@@ -10,7 +10,6 @@ use App\Entity\User\User;
 use App\Form\Type\User\ReaderLoginUserType;
 use App\Form\Type\User\ReaderRegisterUserType;
 use App\Repository\User\UserRepository;
-use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -48,7 +47,6 @@ final class UserReaderCRUDController extends AdminCRUDController
 
     public function registerAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
         UserRepository $userRepository,
         UserAuthenticatorInterface $userAuthenticator,
     ): Response {
@@ -62,7 +60,7 @@ final class UserReaderCRUDController extends AdminCRUDController
             if ($isFormValid) {
                 try {
                     /** @var User */
-                    $user = $messageBusHandler->handleCommand(
+                    $user = $this->messageBusHandler->handleCommand(
                         new RegisterUserCommand(
                             firstName: $form->get('first_name')->getData(),
                             lastName:  $form->get('last_name')->getData(),

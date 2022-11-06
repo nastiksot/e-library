@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -25,6 +26,12 @@ class OrderUserProfileAdmin extends AbstractUserProfileAdmin
     use ConfigureAdminFullTrait;
     use OrderStatusChoicesTrait;
     use ReadingTypeChoicesTrait;
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('create');
+        parent::configureRoutes($collection);
+    }
 
     protected function configureDefaultSortValues(array &$sortValues): void
     {
@@ -71,7 +78,6 @@ class OrderUserProfileAdmin extends AbstractUserProfileAdmin
         $this->configureListFieldText($list, 'quantity', 'ORDER_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldDate($list, 'startAt', 'ORDER_ENTITY.LABEL.START_AT');
         $this->configureListFieldDate($list, 'endAt', 'ORDER_ENTITY.LABEL.END_AT');
-
         //$this->configureListFieldActions($list);
     }
 

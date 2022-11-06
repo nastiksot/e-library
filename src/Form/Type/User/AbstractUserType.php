@@ -12,6 +12,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 abstract class AbstractUserType extends AbstractType
 {
+
+    public function __construct(
+        private string $adminTranslationDomain
+    ) {
+    }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('userRepository');
@@ -33,8 +39,9 @@ abstract class AbstractUserType extends AbstractType
     {
         if ($value && $this->isIdentifierExists($value, $context)) {
             $context
-                ->buildViolation('EMAIL_TAKEN')
+                ->buildViolation('USER_ENTITY.ERROR.EMAIL_TAKEN')
                 ->setParameter('%EMAIL%', $value)
+                ->setTranslationDomain($this->adminTranslationDomain)
                 ->atPath('email')->addViolation();
         }
     }

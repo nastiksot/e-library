@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
+use Throwable;
+
+use function array_key_last;
+use function explode;
 
 class ExceptionFactory
 {
@@ -67,7 +73,7 @@ class ExceptionFactory
     final public function createUnprocessableEntityException(
         ?string $message = null,
         array $parameters = [],
-        string $domain = self::DOMAIN_VALIDATORS,
+        string $domain = self::DOMAIN_ADMIN,
         string $locale = null,
     ): UnprocessableEntityException {
         return new UnprocessableEntityException(
@@ -95,5 +101,14 @@ class ExceptionFactory
         return new AccessDeniedException(
             $this->translator->trans($message ?? 'GENERAL.ACCESS_DENIED', $parameters, $domain, $locale)
         );
+    }
+
+    final public function getLastPreviousMessage(Throwable $exception): string
+    {
+        if ($exception->getPrevious() !== null) {
+            return $this->getLastPreviousMessage($exception->getPrevious());
+        }
+
+        return $exception->getMessage();
     }
 }

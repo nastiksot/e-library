@@ -9,6 +9,8 @@ use App\Admin\Traits\OrderStatusChoicesTrait;
 use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\Contracts\Dictionary\DecisionAction;
 use App\Contracts\Dictionary\OrderStatus;
+use App\CQ\Command\Stock\ReserveCancelStockCommand;
+use App\CQ\Command\Stock\ReserveRestoreStockCommand;
 use App\Entity\Order;
 use Carbon\Carbon;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -29,6 +31,30 @@ class OrderAdmin extends AbstractAdmin
     use ConfigureAdminFullTrait;
     use OrderStatusChoicesTrait;
     use ReadingTypeChoicesTrait;
+
+    /**
+     * @param Order $object
+     */
+    protected function preRemove(object $object): void
+    {
+        if (OrderStatus::OPEN()->getValue() === $object->getStatus()->getValue()) {
+            $this->messageBusHandler->handleCommand(
+                new ReserveCancelStockCommand(
+                    $object->getBook()->getId(),
+                    $object->getQuantity()
+                )
+            );
+        }
+
+        if (OrderStatus::DONE()->getValue() === $object->getStatus()->getValue()) {
+            $this->messageBusHandler->handleCommand(
+                new ReserveRestoreStockCommand(
+                    $object->getBook()->getId(),
+                    $object->getQuantity()
+                )
+            );
+        }
+    }
 
     protected function getAccessMapping(): array
     {

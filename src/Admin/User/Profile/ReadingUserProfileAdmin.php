@@ -39,6 +39,7 @@ class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
     {
         $collection->add('prolong', $this->getRouterIdParameter() . '/prolong');
         $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
+        $collection->remove('create');
         parent::configureRoutes($collection);
     }
 

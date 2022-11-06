@@ -9,16 +9,44 @@ use App\CQ\Command\Reading\ProlongCancelReadingCommand;
 use App\CQ\Command\Reading\ProlongReadingCommand;
 use App\Entity\Reading;
 use App\Form\Type\Reading\ProlongReadingType;
-use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 final class ReadingCRUDController extends AdminCRUDController
 {
+
+    public function createAction(Request $request): Response
+    {
+        try {
+            return parent::createAction($request);
+        } catch (Throwable $e) {
+            $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
+            $this->addFlash(
+                'sonata_flash_error',
+                $this->trans($errorMessage, [], $this->admin->getTranslationDomain())
+            );
+
+            $templateKey = 'edit';
+            $newObject   = $this->admin->getNewInstance();
+            $form        = $this->admin->getForm();
+            $formView    = $form->createView();
+
+            // set the theme for the current Admin Form
+            $this->setFormTheme($formView, $this->admin->getFormTheme());
+            $template = $this->admin->getTemplateRegistry()->getTemplate($templateKey);
+
+            return $this->renderWithExtraParams($template, [
+                'action'   => 'create',
+                'form'     => $formView,
+                'object'   => $newObject,
+                'objectId' => null,
+            ]);
+        }
+    }
+
     public function prolongAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Reading $reading */
         $reading = $this->assertObjectExists($request, true);
@@ -39,7 +67,7 @@ final class ReadingCRUDController extends AdminCRUDController
             if ($isFormValid) {
                 try {
                     /** @var Reading $reading */
-                    $reading = $messageBusHandler->handleCommand(
+                    $reading = $this->messageBusHandler->handleCommand(
                         new ProlongReadingCommand(
                             readingId: (int)$reading->getId(),
                             prolongAt: $form->get('prolong_at')->getData(),
@@ -61,7 +89,7 @@ final class ReadingCRUDController extends AdminCRUDController
                     // redirect to list
                     return $this->redirectToList();
                 } catch (Throwable $e) {
-                    $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                    $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
                     $this->addFlash(
                         'sonata_flash_error',
                         $this->trans($errorMessage, [], $this->admin->getTranslationDomain())
@@ -85,7 +113,6 @@ final class ReadingCRUDController extends AdminCRUDController
 
     public function prolongCancelAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Reading $reading */
         $reading = $this->assertObjectExists($request, true);
@@ -102,7 +129,7 @@ final class ReadingCRUDController extends AdminCRUDController
 
             try {
                 /** @var Reading $reading */
-                $reading = $messageBusHandler->handleCommand(
+                $reading = $this->messageBusHandler->handleCommand(
                     new ProlongCancelReadingCommand(
                         readingId: (int)$reading->getId(),
                     )
@@ -141,7 +168,6 @@ final class ReadingCRUDController extends AdminCRUDController
 
     public function prolongAcceptAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Reading $reading */
         $reading = $this->assertObjectExists($request, true);
@@ -158,10 +184,8 @@ final class ReadingCRUDController extends AdminCRUDController
 
             try {
                 /** @var Reading $reading */
-                $reading = $messageBusHandler->handleCommand(
-                    new ProlongAcceptReadingCommand(
-                        readingId: (int)$reading->getId(),
-                    )
+                $reading = $this->messageBusHandler->handleCommand(
+                    new ProlongAcceptReadingCommand((int)$reading->getId())
                 );
 
                 $this->addFlash(
@@ -179,7 +203,7 @@ final class ReadingCRUDController extends AdminCRUDController
                 // redirect to list
                 return $this->redirectToList();
             } catch (Throwable $e) {
-                $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
                 $this->addFlash(
                     'sonata_flash_error',
                     $this->trans($errorMessage, [], $this->admin->getTranslationDomain())

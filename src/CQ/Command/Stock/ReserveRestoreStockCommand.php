@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\CQ\Command\Stock;
 
 /**
- * @see ReserveDeleteStockHandler
+ * @see ReserveRestoreStockHandler
  */
-class ReserveDeleteStockCommand
+class ReserveRestoreStockCommand
 {
     public function __construct(
         private int $bookId,

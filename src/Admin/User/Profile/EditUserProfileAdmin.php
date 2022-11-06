@@ -10,7 +10,10 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class EditUserProfileAdmin extends AbstractUserProfileAdmin
 {
@@ -57,10 +60,7 @@ class EditUserProfileAdmin extends AbstractUserProfileAdmin
                 'required'           => true,
                 'label'              => 'USER_ENTITY.LABEL.EMAIL',
                 'help'               => 'USER_ENTITY.HELP.EMAIL',
-                'constraints'        => [
-                    new NotBlank(),
-//                    new Callback([$this, 'validateFormFieldUserEmail']),
-                ],
+                'constraints'        => [new NotBlank(), new Email(), new Callback([$this, 'validateFormFieldEmail'])],
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
@@ -83,7 +83,11 @@ class EditUserProfileAdmin extends AbstractUserProfileAdmin
                         'label' => 'USER_ENTITY.LABEL.PASSWORD_REPEAT',
                         'attr'  => ['autocomplete' => 'new-password'],
                     ],
-                    'invalid_message'    => 'USER_ENTITY.ERROR.PASSWORD_MISMATCH',
+                    'invalid_message'    => $this->trans(
+                        'USER_ENTITY.ERROR.PASSWORD_MISMATCH',
+                        [],
+                        $this->getTranslationDomain()
+                    ),
                     'translation_domain' => $this->getTranslationDomain(),
                 ]
             );
@@ -91,4 +95,21 @@ class EditUserProfileAdmin extends AbstractUserProfileAdmin
         $form->end();
     }
 
+    public function validateFormFieldEmail($value, ExecutionContextInterface $context): void
+    {
+        if ($value) {
+            $profileUser = $this->getSubject();
+            $existsUser  = $this->userRepository->getOneByIdentifier($value);
+
+            if ($profileUser && $existsUser &&
+                $profileUser->getId() !== $existsUser->getId()
+            ) {
+                $context
+                    ->buildViolation('USER_ENTITY.ERROR.EMAIL_TAKEN')
+                    ->setParameter('%EMAIL%', $value)
+                    ->setTranslationDomain($this->getTranslationDomain())
+                    ->atPath('email')->addViolation();
+            }
+        }
+    }
 }

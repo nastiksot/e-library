@@ -17,6 +17,7 @@ security:
             - ROLE_ADMIN_BOOK_AUTHOR_ALL
             - ROLE_ADMIN_BOOK_CATEGORY_ALL
             - ROLE_ADMIN_BOOK_ALL
+            - ROLE_ADMIN_STOCK_ALL
             - ROLE_ADMIN_ORDER_ALL
             - ROLE_ADMIN_READING_ALL
         ROLE_LIBRARIAN:

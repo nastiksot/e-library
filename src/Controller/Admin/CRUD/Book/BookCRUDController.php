@@ -9,7 +9,6 @@ use App\CQ\Command\Order\CreateOrderCommand;
 use App\Entity\Book\Book;
 use App\Entity\Order;
 use App\Form\Type\OrderBookType;
-use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -19,7 +18,6 @@ final class BookCRUDController extends AdminCRUDController
 
     public function orderAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Book $book */
         $book = $this->assertObjectExists($request, true);
@@ -40,7 +38,7 @@ final class BookCRUDController extends AdminCRUDController
             if ($isFormValid) {
                 try {
                     /** @var Order $order */
-                    $order = $messageBusHandler->handleCommand(
+                    $order = $this->messageBusHandler->handleCommand(
                         new CreateOrderCommand(
                             bookId:      (int)$book->getId(),
                             userId:      (int)$this->getUser()?->getId(),
@@ -66,7 +64,7 @@ final class BookCRUDController extends AdminCRUDController
                     // redirect to list
                     return $this->redirectToRoute('admin_book_list');
                 } catch (Throwable $e) {
-                    $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                    $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
                     $this->addFlash(
                         'sonata_flash_error',
                         $this->trans($errorMessage, [], $this->admin->getTranslationDomain())

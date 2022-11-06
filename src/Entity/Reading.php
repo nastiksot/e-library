@@ -29,6 +29,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ReadingRepository")
+ * @ORM\EntityListeners({"App\EventListener\Doctrine\ReadingEntityListener"})
  */
 class Reading extends AbstractEntity
 {

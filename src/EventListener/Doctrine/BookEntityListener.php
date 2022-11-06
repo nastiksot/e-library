@@ -15,19 +15,19 @@ class BookEntityListener implements EntityListenerInterface
     ) {
     }
 
-    public function postPersist(Book $book): void
-    {
-        $this->resolveStock($book);
-    }
-
-    public function postUpdate(Book $book): void
-    {
-        $this->resolveStock($book);
-    }
-
-    private function resolveStock(Book $book): void
-    {
-        // create stock
-        $this->messageBusHandler->handleQuery(new GetStockQuery($book->getId()));
-    }
+//    public function postPersist(Book $book): void
+//    {
+//        $this->resolveStock($book);
+//    }
+//
+//    public function postUpdate(Book $book): void
+//    {
+//        $this->resolveStock($book);
+//    }
+//
+//    private function resolveStock(Book $book): void
+//    {
+//        // create stock
+//        $this->messageBusHandler->handleQuery(new GetStockQuery($book->getId()));
+//    }
 }

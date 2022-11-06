@@ -7,7 +7,6 @@ namespace App\Controller\Admin\CRUD;
 use App\CQ\Command\Order\CancelOrderCommand;
 use App\CQ\Command\Order\DoneOrderCommand;
 use App\Entity\Order;
-use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -16,7 +15,6 @@ final class OrderCRUDController extends AdminCRUDController
 {
     public function cancelAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Order $book */
         $order = $this->assertObjectExists($request, true);
@@ -33,7 +31,7 @@ final class OrderCRUDController extends AdminCRUDController
 
             try {
                 /** @var Order $order */
-                $order = $messageBusHandler->handleCommand(new CancelOrderCommand((int)$order->getId()));
+                $order = $this->messageBusHandler->handleCommand(new CancelOrderCommand((int)$order->getId()));
 
                 $this->addFlash(
                     'sonata_flash_success',
@@ -49,7 +47,7 @@ final class OrderCRUDController extends AdminCRUDController
                 // redirect to list
                 return $this->redirectToRoute('admin_order_list');
             } catch (Throwable $e) {
-                $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
                 $this->addFlash(
                     'sonata_flash_error',
                     $this->trans($errorMessage, [], $this->admin->getTranslationDomain())
@@ -67,7 +65,6 @@ final class OrderCRUDController extends AdminCRUDController
 
     public function doneAction(
         Request $request,
-        MessageBusHandler $messageBusHandler,
     ): Response {
         /** @var Order $book */
         $order = $this->assertObjectExists($request, true);
@@ -84,7 +81,7 @@ final class OrderCRUDController extends AdminCRUDController
 
             try {
                 /** @var Order $order */
-                $order = $messageBusHandler->handleCommand(new DoneOrderCommand((int)$order->getId()));
+                $order = $this->messageBusHandler->handleCommand(new DoneOrderCommand((int)$order->getId()));
 
                 $this->addFlash(
                     'sonata_flash_success',
@@ -100,7 +97,7 @@ final class OrderCRUDController extends AdminCRUDController
                 // redirect to list
                 return $this->redirectToRoute('admin_order_list');
             } catch (Throwable $e) {
-                $errorMessage = $e->getPrevious()?->getMessage() ?? $e->getMessage();
+                $errorMessage = $this->exceptionFactory->getLastPreviousMessage($e);
                 $this->addFlash(
                     'sonata_flash_error',
                     $this->trans($errorMessage, [], $this->admin->getTranslationDomain())
@@ -115,5 +112,4 @@ final class OrderCRUDController extends AdminCRUDController
             'csrf_token' => $this->getCsrfToken('admin.order.done'),
         ]);
     }
-
 }

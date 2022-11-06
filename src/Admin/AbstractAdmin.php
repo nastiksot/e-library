@@ -6,6 +6,8 @@ namespace App\Admin;
 
 use App\Contracts\Entity\EntityInterface;
 use App\Contracts\Entity\UserInterface;
+use App\Service\MessageBusHandler;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin as BaseAbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -13,6 +15,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Service\Attribute\Required;
+
 use function is_object;
 use function sprintf;
 use function str_replace;
@@ -27,19 +30,25 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
     protected const FORM_FIELD_CONTENT_CONFIG_SIMPLIFIED   = 'simplified_config';
     protected const FORM_FIELD_CONTENT_CONFIG_SIMPLIFIED_P = 'simplified_config_p';
 
-    protected TokenStorageInterface $tokenStorage;
-    protected ParameterBagInterface $parameterBag;
-    protected RouterInterface       $routeGenerator;
+    protected EntityManagerInterface $em;
+    protected TokenStorageInterface  $tokenStorage;
+    protected ParameterBagInterface  $parameterBag;
+    protected RouterInterface        $routeGenerator;
+    protected MessageBusHandler      $messageBusHandler;
 
     #[Required]
     public function init(
+        EntityManagerInterface $em,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        RouterInterface $routeGenerator
+        RouterInterface $routeGenerator,
+        MessageBusHandler $messageBusHandler,
     ): void {
-        $this->tokenStorage   = $tokenStorage;
-        $this->parameterBag   = $parameterBag;
-        $this->routeGenerator = $routeGenerator;
+        $this->em                = $em;
+        $this->tokenStorage      = $tokenStorage;
+        $this->parameterBag      = $parameterBag;
+        $this->routeGenerator    = $routeGenerator;
+        $this->messageBusHandler = $messageBusHandler;
 
         $this->setTranslationDomain($this->parameterBag->get('adminTranslationDomain'));
     }
@@ -58,6 +67,14 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
     {
         $collection->remove('show');
         $collection->remove('export');
+    }
+
+    protected function configureBatchActions(array $actions): array
+    {
+        $actions = parent::configureBatchActions($actions);
+        unset($actions['delete']);
+
+        return $actions;
     }
 
     public function generateChildListUrl(AdminInterface $admin, EntityInterface $object): string

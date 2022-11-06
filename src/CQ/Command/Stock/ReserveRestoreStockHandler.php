@@ -10,7 +10,7 @@ use App\Entity\Stock;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ReserveDeleteStockHandler implements CommandHandlerInterface
+class ReserveRestoreStockHandler implements CommandHandlerInterface
 {
     public function __construct(
         private MessageBusHandler $messageBusHandler,
@@ -18,7 +18,7 @@ class ReserveDeleteStockHandler implements CommandHandlerInterface
     ) {
     }
 
-    public function __invoke(ReserveDeleteStockCommand $command): Stock
+    public function __invoke(ReserveRestoreStockCommand $command): Stock
     {
         /** @var Stock $stock */
         $stock = $this->messageBusHandler->handleQuery(new GetStockQuery($command->getBookId()));

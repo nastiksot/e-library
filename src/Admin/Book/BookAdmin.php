@@ -85,7 +85,7 @@ class BookAdmin extends AbstractAdmin
 
         $this->configureFormFieldNumber(
             $form,
-            'quantity',
+            'stock.quantity',
             'BOOK_ENTITY.LABEL.QUANTITY',
             'BOOK_ENTITY.HELP.QUANTITY',
             false,

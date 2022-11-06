@@ -43,7 +43,7 @@ services:
                 group: MENU_GROUP.BOOK
                 label: MENU.BOOK
 
-    admin.skock:
+    admin.stock:
         class: App\Admin\StockAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_stock' ] ]

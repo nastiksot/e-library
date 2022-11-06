@@ -76,6 +76,11 @@ BREADCRUMB:
     MENU_STOCK:
         Stock_list: 'Stock list'
         Stock_create: 'Create'
+    MENU_USER_PROFILE_ORDER:
+        Order_list: 'My orders'
+        Order_create: 'Create'
+    MENU_USER_PROFILE_EDIT:
+        User_list:  'Edit My Profile'
 
 CHOICE:
     YES: 'Yes'
@@ -282,12 +287,17 @@ STOCK_ENTITY:
     HELP:
         QUANTITY: ''
         RESERVED: ''
+    MESSAGE:
+        OUT_OF_STOCK:
+            MESSAGE: 'Out of stock'
+            QUANTITY: 'Out of stock. Quantity "%quantity%". Stock "%stock%".'
+            RESERVED: 'Out of stock. Reserved "%quantity%". Stock "%stock%".'
 
 ORDER_ENTITY:
     SECTION:
         MAIN: 'Order Data'
     LABEL:
-        ID:    'OrderID'
+        ID: 'OrderID'
         BOOK: 'Book'
         USER: 'Reader'
         QUANTITY: 'Quantity'
@@ -360,7 +370,7 @@ READING_ENTITY:
         PROLONG_CANCEL: 'Cancel'
     MESSAGE:
         NOT_FOUND: 'Reading Not Found'
-#        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
+        #        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
         PROLONG_CANCEL:
             TITLE: 'Confirm the "Cancel" reading prolongation action'
             CONFIRM: 'Are you sure you want to "Cancel" the reading prolongation "%prolongAt%"?'
