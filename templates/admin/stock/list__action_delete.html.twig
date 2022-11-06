@@ -1,0 +1,7 @@
+{# @see '@SonataAdmin/CRUD/list__action_delete.html.twig' #}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Entity\Stock object #}
+
+{% if object.reserved == 0 %}
+    {% include '@SonataAdmin/CRUD/list__action_delete.html.twig' %}
+{% endif %}

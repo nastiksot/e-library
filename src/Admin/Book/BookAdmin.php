@@ -6,7 +6,9 @@ namespace App\Admin\Book;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
+use App\CQ\Query\Stock\GetStockQuery;
 use App\Entity\Book\Book;
+use App\Entity\Stock;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -19,6 +21,25 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class BookAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
+
+    /**
+     * @param Book $object
+     */
+    protected function postPersist(object $object): void
+    {
+        /** @var Stock $stock */
+        $stock    = $this->messageBusHandler->handleQuery(new GetStockQuery($object->getId()));
+        $quantity = (int)$this->getForm()->get('quantity')->getData();
+        $stock->setQuantity($quantity);
+        $this->em->getUnitOfWork()->commit($stock);
+    }
+
+    /**
+     * @param Book $object
+     */
+    protected function postUpdate(object $object): void
+    {
+    }
 
     protected function getAccessMapping(): array
     {
@@ -37,7 +58,7 @@ class BookAdmin extends AbstractAdmin
     {
         $filter->add('name', null, ['label' => 'BOOK_ENTITY.LABEL.NAME']);
         $filter->add('description', null, ['label' => 'BOOK_ENTITY.LABEL.DESCRIPTION']);
-//        $filter->add('stock.quantity', null, ['label' => 'BOOK_ENTITY.LABEL.QUANTITY']);
+        //$filter->add('stock.quantity', null, ['label' => 'BOOK_ENTITY.LABEL.QUANTITY']);
         $filter->add('authors', null, ['label' => 'BOOK_ENTITY.LABEL.AUTHORS']);
         $filter->add('categories', null, ['label' => 'BOOK_ENTITY.LABEL.CATEGORIES']);
     }
@@ -48,14 +69,14 @@ class BookAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'name', 'BOOK_ENTITY.LABEL.NAME');
         $this->configureListFieldText($list, 'description', 'BOOK_ENTITY.LABEL.DESCRIPTION');
         $this->configureListFieldText($list, 'stock.quantity', 'STOCK_ENTITY.LABEL.QUANTITY');
-        $this->configureListFieldText($list, 'stock.reserved', 'STOCK_ENTITY.LABEL.RESERVED');
+        //$this->configureListFieldText($list, 'stock.reserved', 'STOCK_ENTITY.LABEL.RESERVED');
         $this->configureListFieldText($list, 'authors', 'BOOK_ENTITY.LABEL.AUTHORS');
         $this->configureListFieldText($list, 'categories', 'BOOK_ENTITY.LABEL.CATEGORIES');
 
         if ($this->getUser()) {
             $actions = [
-                'order' => ['template' => 'admin/book/list__action_order.html.twig'],
-                'edit' => [],
+                'order'  => ['template' => 'admin/book/list__action_order.html.twig'],
+                'edit'   => [],
                 'delete' => ['template' => 'admin/book/list__action_delete.html.twig'],
             ];
             $this->configureListFieldActions($list, $actions);
@@ -83,13 +104,25 @@ class BookAdmin extends AbstractAdmin
             ['constraints' => [new NotBlank()]]
         );
 
+        if ($bookId = $this->getSubject()?->getId()) {
+            /** @var Stock $stock */
+            $stock    = $this->messageBusHandler->handleQuery(new GetStockQuery($bookId));
+            $quantity = $stock->getQuantity();
+        } else {
+            $quantity = 0;
+        }
+
         $this->configureFormFieldNumber(
             $form,
-            'stock.quantity',
+            'quantity',
             'BOOK_ENTITY.LABEL.QUANTITY',
             'BOOK_ENTITY.HELP.QUANTITY',
             false,
-            ['constraints' => [new NotBlank()]]
+            [
+                'data'        => $quantity,
+                'mapped'      => false,
+                'constraints' => [new NotBlank()],
+            ]
         );
 
         $form->add(

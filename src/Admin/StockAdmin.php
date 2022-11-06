@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
 use App\Entity\Stock;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -21,18 +20,12 @@ class StockAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
 
-//    protected function getAccessMapping(): array
-//    {
-//        return [
-//            'order' => 'ORDER',
-//        ];
-//    }
-
-//    protected function configureRoutes(RouteCollectionInterface $collection): void
-//    {
-//        $collection->add('order', $this->getRouterIdParameter() . '/order');
-//        parent::configureRoutes($collection);
-//    }
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('create');
+        $collection->remove('delete');
+        parent::configureRoutes($collection);
+    }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
@@ -53,34 +46,12 @@ class StockAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'reserved', 'STOCK_ENTITY.LABEL.RESERVED');
         $this->configureListFieldText($list, 'book.authors', 'BOOK_ENTITY.LABEL.AUTHORS');
         $this->configureListFieldText($list, 'book.categories', 'BOOK_ENTITY.LABEL.CATEGORIES');
-
-        if ($this->getUser()) {
-            $actions = [
-//                'order' => ['template' => 'admin/book/list__action_order.html.twig'],
-                'edit' => [],
-                'delete' => [],
-            ];
-            $this->configureListFieldActions($list, $actions);
-        }
+        $this->configureListFieldActions($list);
     }
 
     protected function configureFormFields(FormMapper $form): void
     {
         $form->with('STOCK_ENTITY.SECTION.MAIN');
-
-        $form
-            ->add(
-                'book',
-                ModelType::class,
-                [
-                    'label'       => 'ORDER_ENTITY.LABEL.BOOK',
-                    'help'        => 'ORDER_ENTITY.HELP.BOOK',
-                    'required'    => false,
-                    'btn_add'     => false,
-                    'constraints' => [new NotBlank()],
-                ],
-                ['admin_code' => 'admin.book']
-            );
 
         $this->configureFormFieldNumber(
             $form,
@@ -89,6 +60,19 @@ class StockAdmin extends AbstractAdmin
             'STOCK_ENTITY.HELP.QUANTITY',
             false,
             ['constraints' => [new NotBlank(), new GreaterThanOrEqual(0)]]
+        );
+
+        $this->configureFormFieldNumber(
+            $form,
+            'reserved',
+            'STOCK_ENTITY.LABEL.RESERVED',
+            'STOCK_ENTITY.HELP.RESERVED',
+            false,
+            [
+                'mapped' => false,
+                'data'   => $this->getSubject()?->getReserved(),
+                'attr'   => ['readonly' => true, 'disabled' => true],
+            ]
         );
 
         $form->end();
