@@ -9,6 +9,7 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_reading' ] ]
             - [ setBaseRoutePattern,    [ 'reading' ] ]
+            - [ setTemplate, [ 'edit', 'admin/reading/edit.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'

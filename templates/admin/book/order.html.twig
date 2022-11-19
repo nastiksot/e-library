@@ -58,3 +58,8 @@
         {{ 'BOOK_ENTITY.BUTTON.ORDER_SUBMIT'|trans({}, 'SonataAdminBundle') }}
     </button>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/admin/admin-book-order') }}
+{% endblock %}

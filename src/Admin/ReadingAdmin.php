@@ -13,7 +13,6 @@ use App\CQ\Command\Stock\ReserveRestoreStockCommand;
 use App\CQ\Query\Stock\GetStockQuery;
 use App\Entity\Reading;
 use App\Entity\Stock;
-use Carbon\Carbon;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -155,8 +154,8 @@ class ReadingAdmin extends AbstractAdmin
         $quantityOptions = $this->getSubject()?->getId()
             ? [
                 'mapped' => false,
-                'data'   => $this->getSubject()?->getQuantity(),
-                'attr'   => ['readonly' => true, 'disabled' => true],
+                //'data'   => $this->getSubject()?->getQuantity(),
+                'attr'   => ['readonly' => true, 'disabled' => true, 'value' => $this->getSubject()?->getQuantity()],
             ]
             : [
                 'constraints' => [
@@ -191,10 +190,8 @@ class ReadingAdmin extends AbstractAdmin
             'READING_ENTITY.HELP.START_AT',
             false,
             [
-                'constraints' => [
-                    new NotBlank(),
-                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
-                ],
+                'attr'        => ['data-stored' => $this->getSubject()?->getStartAt()?->format('Y-m-d')],
+                'constraints' => [new NotBlank()],
             ]
         );
 
@@ -205,10 +202,8 @@ class ReadingAdmin extends AbstractAdmin
             'READING_ENTITY.HELP.END_AT',
             false,
             [
-                'constraints' => [
-                    new NotBlank(),
-                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
-                ],
+                'attr'        => ['data-stored' => $this->getSubject()?->getEndAt()?->format('Y-m-d')],
+                'constraints' => [new NotBlank()],
             ]
         );
 
@@ -216,7 +211,12 @@ class ReadingAdmin extends AbstractAdmin
             $form,
             'prolongAt',
             'READING_ENTITY.LABEL.PROLONG_AT',
-            'READING_ENTITY.HELP.PROLONG_AT'
+            'READING_ENTITY.HELP.PROLONG_AT',
+            false,
+            [
+                'attr'        => ['data-stored' => $this->getSubject()?->getProlongAt()?->format('Y-m-d')],
+                'constraints' => [new NotBlank()],
+            ]
         );
 
         $form->end();

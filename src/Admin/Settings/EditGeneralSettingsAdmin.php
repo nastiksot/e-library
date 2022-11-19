@@ -25,18 +25,21 @@ class EditGeneralSettingsAdmin extends AbstractSettingsEditAdmin
             'GENERAL_SETTINGS_ENTITY.HELP.PENALTY',
             false,
             [
-                'scale' => 2,
+                'scale'       => 2,
                 'constraints' => [new NotBlank()],
             ]
         );
 
-        $this->configureFormFieldText(
+        $this->configureFormFieldColor(
             $form,
             'expireColor',
             'GENERAL_SETTINGS_ENTITY.LABEL.EXPIRE_COLOR',
             'GENERAL_SETTINGS_ENTITY.HELP.EXPIRE_COLOR',
             false,
-            ['constraints' => [new NotBlank()]]
+            [
+                'attr'        => ['class' => 'w-150'],
+                'constraints' => [new NotBlank()],
+            ]
         );
 
         $form->end();

@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -90,6 +91,29 @@ trait ConfigureFormTrait
         $form->add(
             $name,
             TextType::class,
+            array_merge(
+                [
+                    'required'           => $required,
+                    'label'              => $label,
+                    'help'               => $help,
+                    'translation_domain' => $this->getTranslationDomain(),
+                ],
+                $options
+            )
+        );
+    }
+
+    protected function configureFormFieldColor(
+        FormMapper $form,
+        string $name,
+        ?string $label = null,
+        ?string $help = null,
+        bool $required = false,
+        array $options = []
+    ): void {
+        $form->add(
+            $name,
+            ColorType::class,
             array_merge(
                 [
                     'required'           => $required,
@@ -192,13 +216,17 @@ trait ConfigureFormTrait
         bool $required = false,
         array $options = []
     ): void {
+        $attrDefault = ['class' => 'w-150'];
+        $attr        = !empty($options['attr']) ? array_merge($attrDefault, $options['attr']) : $attrDefault;
+        unset($options['attr']);
+
         $form->add(
             $name,
             DateType::class,
             array_merge(
                 [
                     'widget'             => 'single_text',
-                    'attr'               => ['class' => 'w-150'],
+                    'attr'               => $attr,
                     'required'           => $required,
                     'label'              => $label,
                     'help'               => $help,
@@ -207,19 +235,6 @@ trait ConfigureFormTrait
                 $options
             )
         );
-
-//        $form->add(
-//            'startAt',
-//            DateType::class,
-//            [
-//                'required'    => false,
-//                'widget'      => 'single_text',
-//                'constraints' => [
-//                    new NotBlank(),
-//                    new GreaterThanOrEqual(['value' => Carbon::today()->startOfDay()]),
-//                ],
-//            ]
-//        );
     }
 
     protected function configureFormFieldReplacements(

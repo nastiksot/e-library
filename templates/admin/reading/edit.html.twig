@@ -1,0 +1,7 @@
+{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{# @var \App\Entity\Reading object #}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/admin/admin-reading-edit') }}
+{% endblock %}
