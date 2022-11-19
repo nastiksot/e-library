@@ -1,0 +1,10 @@
+{# @see '@SonataAdmin/CRUD/base_list_field.html.twig' #}
+{# @var \App\Admin\ReadingAdmin admin #}
+{# @var \App\Entity\Reading object  #}
+
+<td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}"
+    objectId="{{ admin.id(object) }}"
+    style="text-align:center; vertical-align: middle; {{ object.penalty ? 'background-color: ' ~ getGeneralSettings('expireColor') : ''}}"
+>
+    {{ object.penalty }}
+</td>

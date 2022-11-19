@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Settings;
 
 use App\Entity\AbstractEntity;
+use App\Entity\Traits\PenaltyEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,10 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GeneralSettings extends AbstractEntity
 {
-    /**
-     * @ORM\Column(name="penalty", type="float", nullable=true)
-     */
-    private ?float $penalty = null;
+    use PenaltyEntityTrait;
 
     /**
      * @ORM\Column(name="expire_color", type="string", length=255, nullable=true)
@@ -33,18 +31,6 @@ class GeneralSettings extends AbstractEntity
     public function __toString(): string
     {
         return 'General Settings';
-    }
-
-    public function getPenalty(): ?float
-    {
-        return $this->penalty;
-    }
-
-    public function setPenalty(?float $penalty): self
-    {
-        $this->penalty = $penalty;
-
-        return $this;
     }
 
     public function getExpireColor(): ?string

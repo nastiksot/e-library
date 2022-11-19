@@ -27,8 +27,6 @@ class ReadingExpireAdmin extends ReadingAdmin
 //
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-//        $collection->add('prolong_accept', $this->getRouterIdParameter() . '/prolong-accept');
-//        $collection->add('prolong_cancel', $this->getRouterIdParameter() . '/prolong-cancel');
         $collection->remove('create');
         parent::configureRoutes($collection);
     }
@@ -47,12 +45,6 @@ class ReadingExpireAdmin extends ReadingAdmin
                     'field_options'       => [
                         'widget' => 'single_text',
                     ],
-//                    'field_options_start' => [
-//                        'attr' => ['max' => Carbon::today()->format('Y-m-d')],
-//                    ],
-//                    'field_options_end'   => [
-//                        'attr' => ['min' => Carbon::today()->format('Y-m-d')],
-//                    ],
                 ],
             ],
         );
@@ -106,21 +98,19 @@ class ReadingExpireAdmin extends ReadingAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
-        $this->configureListFieldCreatedAt($list);
+        $this->configureListFieldText(
+            $list,
+            'penalty',
+            'READING_ENTITY.LABEL.PENALTY',
+            ['template' => 'admin/reading/list__penalty.html.twig']
+        );
         $this->configureListFieldText($list, 'order.id', 'READING_ENTITY.LABEL.ORDER_ID');
         $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
-        $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
         $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
         $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
         $this->configureListFieldDate($list, 'endAt', 'READING_ENTITY.LABEL.END_AT');
         $this->configureListFieldDate($list, 'prolongAt', 'READING_ENTITY.LABEL.PROLONG_AT');
-
-//        $actions = [
-//            'prolong_accept' => ['template' => 'admin/reading/list__action_prolong_accept.html.twig'],
-//            'prolong_cancel' => ['template' => 'admin/reading/list__action_prolong_cancel.html.twig'],
-//        ];
-//        $this->configureListFieldActions($list, $actions);
     }
 }

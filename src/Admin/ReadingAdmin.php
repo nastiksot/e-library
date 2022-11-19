@@ -101,10 +101,14 @@ class ReadingAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
-        $this->configureListFieldCreatedAt($list);
+        $this->configureListFieldText(
+            $list,
+            'penalty',
+            'READING_ENTITY.LABEL.PENALTY',
+            ['template' => 'admin/reading/list__penalty.html.twig']
+        );
         $this->configureListFieldText($list, 'order.id', 'READING_ENTITY.LABEL.ORDER_ID');
         $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
-        $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
         $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
@@ -214,8 +218,7 @@ class ReadingAdmin extends AbstractAdmin
             'READING_ENTITY.HELP.PROLONG_AT',
             false,
             [
-                'attr'        => ['data-stored' => $this->getSubject()?->getProlongAt()?->format('Y-m-d')],
-                'constraints' => [new NotBlank()],
+                'attr' => ['data-stored' => $this->getSubject()?->getProlongAt()?->format('Y-m-d')],
             ]
         );
 

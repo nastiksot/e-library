@@ -35,7 +35,8 @@ class StockFixtures extends Fixture implements DependentFixtureInterface
             $data   = $this->createData('stock', $i);
             $entity = $this->createEntity(Stock::class, $data);
 
-            $book   = $this->getReference('book-' . $i);
+            /** @var Book $book */
+            $book = $this->getReference('book-' . $i);
             $entity->setBook($book);
 
             $manager->persist($entity);

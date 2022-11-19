@@ -27,7 +27,6 @@ use function method_exists;
  *     },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\Book\BookRepository")
- * @ORM\EntityListeners({"App\EventListener\Doctrine\BookEntityListener"})
  */
 class Book extends AbstractEntity
 {

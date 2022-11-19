@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Contracts\Dictionary\ReadingType;
 use App\Entity\Book\Book;
+use App\Entity\Traits\PenaltyEntityTrait;
 use App\Entity\Traits\QuantityEntityTrait;
 use App\Entity\Traits\Timestampable\EndAtEntityTrait;
 use App\Entity\Traits\Timestampable\ProlongAtEntityTrait;
@@ -36,6 +37,7 @@ class Reading extends AbstractEntity
     use StartAtEntityTrait;
     use EndAtEntityTrait;
     use ProlongAtEntityTrait;
+    use PenaltyEntityTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book\Book", inversedBy="readings")

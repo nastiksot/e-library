@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\CRUD;
 
+use App\CQ\Command\Reading\AssignPenaltyReadingCommand;
 use App\CQ\Command\Reading\ProlongAcceptReadingCommand;
 use App\CQ\Command\Reading\ProlongCancelReadingCommand;
 use App\CQ\Command\Reading\ProlongReadingCommand;
 use App\Entity\Reading;
 use App\Form\Type\Reading\ProlongReadingType;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 final class ReadingCRUDController extends AdminCRUDController
 {
+    public function preList(Request $request): ?Response
+    {
+        $this->messageBusHandler->handleCommand(new AssignPenaltyReadingCommand(Carbon::today()->startOfDay()));
+
+        return parent::preList($request);
+    }
 
     public function createAction(Request $request): Response
     {

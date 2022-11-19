@@ -348,6 +348,7 @@ READING_ENTITY:
         START_AT: 'Start At'
         END_AT: 'End At'
         PROLONG_AT: 'Prolong At'
+        PENALTY: 'Penalty'
     HELP:
         ORDER_ID: ''
         BOOK: ''
@@ -359,6 +360,7 @@ READING_ENTITY:
         START_AT: ''
         END_AT: ''
         PROLONG_AT: ''
+        PENALTY: ''
     CHOICES:
         TYPE:
             SUBSCRIPTION: 'Subscription'
