@@ -244,8 +244,9 @@ AUTHOR_ENTITY:
     SECTION:
         MAIN: 'Author Data'
     LABEL:
-        FIRST_NAME: 'First Name'
-        LAST_NAME: 'Last Name'
+        NAME: 'Name'
+#        FIRST_NAME: 'First Name'
+#        LAST_NAME: 'Last Name'
     HELP:
         NAME: ''
 

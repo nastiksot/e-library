@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Traits\EntityDataFixtureTrait;
 use App\Entity\Settings\GeneralSettings;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class GeneralSettingsFixtures extends Fixture
+class GeneralSettingsFixtures extends AbstractFixture
 {
-    use EntityDataFixtureTrait;
-
     public function load(ObjectManager $manager)
     {
         $data   = $this->createData();

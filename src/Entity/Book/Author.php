@@ -6,6 +6,7 @@ namespace App\Entity\Book;
 
 use App\Entity\AbstractEntity;
 use App\Entity\Traits\Contact\FullNameEntityTrait;
+use App\Entity\Traits\NameEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,7 +27,7 @@ use function method_exists;
  */
 class Author extends AbstractEntity
 {
-    use FullNameEntityTrait;
+    use NameEntityTrait;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Book\Book", mappedBy="authors")
@@ -41,7 +42,7 @@ class Author extends AbstractEntity
         if (!$this->getId()) {
             $labels[] = 'New Author';
         } else {
-            $labels[] = $this->getFullName();
+            $labels[] = $this->getName();
         }
 
         if (method_exists($this, 'isActive') && !$this->isActive()) {
