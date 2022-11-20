@@ -245,8 +245,6 @@ AUTHOR_ENTITY:
         MAIN: 'Author Data'
     LABEL:
         NAME: 'Name'
-#        FIRST_NAME: 'First Name'
-#        LAST_NAME: 'Last Name'
     HELP:
         NAME: ''
 

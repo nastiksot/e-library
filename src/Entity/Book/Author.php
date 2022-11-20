@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\Book;
 
 use App\Entity\AbstractEntity;
-use App\Entity\Traits\Contact\FullNameEntityTrait;
 use App\Entity\Traits\NameEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
