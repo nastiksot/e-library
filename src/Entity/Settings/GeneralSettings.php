@@ -27,6 +27,10 @@ class GeneralSettings extends AbstractEntity
      */
     private ?string $expireColor = null;
 
+    /**
+     * @ORM\Column(name="penalty_color", type="string", length=255, nullable=true)
+     */
+    private ?string $penaltyColor = null;
 
     public function __toString(): string
     {
@@ -41,6 +45,19 @@ class GeneralSettings extends AbstractEntity
     public function setExpireColor(?string $expireColor): self
     {
         $this->expireColor = $expireColor;
+
+        return $this;
+    }
+
+
+    public function getPenaltyColor(): ?string
+    {
+        return $this->penaltyColor;
+    }
+
+    public function setPenaltyColor(?string $penaltyColor): self
+    {
+        $this->penaltyColor = $penaltyColor;
 
         return $this;
     }

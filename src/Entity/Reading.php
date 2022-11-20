@@ -12,6 +12,7 @@ use App\Entity\Traits\Timestampable\EndAtEntityTrait;
 use App\Entity\Traits\Timestampable\ProlongAtEntityTrait;
 use App\Entity\Traits\Timestampable\StartAtEntityTrait;
 use App\Entity\User\User;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +62,12 @@ class Reading extends AbstractEntity
      * @ORM\Column(name="reading_type", type=ReadingType::class, nullable=false, options={"default": "reading-hall"})
      */
     private ReadingType $readingType;
+
+    public function isExpire(): bool
+    {
+        return $this->getEndAt() &&
+            Carbon::today()->endOfDay()->greaterThan(Carbon::instance($this->getEndAt())->startOfDay());
+    }
 
 
     public function __construct()

@@ -32,6 +32,18 @@ class EditGeneralSettingsAdmin extends AbstractSettingsEditAdmin
 
         $this->configureFormFieldColor(
             $form,
+            'penaltyColor',
+            'GENERAL_SETTINGS_ENTITY.LABEL.PENALTY_COLOR',
+            'GENERAL_SETTINGS_ENTITY.HELP.PENALTY_COLOR',
+            false,
+            [
+                'attr'        => ['class' => 'w-150'],
+                'constraints' => [new NotBlank()],
+            ]
+        );
+
+        $this->configureFormFieldColor(
+            $form,
             'expireColor',
             'GENERAL_SETTINGS_ENTITY.LABEL.EXPIRE_COLOR',
             'GENERAL_SETTINGS_ENTITY.HELP.EXPIRE_COLOR',

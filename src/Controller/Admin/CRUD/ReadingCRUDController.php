@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\CRUD;
 
-use App\CQ\Command\Reading\AssignPenaltyReadingCommand;
+use App\CQ\Command\Reading\AssignPenaltyExpiredReadingCommand;
 use App\CQ\Command\Reading\ProlongAcceptReadingCommand;
 use App\CQ\Command\Reading\ProlongCancelReadingCommand;
 use App\CQ\Command\Reading\ProlongReadingCommand;
@@ -19,7 +19,11 @@ final class ReadingCRUDController extends AdminCRUDController
 {
     public function preList(Request $request): ?Response
     {
-        $this->messageBusHandler->handleCommand(new AssignPenaltyReadingCommand(Carbon::today()->startOfDay()));
+        if ($this->admin->getCode() === 'admin.reading.expire') {
+            $this->messageBusHandler->handleCommand(
+                new AssignPenaltyExpiredReadingCommand(Carbon::today()->startOfDay())
+            );
+        }
 
         return parent::preList($request);
     }
@@ -82,16 +86,10 @@ final class ReadingCRUDController extends AdminCRUDController
                         )
                     );
 
+                    $params = ['%prolongAt%' => $reading->getProlongAt()?->format('Y-m-d')];
                     $this->addFlash(
                         'sonata_flash_success',
-                        $this->trans(
-                            'READING_ENTITY.MESSAGE.PROLONG_SUCCESS',
-                            [
-                                '%book%'      => $this->escapeHtml($this->admin->toString($reading->getBook())),
-                                '%prolongAt%' => $reading->getProlongAt()->format('Y-m-d'),
-                            ],
-                            'SonataAdminBundle'
-                        )
+                        $this->trans('READING_ENTITY.MESSAGE.PROLONG_CREATE.SUCCESS', $params, 'SonataAdminBundle')
                     );
 
                     // redirect to list
@@ -145,14 +143,7 @@ final class ReadingCRUDController extends AdminCRUDController
 
                 $this->addFlash(
                     'sonata_flash_success',
-                    $this->trans(
-                        'READING_ENTITY.MESSAGE.PROLONG_CANCEL.SUCCESS',
-                        [
-                            '%book%' => $this->escapeHtml($this->admin->toString($reading->getBook())),
-
-                        ],
-                        'SonataAdminBundle'
-                    )
+                    $this->trans('READING_ENTITY.MESSAGE.PROLONG_CANCEL.SUCCESS', [], 'SonataAdminBundle')
                 );
 
                 // redirect to list
@@ -196,16 +187,10 @@ final class ReadingCRUDController extends AdminCRUDController
                     new ProlongAcceptReadingCommand((int)$reading->getId())
                 );
 
+                $params = ['%prolongAt%' => $reading->getEndAt()?->format('Y-m-d')];
                 $this->addFlash(
                     'sonata_flash_success',
-                    $this->trans(
-                        'READING_ENTITY.MESSAGE.PROLONG_ACCEPT.SUCCESS',
-                        [
-                            '%book%' => $this->escapeHtml($this->admin->toString($reading->getBook())),
-
-                        ],
-                        'SonataAdminBundle'
-                    )
+                    $this->trans('READING_ENTITY.MESSAGE.PROLONG_ACCEPT.SUCCESS', $params, 'SonataAdminBundle')
                 );
 
                 // redirect to list

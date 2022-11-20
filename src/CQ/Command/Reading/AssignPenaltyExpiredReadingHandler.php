@@ -11,7 +11,7 @@ use App\Repository\Settings\GeneralSettingsRepository;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AssignPenaltyReadingHandler implements CommandHandlerInterface
+class AssignPenaltyExpiredReadingHandler implements CommandHandlerInterface
 {
     public function __construct(
         private EntityManagerInterface $em,
@@ -20,7 +20,7 @@ class AssignPenaltyReadingHandler implements CommandHandlerInterface
     ) {
     }
 
-    public function __invoke(AssignPenaltyReadingCommand $command): void
+    public function __invoke(AssignPenaltyExpiredReadingCommand $command): void
     {
         // get settings
         $settings = $this->generalSettingsRepository->getSettings();

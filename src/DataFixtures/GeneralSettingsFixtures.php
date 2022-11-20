@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Contracts\Entity\UserInterface;
 use App\DataFixtures\Traits\EntityDataFixtureTrait;
 use App\Entity\Settings\GeneralSettings;
-use App\Entity\User\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -29,8 +27,9 @@ class GeneralSettingsFixtures extends Fixture
     private function createData(): array
     {
         return [
-            'penalty'     => 75.12,
-            'expireColor' => '#FD7E14',
+            'penalty'      => 75.12,
+            'penaltyColor' => '#fcaf3e',
+            'expireColor'  => '#edd400',
         ];
     }
 

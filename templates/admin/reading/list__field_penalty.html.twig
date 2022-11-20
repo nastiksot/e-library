@@ -4,7 +4,9 @@
 
 <td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}"
     objectId="{{ admin.id(object) }}"
-    style="text-align:center; vertical-align: middle; {{ object.penalty ? 'background-color: ' ~ getGeneralSettings('expireColor') : ''}}"
+    style="text-align:center; {{ object.penalty ? 'background-color: ' ~ getGeneralSettings('penaltyColor') : ''}}"
 >
-    {{ object.penalty }}
+    {%- include '@SonataAdmin/CRUD/display_trans.html.twig' with {
+        value: object.penalty,
+    } only -%}
 </td>

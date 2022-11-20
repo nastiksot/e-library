@@ -28,7 +28,7 @@ class OrderCanceledHandler implements EventHandlerInterface
 
         $this->messageBusHandler->handleCommand(
             new ReserveCancelStockCommand(
-                $order->getBook()->getId(),
+                (int)$order->getBook()?->getId(),
                 $order->getQuantity()
             )
         );

@@ -101,20 +101,32 @@ class ReadingAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
-        $this->configureListFieldText(
-            $list,
-            'penalty',
-            'READING_ENTITY.LABEL.PENALTY',
-            ['template' => 'admin/reading/list__penalty.html.twig']
-        );
         $this->configureListFieldText($list, 'order.id', 'READING_ENTITY.LABEL.ORDER_ID');
         $this->configureListFieldText($list, 'readingType', 'READING_ENTITY.LABEL.READING_TYPE');
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
         $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
         $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
-        $this->configureListFieldDate($list, 'endAt', 'READING_ENTITY.LABEL.END_AT');
-        $this->configureListFieldDate($list, 'prolongAt', 'READING_ENTITY.LABEL.PROLONG_AT');
+
+        $this->configureListFieldDate(
+            $list,
+            'endAt',
+            'READING_ENTITY.LABEL.END_AT',
+            ['template' => 'admin/reading/list__field_end_at.html.twig']
+        );
+        $this->configureListFieldText(
+            $list,
+            'penalty',
+            'READING_ENTITY.LABEL.PENALTY',
+            ['template' => 'admin/reading/list__field_penalty.html.twig']
+        );
+        $this->configureListFieldDate(
+            $list,
+            'prolongAt',
+            'READING_ENTITY.LABEL.PROLONG_AT',
+            ['template' => 'admin/reading/list__field_prolong_at.html.twig']
+        );
+
 
         $actions = [
             'edit'   => ['template' => 'admin/reading/list__action_edit.html.twig'],

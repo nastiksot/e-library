@@ -1,0 +1,14 @@
+{# @see '@SonataAdmin/CRUD/base_list_field.html.twig' #}
+{# @var \App\Admin\ReadingAdmin admin #}
+{# @var \App\Entity\Reading object  #}
+
+<td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}"
+    objectId="{{ admin.id(object) }}"
+    style="text-align:center;"
+>
+    {%- include '@SonataAdmin/CRUD/display_date.html.twig' with {
+        value: object.endAt,
+        format: field_description.option('format'),
+        timezone: field_description.option('timezone'),
+    } only -%}
+</td>

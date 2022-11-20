@@ -18,6 +18,25 @@ trait ConfigureListTrait
     ): void {
         $list->add(
             $name,
+            FieldDescriptionInterface::TYPE_DATE,
+            array_merge(
+                [
+                    'label'        => $label,
+                    'header_style' => 'width:130px;',
+                ],
+                $options
+            )
+        );
+    }
+
+    protected function configureListFieldDateTime(
+        ListMapper $list,
+        string $name,
+        ?string $label = null,
+        array $options = [],
+    ): void {
+        $list->add(
+            $name,
             FieldDescriptionInterface::TYPE_DATETIME,
             array_merge(
                 [
@@ -31,12 +50,12 @@ trait ConfigureListTrait
 
     protected function configureListFieldCreatedAt(ListMapper $list): void
     {
-        $this->configureListFieldDate($list, 'createdAt', 'FIELD.CREATED_AT');
+        $this->configureListFieldDateTime($list, 'createdAt', 'FIELD.CREATED_AT');
     }
 
     protected function configureListFieldUpdatedAt(ListMapper $list): void
     {
-        $this->configureListFieldDate($list, 'updatedAt', 'FIELD.UPDATED_AT');
+        $this->configureListFieldDateTime($list, 'updatedAt', 'FIELD.UPDATED_AT');
     }
 
     protected function configureListFieldActive(

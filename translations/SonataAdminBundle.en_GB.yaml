@@ -223,9 +223,11 @@ GENERAL_SETTINGS_ENTITY:
         MAIN: 'Main Settings'
     LABEL:
         PENALTY: 'Penalty'
+        PENALTY_COLOR: 'Penalty Color'
         EXPIRE_COLOR: 'Expire Color'
     HELP:
         PENALTY: ''
+        PENALTY_COLOR: ''
         EXPIRE_COLOR: ''
 
 
@@ -372,7 +374,8 @@ READING_ENTITY:
         PROLONG_CANCEL: 'Cancel'
     MESSAGE:
         NOT_FOUND: 'Reading Not Found'
-        #        PROLONG_SUCCESS: 'Book "%name%" has been successfully prolonged to "%prolongAt%".'
+        PROLONG_CREATE:
+            SUCCESS: 'Reading prolongation has been successfully requested to "%prolongAt%".'
         PROLONG_CANCEL:
             TITLE: 'Confirm the "Cancel" reading prolongation action'
             CONFIRM: 'Are you sure you want to "Cancel" the reading prolongation "%prolongAt%"?'

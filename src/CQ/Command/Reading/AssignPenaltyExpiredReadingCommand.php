@@ -7,9 +7,9 @@ namespace App\CQ\Command\Reading;
 use DateTimeInterface;
 
 /**
- * @see AssignPenaltyReadingHandler
+ * @see AssignPenaltyExpiredReadingHandler
  */
-class AssignPenaltyReadingCommand
+class AssignPenaltyExpiredReadingCommand
 {
     public function __construct(
         private DateTimeInterface $expiredAt,
