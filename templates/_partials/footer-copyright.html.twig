@@ -1,5 +1,0 @@
-{#{% set startYear = 2021 %}#}
-{#{% set currentYear = 'now'|date('Y') %}#}
-{#{% set copyrightYears = (startYear == currentYear ? startYear : startYear ~ ' - ' ~ currentYear ) %}#}
-{#{{ 'COPYRIGHT.YEARS'|trans({'%YEARS%': copyrightYears})|raw }}#}
-{{ 'COPYRIGHT.YEARS'|trans({'%YEARS%': 'now'|date('Y')})|raw }}

@@ -351,6 +351,7 @@ READING_ENTITY:
         END_AT: 'End At'
         PROLONG_AT: 'Prolong At'
         PENALTY: 'Penalty'
+        PENALTY_TOTAL: 'Total Penalty'
     HELP:
         ORDER_ID: ''
         BOOK: ''
@@ -363,6 +364,7 @@ READING_ENTITY:
         END_AT: ''
         PROLONG_AT: ''
         PENALTY: ''
+        PENALTY_TOTAL: ''
     CHOICES:
         TYPE:
             SUBSCRIPTION: 'Subscription'

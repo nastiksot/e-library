@@ -7,7 +7,9 @@ namespace App\Admin\User;
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
 use App\Contracts\Entity\UserInterface;
+use App\CQ\Query\Reading\GetTotalPenaltyReadingQuery;
 use App\Repository\User\UserRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -148,6 +150,18 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'email', 'USER_ENTITY.LABEL.EMAIL');
         $this->configureListFieldText($list, 'firstName', 'USER_ENTITY.LABEL.FIRST_NAME');
         $this->configureListFieldText($list, 'lastName', 'USER_ENTITY.LABEL.LAST_NAME');
+
+        $this->configureListFieldText(
+            $list,
+            'penalty',
+            'READING_ENTITY.LABEL.PENALTY',
+            [
+                'virtual_field' => true,
+                'template'      => 'admin/user/list__field_penalty.html.twig',
+                'data'          => $this->listTemplateData(),
+            ]
+        );
+
         $this->configureListFieldCreatedAt($list);
         $this->configureListFieldUpdatedAt($list);
         $this->configureListFieldActive($list);
@@ -155,6 +169,24 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         $actions = ['edit' => [], 'delete' => ['template' => 'admin/user/list__action_delete.html.twig']];
         $this->configureListFieldActions($list, $actions);
     }
+
+    private function listTemplateData(): array
+    {
+        /** @var ProxyQueryInterface|QueryBuilder $query */
+        $qb    = $this->createQuery();
+        $alias = current($qb->getRootAliases());
+
+        // collect all ids that were displayed by filtering
+        $ids = $qb->select("{$alias}.id")->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
+
+        // get total penalty for displayed data grid
+        $totalPenalty = $this->messageBusHandler->handleQuery(new GetTotalPenaltyReadingQuery(userIds: $ids));
+
+        return [
+            'total_penalty' => $totalPenalty,
+        ];
+    }
+
 
     protected function configureFormFields(FormMapper $form): void
     {

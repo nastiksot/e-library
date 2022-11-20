@@ -9,23 +9,26 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_user' ] ]
             - [ setBaseRoutePattern,    [ 'user' ] ]
+            - [ setTemplate, [ 'list', 'admin/user/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
-                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                controller: App\Controller\Admin\CRUD\User\AllUserCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_ALL
+                show_in_dashboard: false
 
     admin.user.admin:
         class: App\Admin\User\UserAdmin
         calls:
             - [ setBaseRouteName,       [ 'admin_user_admin' ] ]
             - [ setBaseRoutePattern,    [ 'user-admin' ] ]
+            - [ setTemplate, [ 'list', 'admin/user/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
-                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                controller: App\Controller\Admin\CRUD\User\UserAdminCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_ADMIN
@@ -35,10 +38,11 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_user_librarian' ] ]
             - [ setBaseRoutePattern,    [ 'user-librarian' ] ]
+            - [ setTemplate, [ 'list', 'admin/user/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
-                controller: App\Controller\Admin\CRUD\AdminCRUDController
+                controller: App\Controller\Admin\CRUD\User\UserLibrarianCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER
                 label: MENU.USER_LIBRARIAN
@@ -48,6 +52,7 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_user_reader' ] ]
             - [ setBaseRoutePattern,    [ 'user-reader' ] ]
+            - [ setTemplate, [ 'list', 'admin/user/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User\User'
@@ -88,10 +93,10 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_user_reading' ] ]
             - [ setBaseRoutePattern,    [ 'user-reading' ] ]
+            - [ setTemplate, [ 'list', 'admin/user/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'
-#                controller: App\Controller\Admin\CRUD\User\Profile\ReadingUserProfileCRUDController
                 controller: App\Controller\Admin\CRUD\ReadingCRUDController
                 manager_type: orm
                 group: MENU_GROUP.USER

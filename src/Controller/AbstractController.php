@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 /**
  * @method UserInterface|null getUser()
  */
-class AbstractController extends BaseAbstractController
+abstract class AbstractController extends BaseAbstractController
 {
     protected function handleFileResponse(Request $request, ?SplFileInfo $file, ?string $disposition = null): Response
     {

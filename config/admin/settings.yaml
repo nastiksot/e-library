@@ -16,3 +16,4 @@ services:
                 manager_type: orm
                 group: MENU_GROUP.SETTINGS
                 label: MENU.SETTINGS.GENERAL
+                show_in_dashboard: false

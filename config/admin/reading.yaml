@@ -9,6 +9,7 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_reading' ] ]
             - [ setBaseRoutePattern,    [ 'reading' ] ]
+            - [ setTemplate, [ 'list', 'admin/reading/list.html.twig' ] ]
             - [ setTemplate, [ 'edit', 'admin/reading/edit.html.twig' ] ]
         tags:
             -   name: sonata.admin
@@ -23,6 +24,7 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_reading_prolong' ] ]
             - [ setBaseRoutePattern,    [ 'reading-prolong' ] ]
+            - [ setTemplate, [ 'list', 'admin/reading/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'
@@ -36,6 +38,7 @@ services:
         calls:
             - [ setBaseRouteName,       [ 'admin_reading_expire' ] ]
             - [ setBaseRoutePattern,    [ 'reading-expire' ] ]
+            - [ setTemplate, [ 'list', 'admin/reading/list.html.twig' ] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\Reading'

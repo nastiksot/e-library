@@ -1,0 +1,41 @@
+{% extends '@SonataAdmin/CRUD/list.html.twig' %}
+
+{% block table_footer %}
+
+    {% set penaltyColumnNumber = 0 %}
+    {% set totalColumnNumber = admin.list.getElements()|length %}
+    {% set totalPenalty = 0 %}
+
+    {% for field_description in admin.list.getElements() %}
+        {% if field_description.name == 'penalty' %}
+            {% set penaltyColumnNumber = loop.index %}
+            {% set totalPenalty = field_description.options.data.total_penalty ?? 0 %}
+        {% endif %}
+    {% endfor %}
+
+    {% if penaltyColumnNumber > 0 and totalColumnNumber > 0 %}
+        <tfoot>
+        <tr class="sonata-ba-list-field-header">
+
+            <td colspan="{{ penaltyColumnNumber - 1 }}" style="text-align: right;">
+                <strong>
+                    {{ 'READING_ENTITY.LABEL.PENALTY_TOTAL'|trans({}, 'SonataAdminBundle') }}
+                </strong>
+            </td>
+
+            <td style="text-align: center;">
+                <strong>
+                    {% block total_penalty_value %}
+                        {{ totalPenalty }}
+                    {% endblock %}
+                </strong>
+            </td>
+            <td colspan="{{ totalColumnNumber - penaltyColumnNumber }}">
+                &nbsp;
+            </td>
+        </tr>
+        </tfoot>
+    {% endif %}
+
+{% endblock %}
+

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\CRUD\User;
 
-use App\Controller\Admin\CRUD\AdminCRUDController;
 use App\CQ\Command\User\RegisterUserCommand;
 use App\Entity\User\User;
 use App\Form\Type\User\ReaderLoginUserType;
@@ -17,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Throwable;
 
-final class UserReaderCRUDController extends AdminCRUDController
+final class UserReaderCRUDController extends AbstractUserCRUDController
 {
     public function __construct(
         private AuthenticatorInterface $authenticator

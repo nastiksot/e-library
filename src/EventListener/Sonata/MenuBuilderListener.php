@@ -81,7 +81,6 @@ class MenuBuilderListener implements EventSubscriberInterface
         if ($this->isAdmin()) {
             $this->addMenuSettings($event);
         }
-
     }
 
     private function addMenuUndefinedUser(ConfigureMenuEvent $event): void
@@ -164,8 +163,14 @@ class MenuBuilderListener implements EventSubscriberInterface
     {
         // get menu group
         $menu = $event->getMenu()->getChild('MENU_GROUP.SETTINGS');
+
         if (!$menu) {
-            return;
+            $menu = $event->getMenu()->addChild(
+                'MENU_GROUP.SETTINGS',
+                [
+                    'label' => $this->translator->trans('MENU_GROUP.SETTINGS', [], $this->adminTranslationDomain),
+                ]
+            );
         }
 
         // add sub menu

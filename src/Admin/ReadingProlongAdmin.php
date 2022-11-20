@@ -45,27 +45,11 @@ class ReadingProlongAdmin extends ReadingAdmin
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
         $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
-        $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
 
-        $this->configureListFieldDate(
-            $list,
-            'endAt',
-            'READING_ENTITY.LABEL.END_AT',
-            ['template' => 'admin/reading/list__field_end_at.html.twig']
-        );
-        $this->configureListFieldText(
-            $list,
-            'penalty',
-            'READING_ENTITY.LABEL.PENALTY',
-            ['template' => 'admin/reading/list__field_penalty.html.twig']
-        );
-        $this->configureListFieldDate(
-            $list,
-            'prolongAt',
-            'READING_ENTITY.LABEL.PROLONG_AT',
-            ['template' => 'admin/reading/list__field_prolong_at.html.twig']
-        );
-
+        $this->configureListFieldStartAt($list);
+        $this->configureListFieldEndAt($list);
+        $this->configureListFieldPenalty($list);
+        $this->configureListFieldProlongAt($list);
 
         $actions = [
             'prolong_accept' => ['template' => 'admin/reading/list__action_prolong_accept.html.twig'],

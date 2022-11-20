@@ -10,11 +10,15 @@ use App\Admin\Traits\ReadingTypeChoicesTrait;
 use App\CQ\Command\Stock\ReserveAddStockCommand;
 use App\CQ\Command\Stock\ReserveDoneStockCommand;
 use App\CQ\Command\Stock\ReserveRestoreStockCommand;
+use App\CQ\Query\Reading\GetTotalPenaltyReadingQuery;
 use App\CQ\Query\Stock\GetStockQuery;
 use App\Entity\Reading;
 use App\Entity\Stock;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Symfony\Component\Validator\Constraints\Callback;
@@ -98,6 +102,73 @@ class ReadingAdmin extends AbstractAdmin
         $this->configureFilterFieldDateRange($filter, 'prolongAt', 'READING_ENTITY.LABEL.PROLONG_AT');
     }
 
+    protected function configureListFieldStartAt(
+        ListMapper $list,
+        ?string $name = 'startAt',
+        ?string $label = 'READING_ENTITY.LABEL.START_AT',
+        ?array $options = []
+    ): void {
+        $this->configureListFieldDate($list, $name, $label, $options);
+    }
+
+    protected function configureListFieldEndAt(
+        ListMapper $list,
+        ?string $name = 'endAt',
+        ?string $label = 'READING_ENTITY.LABEL.END_AT',
+        ?array $options = []
+    ): void {
+        $this->configureListFieldDate(
+            $list,
+            $name,
+            $label,
+            array_merge(
+                [
+                    'template' => 'admin/reading/list__field_end_at.html.twig',
+                ],
+                $options
+            )
+        );
+    }
+
+    protected function configureListFieldProlongAt(
+        ListMapper $list,
+        ?string $name = 'prolongAt',
+        ?string $label = 'READING_ENTITY.LABEL.PROLONG_AT',
+        ?array $options = []
+    ): void {
+        $this->configureListFieldDate(
+            $list,
+            $name,
+            $label,
+            array_merge(
+                [
+                    'template' => 'admin/reading/list__field_prolong_at.html.twig',
+                ],
+                $options
+            )
+        );
+    }
+
+    protected function configureListFieldPenalty(
+        ListMapper $list,
+        ?string $name = 'penalty',
+        ?string $label = 'READING_ENTITY.LABEL.PENALTY',
+        ?array $options = []
+    ): void {
+        $this->configureListFieldDate(
+            $list,
+            $name,
+            $label,
+            array_merge(
+                [
+                    'template' => 'admin/reading/list__field_penalty.html.twig',
+                    'data'     => $this->listTemplateData(),
+                ],
+                $options
+            )
+        );
+    }
+
     protected function configureListFields(ListMapper $list): void
     {
         $this->configureListFieldText($list, 'id', 'ID');
@@ -106,33 +177,34 @@ class ReadingAdmin extends AbstractAdmin
         $this->configureListFieldText($list, 'book', 'READING_ENTITY.LABEL.BOOK');
         $this->configureListFieldText($list, 'quantity', 'READING_ENTITY.LABEL.QUANTITY');
         $this->configureListFieldText($list, 'user', 'READING_ENTITY.LABEL.USER', ['admin_code' => 'admin.user']);
-        $this->configureListFieldDate($list, 'startAt', 'READING_ENTITY.LABEL.START_AT');
 
-        $this->configureListFieldDate(
-            $list,
-            'endAt',
-            'READING_ENTITY.LABEL.END_AT',
-            ['template' => 'admin/reading/list__field_end_at.html.twig']
-        );
-        $this->configureListFieldText(
-            $list,
-            'penalty',
-            'READING_ENTITY.LABEL.PENALTY',
-            ['template' => 'admin/reading/list__field_penalty.html.twig']
-        );
-        $this->configureListFieldDate(
-            $list,
-            'prolongAt',
-            'READING_ENTITY.LABEL.PROLONG_AT',
-            ['template' => 'admin/reading/list__field_prolong_at.html.twig']
-        );
-
+        $this->configureListFieldStartAt($list);
+        $this->configureListFieldEndAt($list);
+        $this->configureListFieldPenalty($list);
+        $this->configureListFieldProlongAt($list);
 
         $actions = [
             'edit'   => ['template' => 'admin/reading/list__action_edit.html.twig'],
             'delete' => [],
         ];
         $this->configureListFieldActions($list, $actions);
+    }
+
+    private function listTemplateData(): array
+    {
+        /** @var ProxyQueryInterface|QueryBuilder $query */
+        $qb    = $this->createQuery();
+        $alias = current($qb->getRootAliases());
+
+        // collect all ids that were displayed by filtering
+        $ids = $qb->select("{$alias}.id")->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
+
+        // get total penalty for displayed data grid
+        $totalPenalty = $this->messageBusHandler->handleQuery(new GetTotalPenaltyReadingQuery(readingIds: $ids));
+
+        return [
+            'total_penalty' => $totalPenalty,
+        ];
     }
 
     protected function configureFormFields(FormMapper $form): void

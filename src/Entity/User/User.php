@@ -67,21 +67,32 @@ class User extends AbstractEntity implements UserInterface
      */
     private Collection $orders;
 
+    public function penalty(): ?float
+    {
+        $penalty = 0;
+
+        foreach ($this->getReadings() as $reading) {
+            $penalty += $reading->getPenalty();
+        }
+
+        return $penalty;
+    }
+
     #[Pure]
     public function __construct()
     {
-        $this->active  = false;
-        $this->roles   = [UserInterface::ROLE_USER];
+        $this->active   = false;
+        $this->roles    = [UserInterface::ROLE_USER];
         $this->readings = new ArrayCollection();
-        $this->orders = new ArrayCollection();
+        $this->orders   = new ArrayCollection();
     }
 
     /**
-     * @return Collection|Reading[]
+     * @return Collection<int, Reading>
      */
-    public function getReading(): Collection
+    public function getReadings(): Collection
     {
-        return $this->reading;
+        return $this->readings;
     }
 
     public function addReading(Reading $reading): self
@@ -134,14 +145,6 @@ class User extends AbstractEntity implements UserInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, Reading>
-     */
-    public function getReadings(): Collection
-    {
-        return $this->readings;
     }
 
 }

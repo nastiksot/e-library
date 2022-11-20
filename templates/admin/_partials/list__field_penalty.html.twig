@@ -1,0 +1,12 @@
+{# @see '@SonataAdmin/CRUD/base_list_field.html.twig' #}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Entity\Traits\PenaltyEntityTrait object  #}
+
+<td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}"
+    objectId="{{ admin.id(object) }}"
+    style="text-align:center; {{ object.penalty ? 'background-color: ' ~ getGeneralSettings('penaltyColor') : ''}}"
+>
+    {%- include '@SonataAdmin/CRUD/display_trans.html.twig' with {
+        value: object.penalty,
+    } only -%}
+</td>

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin\User\Profile;
 
-use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
 use App\Admin\Traits\OrderStatusChoicesTrait;
 use App\Admin\Traits\ReadingTypeChoicesTrait;
+use App\CQ\Query\Reading\GetTotalPenaltyReadingQuery;
 use App\Entity\Reading;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -91,7 +92,7 @@ class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
             $list,
             'penalty',
             'READING_ENTITY.LABEL.PENALTY',
-            ['template' => 'admin/reading/list__field_penalty.html.twig']
+            ['template' => 'admin/reading/list__field_penalty.html.twig', 'data' => $this->listTemplateData()]
         );
         $this->configureListFieldDate(
             $list,
@@ -105,6 +106,24 @@ class ReadingUserProfileAdmin extends AbstractUserProfileAdmin
             'prolong_cancel' => ['template' => 'admin/user/profile/list__action_prolong_cancel.html.twig'],
         ];
         $this->configureListFieldActions($list, $actions);
+    }
+
+    private function listTemplateData(): array
+    {
+        /** @var ProxyQueryInterface|QueryBuilder $query */
+        $qb    = $this->createQuery();
+        $alias = current($qb->getRootAliases());
+
+        // collect all ids that were displayed by filtering
+        $ids = $qb->select('u.id')->innerJoin("{$alias}.user", 'u')->groupBy('u.id')
+            ->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
+
+        // get total penalty for displayed data grid
+        $totalPenalty = $this->messageBusHandler->handleQuery(new GetTotalPenaltyReadingQuery(userIds: $ids));
+
+        return [
+            'total_penalty' => $totalPenalty,
+        ];
     }
 
     protected function configureFormFields(FormMapper $form): void
