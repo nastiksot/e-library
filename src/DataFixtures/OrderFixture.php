@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Contracts\Dictionary\ReadingType;
+use App\CQ\Command\Order\CancelOrderCommand;
+use App\CQ\Command\Order\CreateOrderCommand;
+use App\CQ\Command\Order\DoneOrderCommand;
+use App\Entity\Book\Book;
 use App\Entity\Order;
+use App\Entity\User\User;
+use App\Service\MessageBusHandler;
 use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -13,63 +20,121 @@ class OrderFixture extends AbstractFixture implements DependentFixtureInterface
 {
     public const COUNT_ORDERS = 100;
 
+    public function __construct(
+        private MessageBusHandler $messageBusHandler,
+    ) {
+    }
+
     public function getDependencies()
     {
         return [
             StockFixture::class,
+            ReaderFixture::class,
         ];
     }
 
     public function load(ObjectManager $manager)
     {
-        return;
+        /** @var User $superAdmin */
+        $superAdmin = $this->getReference('super-admin');
+        /** @var User $admin */
+        $admin = $this->getReference('admin');
+
+        /** @var User $librarian */
+        $librarian = $this->getReference('librarian');
+
+        // create orders to system users
         for ($i = 1; $i <= 5; $i++) {
-            $data   = $this->createData($i, 'super-admin-', UserFixture::COUNT_SUPER_ADMINS);
-            $entity = $this->createEntity(Order::class, $data);
-            $manager->persist($entity);
-            $this->addReference('order-super-admin-' . $i, $entity);
+            // create order for super admin
+            $this->createOrderStatusOpen($i, 'super-admin', $superAdmin);
+            $this->createOrderStatusCancel($i, 'super-admin', $superAdmin);
+            $this->createOrderStatusDone($i, 'super-admin', $superAdmin);
+
+            // create order for admin
+            $this->createOrderStatusOpen($i, 'admin', $admin);
+            $this->createOrderStatusCancel($i, 'admin', $admin);
+            $this->createOrderStatusDone($i, 'admin', $admin);
+
+            // create order for librarian
+            $this->createOrderStatusOpen($i, 'librarian', $librarian);
+            $this->createOrderStatusCancel($i, 'librarian', $librarian);
+            $this->createOrderStatusDone($i, 'librarian', $librarian);
         }
 
-        for ($i = 1; $i <= 5; $i++) {
-            $data   = $this->createData($i, 'admin-', UserFixture::COUNT_ADMINS);
-            $entity = $this->createEntity(Order::class, $data);
-            $manager->persist($entity);
-            $this->addReference('order-admin-' . $i, $entity);
-        }
-
-        for ($i = 1; $i <= 5; $i++) {
-            $data   = $this->createData($i, 'librarian-', UserFixture::COUNT_LIBRARIANS);
-            $entity = $this->createEntity(Order::class, $data);
-            $manager->persist($entity);
-            $this->addReference('order-librarian-' . $i, $entity);
-        }
-
+        // create orders to reader users
         for ($i = 1; $i <= self::COUNT_ORDERS; $i++) {
-            $data   = $this->createData($i, 'reader-', UserFixture::COUNT_READERS);
-            $entity = $this->createEntity(Order::class, $data);
-            $manager->persist($entity);
-            $this->addReference('order-' . $i, $entity);
-        }
 
-        // save
-        $manager->flush();
+            /** @var User $reader */
+            $reader = $this->getReference('reader-' . random_int(1, (int)ReaderFixture::$counter));
+
+            // create order
+            $this->createOrderStatusOpen($i, 'reader', $reader);
+        }
     }
 
-    private function createData(int $index, string $readerReference, int $maxReference): array
+    private function createOrderStatusOpen(int $index, string $prefix, User $user): void
     {
-        $indexKey = $this->createIndexKey($index);
-        $suffix   = ($indexKey ? '-' . $indexKey : '');
+        /** @var Book $book */
+        $book = $this->getReference('book-' . random_int(1, (int)BookFixture::$counter));
 
-        $bookReferenceId   = 'book-' . random_int(1, BookFixture::COUNT_BOOKS);
-        $readerReferenceId = $readerReference . random_int(1, $maxReference);
+        /** @var Order $order */
+        $order = $this->messageBusHandler->handleCommand(
+            new CreateOrderCommand(
+                bookId:      (int)$book->getId(),
+                userId:      (int)$user->getId(),
+                quantity:    (int)random_int(1, 5),
+                readingType: (string)ReadingType::READING_HALL()->getValue(),
+                startAt:     Carbon::today(),
+                endAt:       Carbon::today()->addDays(5),
+            )
+        );
 
-        return [
-            'quantity' => random_int(1, 2),
-            'book'     => $this->getReference($bookReferenceId),
-            'user'     => $this->getReference($readerReferenceId),
-            'startAt'  => Carbon::today()->addDays(5),
-            'endAt'    => Carbon::today()->addMonth(1),
-        ];
+        $this->addReference('order-' . $prefix . '-open-' . $index, $order);
+    }
+
+    private function createOrderStatusCancel(int $index, string $prefix, User $user): void
+    {
+        /** @var Book $book */
+        $book = $this->getReference('book-' . random_int(1, (int)BookFixture::$counter));
+
+        /** @var Order $order */
+        $order = $this->messageBusHandler->handleCommand(
+            new CreateOrderCommand(
+                bookId:      (int)$book->getId(),
+                userId:      (int)$user->getId(),
+                quantity:    (int)random_int(1, 5),
+                readingType: (string)ReadingType::READING_HALL()->getValue(),
+                startAt:     Carbon::today(),
+                endAt:       Carbon::today()->addDays(5),
+            )
+        );
+
+        /** @var Order $order */
+        $order = $this->messageBusHandler->handleCommand(new CancelOrderCommand((int)$order->getId()));
+        $this->addReference('order-' . $prefix . '-cancel-' . $index, $order);
+    }
+
+
+    private function createOrderStatusDone(int $index, string $prefix, User $user): void
+    {
+        /** @var Book $book */
+        $book = $this->getReference('book-' . random_int(1, (int)BookFixture::$counter));
+
+        /** @var Order $order */
+        $order = $this->messageBusHandler->handleCommand(
+            new CreateOrderCommand(
+                bookId:      (int)$book->getId(),
+                userId:      (int)$user->getId(),
+                quantity:    (int)random_int(1, 5),
+                readingType: (string)ReadingType::READING_HALL()->getValue(),
+                startAt:     Carbon::today(),
+                endAt:       Carbon::today()->addDays(5),
+            )
+        );
+
+        /** @var Order $order */
+        $order = $this->messageBusHandler->handleCommand(new DoneOrderCommand((int)$order->getId()));
+        $this->addReference('order-' . $prefix . '-done-' . $index, $order);
     }
 
 
