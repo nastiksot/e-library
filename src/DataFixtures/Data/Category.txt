@@ -1,99 +1,88 @@
-Fantasy
-Science fiction
-Romance
-Thriller
-Mystery
-Detective
-Dystopia
-Newspaper
+name
+Absurdist
+Action-Comedy
+Animation
+Apocalyptic
 Biography
-Musical
-Satire
-Haiku
-Horror
+Buddy Comedy
+Claymation
+Comedy
 Comedy-drama
-Crime drama
-Docudrama
-Historical period drama
-Horror drama
-Melodrama
-Romantic drama
-Teen drama
 Comics/graphic novel
+Computer Generated Imagery
 Contemporary
+Contemporary Fantasy
+Courtroom
+Crime drama
 Crime/detective
+Dark Fantasy
+Detective
+Disaster
+Docudrama
+Dystopia
+Dystopian
+Empire Western
+Epic Western
+Espionage
+Essay
 Fable
 Fairy tale
-Legend
-Magical realism
-Mystery
-Mythology
-Picture book
-Realistic fiction
-Short story
-Suspense/thriller
-Swashbuckler
-Theological fiction
-Western
-Biography
-Essay
-Journalism
-Memoir
-Animation
-Comedy
 Fantasy
-Horror
-Science Fiction
-Thriller
-Western
+Ghost
+Haiku
 Heroic Bloodshed
-Espionage
-Disaster
-Superhero
-Traditional
-Stop Motion
-Claymation
-Computer Generated Imagery
-Puppetry
-Action-Comedy
-Romantic Comedy
-Buddy Comedy
-Road Comedy
-Satire
-Sitcom
-Mockumentary
-Prank
-Detective
-Courtroom
-Melodrama
-Teen Drama
-Medical Drama
-Legal Drama
-Political Drama
-Religious Drama
-Surrealist
-Absurdist
-Contemporary Fantasy
-Urban Fantasy
-Dark Fantasy
 High Fantasy
 Historical Event
 Historical Fiction
-Period Piece
-Ghost
-Monster
-Werewolf
-Vampire
-Occult
-Apocalyptic
-Dystopian
-Steampunk
+Historical period drama
+Horror
+Horror drama
+Journalism
+Legal Drama
+Legend
+Magical realism
+Medical Drama
+Melodrama
+Memoir
 Military
-Psychological
+Mockumentary
+Monster
+Musical
 Mystery
-Techno
+Mythology
+Newspaper
 Noir
-Epic Western
-Empire Western
+Occult
+Period Piece
+Picture book
+Political Drama
+Prank
+Psychological
+Puppetry
+Realistic fiction
+Religious Drama
 Revenge Western
 Revisionist Western
+Road Comedy
+Romance
+Romantic Comedy
+Romantic drama
+Satire
+Science Fiction
+Short story
+Sitcom
+Steampunk
+Stop Motion
+Superhero
+Surrealist
+Suspense/thriller
+Swashbuckler
+Techno
+Teen Drama
+Theological fiction
+Thriller
+Traditional
+Urban Fantasy
+Vampire
+Werewolf
+Western

@@ -18,14 +18,11 @@ class UserFixture extends AbstractFixture
     public static int $counterSuperAdmins = 0;
     public static int $counterAdmins      = 0;
     public static int $counterLibrarians  = 0;
-    public static int $counterReaders     = 0;
 
     public const COUNT_SUPER_ADMINS = 1;
     public const COUNT_ADMINS       = 1;
     public const COUNT_LIBRARIANS   = 1;
     public const COUNT_READERS      = 1;
-
-    public const DATA_READER_FILE = 'Data/Reader.txt';
 
     public function load(ObjectManager $manager)
     {
@@ -52,40 +49,6 @@ class UserFixture extends AbstractFixture
             $manager->persist($entity);
             $this->addReference('librarian' . ($i > 1 ? '-' . $i : ''), $entity);
         }
-
-        for ($i = 1; $i <= self::COUNT_READERS; $i++) {
-            ++static::$counterReaders;
-            $data   = $this->createData(UserInterface::ROLE_READER, 'reader', $i);
-            $entity = $this->createEntity(User::class, $data);
-            $manager->persist($entity);
-            $this->addReference('reader' . ($i > 1 ? '-' . $i : ''), $entity);
-        }
-
-        $rows = $this->readFile(__DIR__ . '/' . self::DATA_READER_FILE);
-        if ($rows) {
-            foreach ($rows as $row) {
-                ++static::$counterReaders;
-
-                $name  = explode(' ', $row);
-                $email = strtolower(str_replace(' ', '-', $row) . '@example.com');
-
-                // create
-                $entity = (new User())
-                    ->setRoles([UserInterface::ROLE_READER])
-                    ->setEmail($email)
-                    ->setFirstName($name[0] ?? null)
-                    ->setLastName($name[1] ?? null)
-                    ->setPlainPassword('1111')
-                    ->setActive(true);
-
-                // persist
-                $manager->persist($entity);
-                $this->addReference('reader-' . static::$counterReaders, $entity);
-            }
-        }
-
-        // save
-        $manager->flush();
 
         // save
         $manager->flush();

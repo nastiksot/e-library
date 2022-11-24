@@ -1,100 +1,99 @@
-Dante Alighieri
-Victor Hugo
-William Shakespeare
-Johann Wolfgang von Goethe
-Miguel de Cervantes y Saavedra
-Italo Calvino
-Stendhal
-Charles Baudelaire
-Marcel Proust
-Giovanni Boccaccio
-Alexander Pushkin
-Jalaluddin Muhammad Rumi
-Franz Kafka
-Anton Chekhov
-Gabriel García Márquez
-Umberto Eco
-J.R.R. Tolkien
-William Faulkner
 Aesop
-Arthur Rimbaud
-Aristophanes
-Ivan Turgenev
-Sophocles
-Molière
-Charles Dickens
-Maxim Gorky
-George Orwell
-Edgar Allan Poe
-Publius Vergilius Maro
-Julio Cortázar
-Nazim Hikmet
-Oscar Wilde
-Jean de La Fontaine
-Rainer Maria Rilke
-Lord Byron
-Hans Christian Andersen
-Thomas Mann
-Alexandre Dumas
-James Joyce
-Louis-Ferdinand Céline
-Boris Pasternak
-Federico García Lorca
-Pablo Neruda
-Borges
-Beaumarchais
-Najeeb Mahfouz
-Ursula K. Le Guin
-Nikolay Gogol
-Honoré de Balzac
-Ernest Hemingway
-Neil Gaiman
-Jean Racine
-Albert Camus
-Jean-Paul Sartre
-Chingiz Aitmatov
-John Steinbeck
-Milan Kundera
-Jules Verne
-Mark Twain
-Francois Rabelais
-Yasar Kemal
-George Bernard Shaw
-Arthur Conan Doyle
-Jane Austen
-Geoffrey Chaucer
-Antoine de Saint-Exupéry
-Erich Maria Remarque
-J.D. Salinger
-Virginia Woolf
-Louis Aragon
-Herman Melville
-Alphonse Daudet
-Mikhail Sholokhov
-Stefan Zweig
-José Saramago
-Bertolt Brecht
-Mario Vargas Llosa
-T.S. Eliot
-Guy de Maupassant
-John Keats
-Sabahattin Ali
 Ahmet Hamdi Tanpinar
-John Fante
-Henri-Frédéric Blanc
-Isaac Asimov
-Fitzgerald Scott
-J.M. Coetzee
-Kazuo Ishiguro
-Hermann Hesse
-Robert Louis Stevenson
-Salman Rushdie
-Mario Vargas Llosa
+Albert Camus
 Aldous Huxley
-Paul Valéry
-Thomas Pynchon
-H.P. Lovecraft
-Haruki Murakami
-Nikos Kazantzakis
-Leo Tolstoy
+Alexander Pushkin
+Alexandre Dumas
+Alphonse Daudet
+Antoine de Saint-Exupéry
+Anton Chekhov
+Aristophanes
+Arthur Conan Doyle
+Arthur Rimbaud
+Beaumarchais
+Bertolt Brecht
+Borges
+Boris Pasternak
+Charles Baudelaire
+Charles Dickens
+Chingiz Aitmatov
+Dante Alighieri
+Edgar Allan Poe
+Erich Maria Remarque
+Ernest Hemingway
+Federico García Lorca
+Fitzgerald Scott
+Francois Rabelais
+Franz Kafka
 Fyodor Dostoevsky
+Gabriel García Márquez
+Geoffrey Chaucer
+George Bernard Shaw
+George Orwell
+Giovanni Boccaccio
+Guy de Maupassant
+H.P. Lovecraft
+Hans Christian Andersen
+Haruki Murakami
+Henri-Frédéric Blanc
+Herman Melville
+Hermann Hesse
+Honoré de Balzac
+Isaac Asimov
+Italo Calvino
+Ivan Turgenev
+J.D. Salinger
+J.M. Coetzee
+J.R.R. Tolkien
+Jalaluddin Muhammad Rumi
+James Joyce
+Jane Austen
+Jean de La Fontaine
+Jean Racine
+Jean-Paul Sartre
+Johann Wolfgang von Goethe
+John Fante
+John Keats
+John Steinbeck
+José Saramago
+Jules Verne
+Julio Cortázar
+Kazuo Ishiguro
+Leo Tolstoy
+Lord Byron
+Louis Aragon
+Louis-Ferdinand Céline
+Marcel Proust
+Mario Vargas Llosa
+Mark Twain
+Maxim Gorky
+Miguel de Cervantes y Saavedra
+Mikhail Sholokhov
+Milan Kundera
+Molière
+Najeeb Mahfouz
+Nazim Hikmet
+Neil Gaiman
+Nikolay Gogol
+Nikos Kazantzakis
+Oscar Wilde
+Pablo Neruda
+Paul Valéry
+Publius Vergilius Maro
+Rainer Maria Rilke
+Robert Louis Stevenson
+Sabahattin Ali
+Salman Rushdie
+Sophocles
+Stefan Zweig
+Stendhal
+T.S. Eliot
+Thomas Mann
+Thomas Pynchon
+Umberto Eco
+Ursula K. Le Guin
+Victor Hugo
+Virginia Woolf
+William Faulkner
+William Shakespeare
+Yasar Kemal
