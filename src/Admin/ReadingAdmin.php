@@ -41,17 +41,11 @@ class ReadingAdmin extends AbstractAdmin
     protected function postPersist(object $object): void
     {
         $this->messageBusHandler->handleCommand(
-            new ReserveAddStockCommand(
-                (int)$object->getBook()?->getId(),
-                $object->getQuantity()
-            )
+            new ReserveAddStockCommand((int)$object->getBook()?->getId(), $object->getQuantity())
         );
 
         $this->messageBusHandler->handleCommand(
-            new ReserveDoneStockCommand(
-                (int)$object->getBook()?->getId(),
-                $object->getQuantity()
-            )
+            new ReserveDoneStockCommand((int)$object->getBook()?->getId(), $object->getQuantity())
         );
     }
 

@@ -11,23 +11,18 @@ use App\CQ\Command\Order\DoneOrderCommand;
 use App\Entity\Book\Book;
 use App\Entity\Order;
 use App\Entity\User\User;
-use App\Service\MessageBusHandler;
 use Carbon\Carbon;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class OrderFixture extends AbstractFixture implements DependentFixtureInterface
 {
-    public const COUNT_ORDERS = 100;
-
-    public function __construct(
-        private MessageBusHandler $messageBusHandler,
-    ) {
-    }
+    public const COUNT_ORDERS = 10;
 
     public function getDependencies()
     {
         return [
+            UserFixture::class,
             StockFixture::class,
             ReaderFixture::class,
         ];
@@ -114,7 +109,6 @@ class OrderFixture extends AbstractFixture implements DependentFixtureInterface
         $this->addReference('order-' . $prefix . '-cancel-' . $index, $order);
     }
 
-
     private function createOrderStatusDone(int $index, string $prefix, User $user): void
     {
         /** @var Book $book */
@@ -136,6 +130,5 @@ class OrderFixture extends AbstractFixture implements DependentFixtureInterface
         $order = $this->messageBusHandler->handleCommand(new DoneOrderCommand((int)$order->getId()));
         $this->addReference('order-' . $prefix . '-done-' . $index, $order);
     }
-
 
 }

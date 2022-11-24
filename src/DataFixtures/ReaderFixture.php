@@ -32,11 +32,6 @@ class ReaderFixture extends AbstractFixture implements DependentFixtureInterface
         $rows = $this->readFile(__DIR__ . '/' . self::DATA_FILE);
         if ($rows) {
             foreach ($rows as $row) {
-
-//                if (static::$counter >=10) {
-//                    continue;
-//                }
-
                 ++static::$counter;
 
                 $name  = explode(' ', $row);
@@ -60,21 +55,4 @@ class ReaderFixture extends AbstractFixture implements DependentFixtureInterface
         // save
         $manager->flush();
     }
-
-//    private function createData(string $role, string $prefix, int $index): array
-//    {
-//        $indexKey = $this->createIndexKey($index);
-//        $suffix   = ($indexKey ? '-' . $indexKey : '');
-//
-//        return [
-//            'username'      => $prefix . $suffix,
-//            'email'         => $prefix . $suffix . '@example.com',
-//            'firstName'     => $prefix . $suffix . 'FirstName',
-//            'lastName'      => $prefix . $suffix . 'LastName',
-//            'plainPassword' => $prefix . $suffix,
-//            'roles'         => [$role],
-//            'active'        => true,
-//        ];
-//    }
-
 }
